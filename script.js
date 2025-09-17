@@ -100,59 +100,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const contactForm = document.getElementById("contactForm");
   if (contactForm) {
-    console.log("📧 Contact form found - Initializing form handlers");
-    let lastSubmissionTime = 0;
-    const RATE_LIMIT_MS = 30000;
+    console.log("📧 Contact form found - Netlify Forms will handle submission");
 
     contactForm.addEventListener("submit", function (e) {
-      console.log("📝 Contact form submission attempted");
-      const currentTime = Date.now();
-      const timeSinceLastSubmission = currentTime - lastSubmissionTime;
-
-      if (timeSinceLastSubmission < RATE_LIMIT_MS) {
-        e.preventDefault();
-        const remainingTime = Math.ceil(
-          (RATE_LIMIT_MS - timeSinceLastSubmission) / 1000,
-        );
-        console.warn("⏰ Rate limit triggered:", remainingTime, "seconds remaining");
-        showNotification(
-          `Please wait ${remainingTime} seconds before sending another message.`,
-          "error",
-        );
-        return;
-      }
-
+      console.log("📝 Contact form submitted to Netlify");
+      
       const formData = new FormData(this);
       const name = formData.get("name");
       const email = formData.get("email");
       const subject = formData.get("subject");
       const message = formData.get("message");
 
-      console.log("📋 Form data collected:", { name, email, subject, messageLength: message?.length });
-
-      if (!name || !email || !subject || !message) {
-        e.preventDefault();
-        console.error("❌ Form validation failed: Missing required fields");
-        showNotification("Please fill in all required fields.", "error");
-        return;
-      }
-
-      if (!isValidEmail(email)) {
-        e.preventDefault();
-        console.error("❌ Form validation failed: Invalid email format");
-        showNotification("Please enter a valid email address.", "error");
-        return;
-      }
-
-      if (isSpamContent(name, email, subject, message)) {
-        e.preventDefault();
-        console.error("❌ Spam detection triggered");
-        showNotification(
-          "Message appears to be spam. Please write a genuine message.",
-          "error",
-        );
-        return;
-      }
+      console.log("📋 Form data being sent to Netlify:", { 
+        name, 
+        email, 
+        subject, 
+        messageLength: message?.length 
+      });
 
       const submitBtn = document.getElementById("submitBtn");
       const btnText = submitBtn.querySelector(".btn-text");
@@ -164,56 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
         btnLoading.style.display = "inline";
       }
 
-      console.log("✅ Form validation passed - submitting to Netlify");
-      lastSubmissionTime = currentTime;
+      console.log("✅ Form submitted - Netlify will handle processing and email delivery");
     });
-  }
-
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  function isSpamContent(name, email, subject, message) {
-    const spamKeywords = [
-      "viagra",
-      "casino",
-      "lottery",
-      "winner",
-      "congratulations",
-      "million dollars",
-      "click here",
-      "free money",
-      "urgent",
-      "business proposal",
-      "inheritance",
-      "bitcoin",
-      "cryptocurrency",
-    ];
-
-    const allText = `${name} ${email} ${subject} ${message}`.toLowerCase();
-
-    for (const keyword of spamKeywords) {
-      if (allText.includes(keyword)) {
-        return true;
-      }
-    }
-
-    const linkCount = (message.match(/http/gi) || []).length;
-    if (linkCount > 2) {
-      return true;
-    }
-
-    const repeatedChars = /(.)\1{5,}/;
-    if (repeatedChars.test(allText)) {
-      return true;
-    }
-
-    if (message.length > 20 && message === message.toUpperCase()) {
-      return true;
-    }
-
-    return false;
   }
 
   function showNotification(message, type) {
