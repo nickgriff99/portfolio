@@ -1,0 +1,225 @@
+/* Button transitions */
+.btn {
+  transition: all 0.15s ease;
+}
+
+/* Navigation link transitions */
+.nav-link {
+  transition: color 0.15s ease;
+}
+
+/* Navigation toggle transitions */
+.nav-toggle {
+  transition: background-color 0.15s ease;
+}
+
+/* Navigation bar transitions */
+.bar {
+  transition: 0.15s;
+}
+
+/* Project card transitions */
+.project-card {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Social link transitions */
+.social-link {
+  transition: color 0.15s ease;
+}
+
+/* Form input/textarea transitions */
+.form-group input,
+.form-group textarea {
+  transition: border-color 0.15s ease;
+}
+
+/* Mobile navigation menu transition */
+.nav-menu {
+  transition: 0.15s;
+}
+
+/* Hero load animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUpFast {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero title */
+.hero-title {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Hero subtitle */
+.hero-subtitle {
+  animation: fadeInUp 0.3s ease-out 0.1s both;
+}
+
+/* Hero description */
+.hero-description {
+  animation: fadeInUp 0.3s ease-out 0.2s both;
+}
+
+/* Hero buttons */
+.hero-buttons {
+  animation: fadeInUp 0.3s ease-out 0.3s both;
+}
+
+/* Hero viewport override */
+.hero .viewport-animate {
+  animation: fadeInUp 0.3s ease-out var(--animation-delay, 0.1s) both;
+}
+
+.hero .viewport-animate.animate-in,
+.hero .viewport-animate.animate-out {
+  animation-delay: var(--animation-delay, 0.1s);
+}
+
+/* Base viewport animation */
+.viewport-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition-delay: var(--animation-delay, 0.1s);
+}
+
+.viewport-animate.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.viewport-animate.animate-out {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Fast animations for re-entry */
+.viewport-animate.fast-animate {
+  transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition-delay: calc(var(--animation-delay, 0s) * 0.3);
+}
+
+/* Hero title animations */
+.viewport-animate.hero-title {
+  transform: translateY(60px) scale(0.95);
+}
+
+.viewport-animate.hero-title.animate-in {
+  transform: translateY(0) scale(1);
+}
+
+.viewport-animate.hero-title.always-visible {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* Section title animations */
+.viewport-animate.section-title {
+  transform: translateY(50px);
+}
+
+.viewport-animate.section-title.animate-in {
+  transform: translateY(0);
+}
+
+.viewport-animate.section-title.always-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Timeline item animations */
+.viewport-animate.timeline-item {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+.viewport-animate.timeline-item.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.viewport-animate.timeline-item:nth-child(even) {
+  transform: translateX(40px);
+}
+
+.viewport-animate.timeline-item:nth-child(even).animate-in {
+  transform: translateX(0);
+}
+
+/* Project card animations */
+.viewport-animate.project-card {
+  transform: translateY(40px) scale(0.95);
+}
+
+.viewport-animate.project-card.animate-in {
+  transform: translateY(0) scale(1);
+}
+
+/* Profile image animations */
+.viewport-animate.profile-img {
+  transform: scale(0.8) rotate(-2deg);
+  opacity: 0;
+}
+
+.viewport-animate.profile-img.animate-in {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+/* Headers stay visible for navigation */
+.viewport-animate.always-visible {
+  opacity: 1 !important;
+}
+
+.viewport-animate.always-visible.animate-out {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Button hover */
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Project card hover */
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Hero gradient animation */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 100%;
+  }
+  25% {
+    background-position: 100% 100%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+  75% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}

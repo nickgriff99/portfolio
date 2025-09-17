@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Nicholas Griffiths - Full Stack Developer</title>
+    <meta
+      name="description"
+      content="Nicholas Giordano - Full Stack Developer specializing in React, JavaScript, and modern web technologies"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/animations.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="nav-container">
+          <div class="nav-logo">
+            <a href="#home">Nicholas Griffiths</a>
+          </div>
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="#about" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="#experience" class="nav-link">Experience</a>
+            </li>
+            <li class="nav-item">
+              <a href="#projects" class="nav-link">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a href="#contact" class="nav-link">Contact</a>
+            </li>
+          </ul>
+          <div class="nav-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Hello, I'm <span class="highlight">Nicholas Griffiths</span>
+        </h1>
+        <h2 class="hero-subtitle">Full Stack Web Developer</h2>
+        <p class="hero-description">
+          I create exceptional digital experiences through clean code and
+          innovative design.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+    <main>
+      <section id="about" class="section">
+        <div class="container">
+          <h2 class="section-title">About Me</h2>
+          <div class="about-content">
+            <div class="about-text">
+              <p class="about-description">
+                Hello world! I'm Nick, a web developer with a strong focus on
+                professionalism and attention to detail—making your site look
+                EXTRA nice. With a diverse background spanning management,
+                sales, and quality assurance, I bring valuable real-world
+                experience and exceptional time management skills to every
+                project.
+              </p>
+              <p class="about-description">
+                As a natural leader who believes in team success, I work
+                tirelessly to ensure the highest quality in everything I
+                deliver. Now working as a QA/R&D Engineer with Tesla and
+                freelance web developer, I specialize in creating user-friendly,
+                gorgeous websites that enhance your online presence and drive
+                results.
+              </p>
+              <p class="about-description">
+                I'm passionate about continuous learning and staying current
+                with emerging technologies and trends. My approach combines
+                strong people skills and work ethic from my previous roles with
+                ever-evolving web development expertise, always looking for ways
+                to improve operations and enhance the user experience.
+              </p>
+            </div>
+            <div class="about-image">
+              <img
+                src="assets/images/Griffiths Family-224.jpg"
+                alt="Nicholas Griffiths"
+                class="profile-img"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section section-dark">
+        <div class="container">
+          <h2 class="section-title">Skills & Technologies</h2>
+          <div id="skills-widget-root">
+            <div
+              class="skills-loading"
+              style="text-align: center; padding: 2rem; color: #666"
+            >
+              Loading interactive skills...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section section-dark">
+        <div class="container">
+          <h2 class="section-title">Experience</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">QA/R&D Engineer</h3>
+                <h4 class="company">Tesla</h4>
+                <p class="duration">February 2025 - Present</p>
+                <ul class="job-description">
+                  <li>
+                    Spearheaded internal software tool testing, identifying bugs
+                    and usability issues in early-stage development
+                  </li>
+                  <li>
+                    Authored and executed comprehensive QA test plans to
+                    validate UI components and workflows
+                  </li>
+                  <li>
+                    Collaborated with engineering teams to deploy tools
+                    company-wide after successful pilot phases
+                  </li>
+                  <li>
+                    Consistently exceeded performance metrics, ranked top 5% in
+                    productivity, accuracy, and reliability
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">Sales Development Representative</h3>
+                <h4 class="company">BambooHR</h4>
+                <p class="duration">September 2021 - October 2022</p>
+                <ul class="job-description">
+                  <li>
+                    Scheduled and executed outreach campaigns with fast lead
+                    turnaround, consistently exceeding daily targets
+                  </li>
+                  <li>
+                    Recognized for achieving top 5 sales ranking for five
+                    consecutive months
+                  </li>
+                  <li>
+                    Developed strong client communication skills essential for
+                    freelance web development
+                  </li>
+                  <li>Mastered CRM systems and data management processes</li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">Site Manager</h3>
+                <h4 class="company">Wiggy Wash</h4>
+                <p class="duration">December 2017 - September 2021</p>
+                <ul class="job-description">
+                  <li>
+                    Directed a team of 20+ employees, demonstrating leadership
+                    skills crucial for project management
+                  </li>
+                  <li>
+                    Increased annual revenue by 110% through performance
+                    tracking and team coaching
+                  </li>
+                  <li>
+                    Managed payroll, scheduling, and site operations while
+                    reporting KPIs to senior leadership
+                  </li>
+                  <li>
+                    Developed analytical and problem-solving skills directly
+                    applicable to web development challenges
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="container">
+          <h2 class="section-title">Education</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">
+                  Full-Stack Software Engineering Certificate
+                </h3>
+                <h4 class="company">Devslopes Academy</h4>
+                <p class="duration">2023 - Present</p>
+                <ul class="job-description">
+                  <li>
+                    Comprehensive certificate program in Full-Stack Software
+                    Engineering
+                  </li>
+                  <li>
+                    Project-based curriculum covering modern web development
+                    technologies
+                  </li>
+                  <li>
+                    Building responsive applications with hands-on experience in
+                    frontend and backend development
+                  </li>
+                  <li>
+                    Applying QA expertise to ensure code quality and user
+                    experience optimization
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">Mechanical Engineering</h3>
+                <h4 class="company">Utah Valley University</h4>
+                <p class="duration">December 2017 - December 2018</p>
+                <ul class="job-description">
+                  <li>
+                    Completed coursework in Mechanical Engineering with a 3.8
+                    GPA
+                  </li>
+                  <li>
+                    Gained foundational knowledge in mathematics, physics, and
+                    engineering principles
+                  </li>
+                  <li>
+                    Developed analytical thinking and problem-solving skills
+                    applicable to software development
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h3 class="job-title">High School Diploma</h3>
+                <h4 class="company">Maple Mountain High School</h4>
+                <p class="duration">August 2014 - May 2017</p>
+                <ul class="job-description">
+                  <li>Graduated with high honors in class</li>
+                  <li>Received multiple scholarships to colleges</li>
+                  <li>
+                    Demonstrated strong academic performance and leadership
+                    potential
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <h2 class="section-title">Featured Projects</h2>
+          <div id="project-filter-root">
+            <div
+              class="projects-loading"
+              style="text-align: center; padding: 3rem; color: #666"
+            >
+              Loading interactive projects...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section section-dark">
+        <div class="container">
+          <h2 class="section-title">Get In Touch</h2>
+          <div class="contact-content">
+            <div class="contact-info">
+              <h3>Let's Work Together</h3>
+              <p>
+                I'm always interested in new opportunities and exciting
+                projects. Whether you have a question or just want to say hi,
+                I'll try my best to get back to you!
+              </p>
+              <div class="contact-details">
+                <div class="contact-item">
+                  <strong>Email:</strong> nichg999@gmail.com
+                </div>
+                <div class="contact-item">
+                  <strong>Phone:</strong> Available upon request
+                </div>
+                <div class="contact-item">
+                  <strong>Location:</strong> Available for remote work
+                </div>
+              </div>
+              <div class="social-links">
+                <a
+                  href="https://www.linkedin.com/in/nicholas-griffiths-1a1883220/"
+                  class="social-link"
+                  >LinkedIn</a
+                >
+                <a href="https://github.com/nickgriff99" class="social-link"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+            <div class="contact-form">
+              <form
+                id="contactForm"
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                action="/thank-you.html"
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <div style="display: none">
+                  <label
+                    >Don't fill this out if you're human:
+                    <input name="bot-field"
+                  /></label>
+                </div>
+
+                <div class="form-group">
+                  <label for="name">Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    minlength="2"
+                    maxlength="50"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+                <div class="form-group">
+                  <label for="subject">Subject *</label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    required
+                    minlength="5"
+                    maxlength="100"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="message">Message *</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    required
+                    minlength="10"
+                    maxlength="1000"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <button
+                    type="submit"
+                    class="btn btn-secondary"
+                    id="submitBtn"
+                  >
+                    <span class="btn-text">Send Message</span>
+                    <span class="btn-loading" style="display: none"
+                      >Sending...</span
+                    >
+                  </button>
+                </div>
+                <p
+                  class="form-note"
+                  style="font-size: 0.9rem; color: #666; margin-top: 1rem"
+                >
+                  Messages are sent securely to nichg999@gmail.com. I'll respond
+                  within 48 hours.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Nicholas Griffiths. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="components/SkillsWidget.js"></script>
+    <script src="components/ProjectCarousel.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const skillsRoot = document.getElementById("skills-widget-root");
+        if (skillsRoot && window.SkillsWidget) {
+          const skillsReactRoot = ReactDOM.createRoot(skillsRoot);
+          skillsReactRoot.render(React.createElement(SkillsWidget));
+        }
+
+        const projectsRoot = document.getElementById("project-filter-root");
+        if (projectsRoot && window.ProjectFilter) {
+          const projectsReactRoot = ReactDOM.createRoot(projectsRoot);
+          projectsReactRoot.render(React.createElement(ProjectFilter));
+        }
+      });
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
