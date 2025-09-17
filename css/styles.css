@@ -618,3 +618,11 @@ header {
   width: 100%;
   max-width: none;
 }
+
+.thank-you-back-btn .btn {
+  color: var(--primary-color)
+}
+
+.thank-you-back-btn .btn:hover {
+  color: var(--primary-dark);
+}
