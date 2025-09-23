@@ -25,6 +25,7 @@ function SkillsWidget() {
       { name: "VS Code", color: "#007ACC" },
       { name: "Chrome DevTools", color: "#4285F4" },
       { name: "Testing & QA", color: "#8B5CF6" },
+      { name: "Netlify", color: "#00C7B7" },
     ],
   };
 
@@ -46,7 +47,7 @@ function SkillsWidget() {
           margin: "0.5rem 0.5rem 0.5rem 0",
           backgroundColor: skill.color,
           color:
-            skill.color === "#F59E0B" || skill.color === "#10B981"
+            skill.color === "#F59E0B" || skill.color === "#10B981" || skill.color === "#00C7B7"
               ? "#000"
               : "#fff",
           borderRadius: "25px",
@@ -94,14 +95,10 @@ function SkillsWidget() {
             style: {
               padding: "0.5rem 1rem",
               border: "none",
-              background:
-                selectedCategory === category ? "#6366F1" : "transparent",
-              color: selectedCategory === category ? "white" : "#6B7280",
               borderRadius: "5px",
               cursor: "pointer",
               fontWeight: "500",
               textTransform: "capitalize",
-              transition: "all 0.3s ease",
             },
           },
           category,
