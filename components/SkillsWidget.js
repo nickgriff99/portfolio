@@ -58,6 +58,7 @@ function SkillsWidget() {
           transform: animateSkills ? "translateY(0)" : "translateY(20px)",
           opacity: animateSkills ? 1 : 0,
           "--animation-delay": `${index * 0.05}s`,
+          cursor: "default",
         },
         onMouseEnter: (e) => {
           e.target.style.transform = "translateY(-2px)";
