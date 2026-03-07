@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply m-0 min-h-screen bg-slate-100 font-sans text-zinc-800 antialiased;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+@layer components {
+  .site-container {
+    @apply mx-auto w-full bg-slate-100 px-5 py-10 md:px-8 lg:px-10 lg:py-14;
+  }
+
+  .section-shell {
+    @apply px-0 py-6 md:py-8;
+  }
+
+  .section-title {
+    @apply mb-10 text-center text-3xl font-bold text-zinc-800 md:text-5xl;
+  }
+
+  .btn-glass {
+    @apply rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-2xl font-medium text-slate-100 shadow-glass backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-br hover:from-brand-primary/90 hover:to-brand-dark focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-brand-dark;
+  }
+}
+
+@layer utilities {
+  .viewport-animate {
+    @apply translate-y-10 opacity-0 transition-all duration-300 ease-out;
+  }
+
+  .viewport-animate.in-view {
+    @apply translate-y-0 opacity-100;
+  }
+
+  .viewport-animate.out-view {
+    @apply translate-y-10 opacity-0;
+  }
+
+  .keep-visible {
+    @apply opacity-100;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
+  }
+}
