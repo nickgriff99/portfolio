@@ -1,4 +1,4 @@
-# Nicholas Giordano - Portfolio
+# Nicholas Griffiths - Portfolio
 
 My personal portfolio website showcasing my skills as a full-stack developer.
 
