@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function usePortfolioScroll(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "home");
   const [headerHidden, setHeaderHidden] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const lastScrollTopRef = useRef(0);
 
   useEffect(() => {
-    let lastScrollTop = 0;
-
     const onScroll = () => {
       const header = document.querySelector("header");
       const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop || 0;
+      const lastScrollTop = lastScrollTopRef.current;
 
       for (const id of sectionIds) {
         const section = document.getElementById(id);
@@ -26,8 +26,8 @@ export function usePortfolioScroll(sectionIds: string[]) {
       }
 
       if (Math.abs(scrollTop - lastScrollTop) > 5) {
-        setHeaderHidden(scrollTop > lastScrollTop && scrollTop > 100);
-        lastScrollTop = scrollTop;
+        setHeaderHidden(scrollTop > lastScrollTop && scrollTop > 40);
+        lastScrollTopRef.current = scrollTop;
       }
 
       setShowBackToTop(scrollTop > 500);

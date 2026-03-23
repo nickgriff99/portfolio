@@ -60,7 +60,7 @@ export function ContactForm() {
       data-netlify-honeypot="bot-field"
       data-netlify-recaptcha="true"
       action="/thank-you"
-      className="space-y-6"
+      className="space-y-6 w-full"
       onSubmit={handleSubmit}
     >
       <input type="hidden" name="form-name" value="contact" />
@@ -72,17 +72,17 @@ export function ContactForm() {
       </div>
 
       {submitError ? (
-        <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p className="rounded-md border border-[var(--color-highlight)]/50 bg-[var(--color-highlight)]/10 px-3 py-2 text-sm text-[var(--color-highlight)]">
           {submitError}
         </p>
       ) : null}
 
       <div className="form-group">
-        <label htmlFor="name" className="mb-2 block font-medium text-zinc-800">
+        <label htmlFor="name" className="mb-2 block font-medium text-[var(--color-text)]">
           Name *
         </label>
         <input
-          className="focus-ring w-full rounded-md border-2 border-zinc-200 px-3 py-3 text-base text-zinc-800 outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:bg-zinc-100"
+          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
           type="text"
           id="name"
           name="name"
@@ -94,11 +94,11 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="email" className="mb-2 block font-medium text-zinc-800">
+        <label htmlFor="email" className="mb-2 block font-medium text-[var(--color-text)]">
           Email *
         </label>
         <input
-          className="focus-ring w-full rounded-md border-2 border-zinc-200 px-3 py-3 text-base text-zinc-800 outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:bg-zinc-100"
+          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
           type="email"
           id="email"
           name="email"
@@ -108,11 +108,11 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="subject" className="mb-2 block font-medium text-zinc-800">
+        <label htmlFor="subject" className="mb-2 block font-medium text-[var(--color-text)]">
           Subject *
         </label>
         <input
-          className="focus-ring w-full rounded-md border-2 border-zinc-200 px-3 py-3 text-base text-zinc-800 outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:bg-zinc-100"
+          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
           type="text"
           id="subject"
           name="subject"
@@ -124,11 +124,11 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="message" className="mb-2 block font-medium text-zinc-800">
+        <label htmlFor="message" className="mb-2 block font-medium text-[var(--color-text)]">
           Message *
         </label>
         <textarea
-          className="focus-ring w-full rounded-md border-2 border-zinc-200 px-3 py-3 text-base text-zinc-800 outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:bg-zinc-100"
+          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
           id="message"
           name="message"
           rows={5}
@@ -146,7 +146,7 @@ export function ContactForm() {
       <div className="form-group">
         <button
           type="submit"
-          className={`focus-ring rounded-xl border border-brand-primary/30 bg-white/70 px-6 py-3 text-2xl font-medium text-brand-primary shadow-glass backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-br hover:from-brand-primary/90 hover:to-brand-dark hover:text-slate-100 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           id="submitBtn"
           disabled={isSubmitting}
         >
@@ -155,7 +155,7 @@ export function ContactForm() {
         </button>
       </div>
 
-      <p className="mt-4 text-sm text-zinc-500">
+      <p className="mt-4 text-sm text-[var(--color-soft)]">
         Messages are sent securely to nichg999@gmail.com. I&apos;ll respond within
         48 hours.
       </p>

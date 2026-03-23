@@ -28,3 +28,5 @@ export interface NavItem {
   label: string;
   href: `#${string}`;
 }
+
+export type LayoutMode = "single" | "multi";

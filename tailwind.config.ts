@@ -5,17 +5,18 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Manrope", "sans-serif"],
+        sans: ["Space Grotesk", "sans-serif"],
+        display: ["Sora", "sans-serif"],
       },
       colors: {
         brand: {
-          primary: "#6366f1",
-          dark: "#4f46e5",
-          light: "#a5b4fc",
+          primary: "#6082B6",
+          dark: "#1B1F4B",
+          light: "#E5E4E2",
         },
         accent: {
-          amber: "#f59e0b",
-          emerald: "#10b981",
+          amber: "#FF6F61",
+          emerald: "#2E8B57",
         },
       },
       keyframes: {

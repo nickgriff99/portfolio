@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { projectsData } from "../data/projects";
+import type { LayoutMode } from "../types";
 
 type FilterKey = "all" | "frontend" | "backend";
 
@@ -10,7 +11,11 @@ const filterCategories: Array<{ key: FilterKey; label: string }> = [
   { key: "backend", label: "Backend" },
 ];
 
-export function ProjectFilter() {
+type ProjectFilterProps = {
+  layoutMode?: LayoutMode;
+};
+
+export function ProjectFilter({ layoutMode = "multi" }: ProjectFilterProps) {
   const [selectedFilter, setSelectedFilter] = useState<FilterKey>("all");
 
   const filteredProjects = useMemo(() => {
@@ -39,7 +44,7 @@ export function ProjectFilter() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <div className={`grid gap-8 ${layoutMode === "single" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}>
         {filteredProjects.map((project) => (
           <article
             key={project.id}

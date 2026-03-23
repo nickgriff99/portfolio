@@ -2,8 +2,19 @@ import { useEffect } from "react";
 
 export function useRevealOnScroll(selector = ".viewport-animate"): void {
   useEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>(selector);
-    if (!elements.length) {
+    const observed = new Set<HTMLElement>();
+    const revealAll = () => {
+      document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
+        if (!observed.has(element)) {
+          element.classList.add("in-view");
+          element.classList.remove("out-view");
+          observed.add(element);
+        }
+      });
+    };
+
+    if (typeof window.IntersectionObserver === "undefined") {
+      revealAll();
       return;
     }
 
@@ -25,13 +36,35 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
       },
     );
 
-    elements.forEach((element, index) => {
-      element.style.transitionDelay = `${index * 0.04}s`;
-      observer.observe(element);
+    const observeElements = () => {
+      const elements = document.querySelectorAll<HTMLElement>(selector);
+      elements.forEach((element, index) => {
+        if (observed.has(element)) {
+          return;
+        }
+
+        element.style.transitionDelay = `${index * 0.04}s`;
+        element.classList.add("in-view");
+        element.classList.remove("out-view");
+        observer.observe(element);
+        observed.add(element);
+      });
+    };
+
+    observeElements();
+
+    const mutationObserver = new MutationObserver(() => {
+      observeElements();
+    });
+
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
     });
 
     return () => {
-      elements.forEach((element) => observer.unobserve(element));
+      mutationObserver.disconnect();
+      observed.forEach((element) => observer.unobserve(element));
       observer.disconnect();
     };
   }, [selector]);
