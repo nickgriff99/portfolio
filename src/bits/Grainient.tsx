@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Renderer, Program, Mesh, Triangle } from 'ogl';
+import { Program, Mesh, Triangle } from 'ogl';
+import { tryCreateOglRenderer } from '@/utils/tryCreateOglRenderer';
 
 interface GrainientProps {
   timeSpeed?: number;
@@ -154,12 +155,15 @@ const Grainient: React.FC<GrainientProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const renderer = new Renderer({
+    const renderer = tryCreateOglRenderer({
       webgl: 2,
       alpha: true,
       antialias: false,
       dpr: Math.min(window.devicePixelRatio || 1, 2)
     });
+    if (!renderer || !renderer.isWebgl2) {
+      return;
+    }
 
     const gl = renderer.gl;
     const canvas = gl.canvas as HTMLCanvasElement;
