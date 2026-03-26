@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
 
 @tailwind base;
 @tailwind components;
@@ -64,10 +67,11 @@
   html {
     scroll-behavior: smooth;
     background-color: var(--color-bg);
+    @apply font-sans;
   }
 
   body {
-    @apply m-0 min-h-screen font-sans antialiased;
+    @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 24%, transparent) 0%, transparent 38%),
       radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--color-highlight) 18%, transparent) 0%, transparent 34%),
@@ -77,7 +81,80 @@
   }
 
   * {
-    @apply box-border;
+    @apply box-border border-border;
+    /* Tailwind can’t resolve outline-ring/50 when `ring` is a raw var() color */
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+  }
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
   }
 }
 
@@ -203,8 +280,8 @@
   @media (prefers-reduced-motion: no-preference) {
     .nav-metal-border::before {
       animation:
-        metal-spin-a 26s linear infinite,
-        metal-spin-b 37s linear infinite;
+        metal-spin-a 40s linear infinite,
+        metal-spin-b 56s linear infinite;
     }
   }
 
@@ -231,11 +308,11 @@
 
   @media (prefers-reduced-motion: no-preference) {
     .nav-edge-dash-a {
-      animation: nav-edge-dash-a 12.5s linear infinite;
+      animation: nav-edge-dash-a 19s linear infinite;
     }
 
     .nav-edge-dash-b {
-      animation: nav-edge-dash-b 19s linear infinite reverse;
+      animation: nav-edge-dash-b 29s linear infinite reverse;
     }
   }
 

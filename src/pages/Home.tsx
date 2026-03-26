@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import Grainient from "@/bits/Grainient";
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
 import { ThemeToggle } from "../components/ThemeToggle";
@@ -60,20 +61,54 @@ export function Home() {
         onNavigate={handleNavClick}
       />
 
-      <main className="w-full">
-        <HeroSection onNavigate={handleNavClick} />
-        <AboutMe />
-        <SkillsAndTechnologies />
-        <Experience />
-        <Education />
-        <ProjectsSection />
-        <ContactSection />
-      </main>
+      <div className="relative w-full">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
+        >
+          <Grainient
+            color1="#000000"
+            color2="#353131"
+            color3="#25313c"
+            timeSpeed={0.2}
+            colorBalance={0.27}
+            warpStrength={3.45}
+            warpFrequency={6.4}
+            warpSpeed={2}
+            warpAmplitude={17}
+            blendAngle={50}
+            blendSoftness={0.6}
+            rotationAmount={500}
+            noiseScale={0.35}
+            grainAmount={0}
+            grainScale={2}
+            grainAnimated={false}
+            contrast={1.5}
+            gamma={1.25}
+            saturation={1.4}
+            centerX={-0.2}
+            centerY={-0.15}
+            zoom={0.9}
+          />
+        </div>
 
-      <Footer />
+        <main className="relative z-10 w-full">
+          <HeroSection onNavigate={handleNavClick} />
+          <AboutMe />
+          <SkillsAndTechnologies />
+          <Experience />
+          <Education />
+          <ProjectsSection />
+          <ContactSection />
+        </main>
+
+        <div className="relative z-10">
+          <Footer />
+        </div>
+      </div>
 
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <button
           type="button"
           aria-label="Return to top"

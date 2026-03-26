@@ -83,46 +83,48 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
             />
           </svg>
           <div className="header-surface relative">
-            <nav className="relative z-10 flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <nav className="relative z-10 flex w-full items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
               <button
                 onClick={() => handleNavigate("#home")}
-                className="text-left text-xl font-extrabold tracking-tight text-[var(--color-text)]"
+                className="shrink-0 text-left text-xl font-extrabold tracking-tight text-[var(--color-text)]"
               >
                 Nicholas Griffiths
               </button>
 
-              <ul className="hidden items-center gap-8 md:flex">
-                {items.map((item) => {
-                  const sectionId = item.href.replace("#", "");
-                  const isActive = sectionId === activeSection;
-                  return (
-                    <li key={item.label}>
-                      <button
-                        onClick={() => handleNavigate(item.href)}
-                        className={`font-semibold transition-colors ${
-                          isActive ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+              <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
+                <ul className="hidden items-center gap-8 md:flex">
+                  {items.map((item) => {
+                    const sectionId = item.href.replace("#", "");
+                    const isActive = sectionId === activeSection;
+                    return (
+                      <li key={item.label}>
+                        <button
+                          onClick={() => handleNavigate(item.href)}
+                          className={`font-semibold transition-colors ${
+                            isActive ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setMobileOpen((prev) => !prev)}
-                  aria-label="Open mobile menu"
-                  className="md:hidden"
-                >
-                  <span className="sr-only">Menu</span>
-                  <div className="space-y-1.5">
-                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                  </div>
-                </button>
+                <div className="flex shrink-0 items-center gap-3">
+                  <button
+                    onClick={() => setMobileOpen((prev) => !prev)}
+                    aria-label="Open mobile menu"
+                    className="md:hidden"
+                  >
+                    <span className="sr-only">Menu</span>
+                    <div className="space-y-1.5">
+                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                    </div>
+                  </button>
+                </div>
               </div>
             </nav>
           </div>

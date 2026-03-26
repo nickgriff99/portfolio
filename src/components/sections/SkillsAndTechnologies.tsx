@@ -2,7 +2,7 @@ import { SkillsWidget } from "../SkillsWidget";
 
 export function SkillsAndTechnologies() {
   return (
-    <section id="skills" className="section-band section-alt">
+    <section id="skills" className="section-band">
       <div className="content-shell">
         <h2 className="section-title">
           <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
