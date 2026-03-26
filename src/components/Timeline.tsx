@@ -15,17 +15,22 @@ export function Timeline({ items }: { items: TimelineEntry[] }) {
             <div
               className={`absolute left-[14px] top-6 z-10 h-3 w-3 rounded-full border-2 border-[var(--color-surface)] bg-[var(--color-accent)] md:h-4 md:w-4 ${isEven ? "md:left-[-8px]" : "md:left-auto md:right-[-8px]"}`}
             />
-            <div className="viewport-animate">
-              <h3 className="mb-2 text-2xl font-semibold text-[var(--color-text)]">{item.title}</h3>
-              <h4 className="mb-1 text-lg text-[var(--color-muted)]">{item.organization}</h4>
-              <p className="mb-4 text-sm italic text-[var(--color-soft)]">{item.duration}</p>
-              <ul className="space-y-2">
-                {item.bullets.map((bullet) => (
-                  <li key={bullet} className="pl-5 text-[var(--color-muted)] before:absolute before:-ml-4 before:text-[var(--color-accent)] before:content-['▹']">
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
+            <div className="viewport-animate w-full">
+              <div className="header-surface relative rounded-2xl p-6">
+                <h3 className="mb-2 text-2xl font-semibold text-[var(--color-text)]">{item.title}</h3>
+                <h4 className="mb-1 text-lg text-[var(--color-muted)]">{item.organization}</h4>
+                <p className="mb-4 text-sm italic text-[var(--color-soft)]">{item.duration}</p>
+                <ul className="space-y-2">
+                  {item.bullets.map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="relative pl-5 text-[var(--color-muted)] before:absolute before:left-0 before:top-1 before:text-[var(--color-accent)] before:content-['▹']"
+                    >
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </article>
         );

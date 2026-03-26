@@ -6,7 +6,9 @@ export function Experience() {
     <section id="experience" className="section-band">
       <div className="content-shell">
         <h2 className="section-title">
-          <span className="keyword-highlight">Experience</span>
+          <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
+            <span className="keyword-highlight">Experience</span>
+          </span>
         </h2>
         <Timeline items={experienceData} />
       </div>
