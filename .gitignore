@@ -15,6 +15,9 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+
+# Vite cache (dependency pre-bundle, etc.)
+.vite
 *.local
 
 # Test and coverage artifacts
