@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Renderer, Camera, Geometry, Program, Mesh } from 'ogl';
+import { Camera, Geometry, Program, Mesh } from 'ogl';
+import { tryCreateOglRenderer } from '@/utils/tryCreateOglRenderer';
 
 interface ParticlesProps {
   particleCount?: number;
@@ -128,7 +129,10 @@ const Particles: React.FC<ParticlesProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({ dpr: pixelRatio, depth: false, alpha: true });
+    const renderer = tryCreateOglRenderer({ dpr: pixelRatio, depth: false, alpha: true });
+    if (!renderer) {
+      return;
+    }
     const gl = renderer.gl;
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
