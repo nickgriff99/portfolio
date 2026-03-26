@@ -3,7 +3,7 @@ import { ContactForm } from "../ContactForm";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="section-band section-alt">
+    <section id="contact" className="section-band">
       <div className="content-shell">
         <h2 className="section-title">
           <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
