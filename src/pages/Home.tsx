@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import Grainient from "@/bits/Grainient";
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
-import { ThemeToggle } from "../components/ThemeToggle";
+// import { ThemeToggle } from "../components/ThemeToggle";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
 import { Education } from "../components/sections/Education";
