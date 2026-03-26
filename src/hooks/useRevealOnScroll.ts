@@ -21,12 +21,14 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const target = entry.target as HTMLElement;
           if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            entry.target.classList.remove("out-view");
-          } else if (!entry.target.classList.contains("keep-visible")) {
-            entry.target.classList.add("out-view");
-            entry.target.classList.remove("in-view");
+            target.classList.add("in-view", "keep-visible");
+            target.classList.remove("out-view");
+            observer.unobserve(target);
+          } else if (!target.classList.contains("keep-visible")) {
+            target.classList.add("out-view");
+            target.classList.remove("in-view");
           }
         });
       },

@@ -30,6 +30,36 @@
   --color-link: #6082b6;
 }
 
+@property --metal-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --metal-b {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 127deg;
+}
+
+@keyframes metal-spin-a {
+  from {
+    --metal-a: 0deg;
+  }
+  to {
+    --metal-a: 360deg;
+  }
+}
+
+@keyframes metal-spin-b {
+  from {
+    --metal-b: 360deg;
+  }
+  to {
+    --metal-b: 0deg;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -72,17 +102,188 @@
   }
 
   .section-title {
-    @apply viewport-animate mb-10 text-center font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl;
+    @apply mb-10 text-center font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl;
     color: var(--color-text);
     text-wrap: balance;
   }
 
+  /* Liquid metal only on the ring (::before + mask); center stays clear for real glass */
+  .nav-metal-border {
+    position: relative;
+    overflow: visible;
+    border-radius: 1rem;
+    padding: 3px;
+    background: transparent;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, #c8d4e8 12%, transparent),
+      0 12px 40px color-mix(in srgb, #0a0c10 45%, transparent);
+  }
+
+  .nav-metal-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    padding: 3px;
+    pointer-events: none;
+    background-image:
+      conic-gradient(
+        from var(--metal-b),
+        color-mix(in srgb, #b8c8e8 28%, transparent) 0%,
+        color-mix(in srgb, #7a8aa8 18%, transparent) 4%,
+        transparent 7%,
+        color-mix(in srgb, #d4c8f0 22%, transparent) 11%,
+        color-mix(in srgb, #9ec4d8 20%, transparent) 15%,
+        transparent 19%,
+        color-mix(in srgb, #a8e0d4 16%, transparent) 23%,
+        transparent 28%,
+        color-mix(in srgb, #c8b8e8 24%, transparent) 33%,
+        color-mix(in srgb, #8898b0 14%, transparent) 38%,
+        transparent 43%,
+        color-mix(in srgb, #e8dce8 18%, transparent) 48%,
+        transparent 52%,
+        color-mix(in srgb, #98a8c8 20%, transparent) 57%,
+        color-mix(in srgb, #b0d8e8 15%, transparent) 62%,
+        transparent 67%,
+        color-mix(in srgb, #d0c4f0 20%, transparent) 72%,
+        color-mix(in srgb, #8898a8 12%, transparent) 78%,
+        transparent 83%,
+        color-mix(in srgb, #a8c4d8 22%, transparent) 88%,
+        color-mix(in srgb, #c8b8d8 18%, transparent) 94%,
+        transparent 100%
+      ),
+      conic-gradient(
+        from var(--metal-a),
+        #0c0e12 0%,
+        #15181d 2.5%,
+        #12151a 5%,
+        #1c2028 7.5%,
+        #252a32 10%,
+        #1a1e25 12%,
+        color-mix(in srgb, #6b7c94 16%, #2a3038) 15%,
+        #2e343e 18%,
+        #22262e 20.5%,
+        #3a424d 24%,
+        color-mix(in srgb, #a098c8 12%, #3d4450) 27%,
+        #4a525e 30%,
+        #323842 33%,
+        color-mix(in srgb, #88b8b0 10%, #404854) 36.5%,
+        #5a626e 40%,
+        #383e48 43%,
+        #2a303a 46%,
+        color-mix(in srgb, #c8b8e8 14%, #4a505c) 49%,
+        #6a7280 52.5%,
+        #3e444e 56%,
+        #1e222a 59%,
+        color-mix(in srgb, #8898b8 18%, #2c323c) 62%,
+        #454d58 65.5%,
+        #2a3038 69%,
+        color-mix(in srgb, #d8cce8 10%, #505868) 73%,
+        #707888 77%,
+        #404854 81%,
+        #262a32 85%,
+        color-mix(in srgb, #98a8c0 15%, #343a44) 89%,
+        #1c2028 93%,
+        #14161c 96.5%,
+        #0c0e12 100%
+      );
+    background-blend-mode: soft-light, normal;
+    background-origin: border-box;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-metal-border::before {
+      animation:
+        metal-spin-a 26s linear infinite,
+        metal-spin-b 37s linear infinite;
+    }
+  }
+
+  /* SVG stroke-dash follows the rounded rect — reads as light moving along the rim, not from the center */
+  .nav-edge-svg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .nav-edge-dash-a {
+    stroke-dasharray: 11 89;
+    stroke-dashoffset: 0;
+    opacity: 0.92;
+  }
+
+  .nav-edge-dash-b {
+    stroke-dasharray: 4 6 3 5 4 78;
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-edge-dash-a {
+      animation: nav-edge-dash-a 12.5s linear infinite;
+    }
+
+    .nav-edge-dash-b {
+      animation: nav-edge-dash-b 19s linear infinite reverse;
+    }
+  }
+
+  @keyframes nav-edge-dash-a {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+
+  @keyframes nav-edge-dash-b {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+
+  /* Frosted glass (dark): black undertone; blurs page behind header */
   .header-surface {
+    position: relative;
+    z-index: 1;
+    border-radius: calc(1rem - 3px);
+    isolation: isolate;
     background:
-      linear-gradient(120deg, color-mix(in srgb, var(--color-link) 22%, transparent), transparent 32%),
-      linear-gradient(160deg, color-mix(in srgb, var(--color-surface) 82%, transparent), color-mix(in srgb, var(--color-surface-alt) 88%, transparent));
-    backdrop-filter: blur(14px);
-    box-shadow: 0 14px 34px color-mix(in srgb, var(--color-bg) 54%, transparent);
+      linear-gradient(
+        165deg,
+        color-mix(in srgb, #000 20%, transparent) 0%,
+        transparent 58%
+      ),
+      color-mix(in srgb, #000 14%, transparent);
+    backdrop-filter: blur(40px) saturate(1.4) brightness(1.02);
+    -webkit-backdrop-filter: blur(40px) saturate(1.4) brightness(1.02);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #ffffff 5%, transparent);
+    border: 1px solid color-mix(in srgb, #ffffff 7%, transparent);
+  }
+
+  :root[data-theme="light"] .header-surface {
+    background:
+      linear-gradient(
+        165deg,
+        color-mix(in srgb, #ffffff 28%, transparent) 0%,
+        transparent 60%
+      ),
+      color-mix(in srgb, #fff 12%, transparent);
+    backdrop-filter: blur(40px) saturate(1.4) brightness(1.02);
+    -webkit-backdrop-filter: blur(40px) saturate(1.4) brightness(1.02);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #ffffff 55%, transparent);
+    border: 1px solid color-mix(in srgb, #000 8%, transparent);
   }
 
   .btn-primary {
@@ -122,6 +323,10 @@
 
   .viewport-animate.out-view {
     @apply translate-y-10 opacity-0;
+  }
+
+  .viewport-animate.keep-visible {
+    @apply translate-y-0 opacity-100;
   }
 
   .keep-visible {
