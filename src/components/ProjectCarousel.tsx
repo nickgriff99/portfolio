@@ -62,7 +62,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
   );
 
   return (
-    <div className="viewport-animate keep-visible">
+    <div className="viewport-animate">
       {prefersReducedMotion ? (
         <div
           className={`grid gap-5 ${layoutMode === "single" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}

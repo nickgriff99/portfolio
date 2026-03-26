@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { ThemeToggle } from "../components/ThemeToggle";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
 import { Education } from "../components/sections/Education";
@@ -71,14 +72,19 @@ export function Home() {
 
       <Footer />
 
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-white shadow-lg shadow-black/20 transition-all duration-300 hover:brightness-110 ${
-          showBackToTop ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        ↑
-      </button>
+      <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
+        <ThemeToggle />
+        <button
+          type="button"
+          aria-label="Return to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-white shadow-lg shadow-black/20 transition-all duration-300 hover:brightness-110 ${
+            showBackToTop ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+          }`}
+        >
+          ↑
+        </button>
+      </div>
     </>
   );
 }

@@ -15,7 +15,7 @@ export function SkillsWidget() {
   };
 
   return (
-    <div className="skills-widget viewport-animate w-full h-auto">
+    <div className="skills-widget w-full h-auto">
       <div className="mb-8 flex flex-wrap justify-center gap-3 border-b border-white/15 pb-4">
         {(Object.keys(skillsData) as SkillCategoryKey[]).map((category) => (
           <button

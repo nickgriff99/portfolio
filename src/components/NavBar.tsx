@@ -1,7 +1,5 @@
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy, useId, useState } from "react";
 import type { NavItem } from "../types";
-import { useTheme } from "../context/ThemeContext";
-import { FluidGlassHeader } from "./FluidGlassHeader";
 
 const StaggeredMenu = lazy(() =>
   import("./StaggeredMenu").then((module) => ({ default: module.StaggeredMenu })),
@@ -16,7 +14,7 @@ type NavBarProps = {
 
 export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const edgeId = useId().replace(/:/g, "");
 
   const handleNavigate = (href: string) => {
     onNavigate(href);
@@ -28,58 +26,106 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
       className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${hidden ? "-translate-y-full" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl">
-        <div className="header-surface relative overflow-hidden rounded-2xl border border-white/20">
-          <FluidGlassHeader />
-          <nav className="relative z-10 flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <button
-            onClick={() => handleNavigate("#home")}
-            className="text-left text-xl font-extrabold tracking-tight text-[var(--color-text)]"
+        <div className="nav-metal-border">
+          <svg
+            className="nav-edge-svg"
+            aria-hidden
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
           >
-            Nicholas Griffiths
-          </button>
+            <defs>
+              <linearGradient id={`${edgeId}-edge-a`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f0f4ff" stopOpacity="0.9" />
+                <stop offset="28%" stopColor="#a8b8d8" stopOpacity="0.55" />
+                <stop offset="55%" stopColor="#d4c8f0" stopOpacity="0.7" />
+                <stop offset="78%" stopColor="#9ec4d8" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#e8ecf8" stopOpacity="0.85" />
+              </linearGradient>
+              <linearGradient id={`${edgeId}-edge-b`} x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#c8d4e8" stopOpacity="0.65" />
+                <stop offset="40%" stopColor="#8898b8" stopOpacity="0.35" />
+                <stop offset="72%" stopColor="#b8c8e8" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0.75" />
+              </linearGradient>
+            </defs>
+            <rect
+              className="nav-edge-dash nav-edge-dash-a"
+              x="1.5"
+              y="1.5"
+              width="calc(100% - 3px)"
+              height="calc(100% - 3px)"
+              rx="calc(1rem - 1.5px)"
+              ry="calc(1rem - 1.5px)"
+              fill="none"
+              stroke={`url(#${edgeId}-edge-a)`}
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              pathLength={100}
+              vectorEffect="nonScalingStroke"
+            />
+            <rect
+              className="nav-edge-dash nav-edge-dash-b"
+              x="1.5"
+              y="1.5"
+              width="calc(100% - 3px)"
+              height="calc(100% - 3px)"
+              rx="calc(1rem - 1.5px)"
+              ry="calc(1rem - 1.5px)"
+              fill="none"
+              stroke={`url(#${edgeId}-edge-b)`}
+              strokeWidth={2.25}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              pathLength={100}
+              vectorEffect="nonScalingStroke"
+            />
+          </svg>
+          <div className="header-surface relative">
+            <nav className="relative z-10 flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+              <button
+                onClick={() => handleNavigate("#home")}
+                className="text-left text-xl font-extrabold tracking-tight text-[var(--color-text)]"
+              >
+                Nicholas Griffiths
+              </button>
 
-          <ul className="hidden items-center gap-8 md:flex">
-            {items.map((item) => {
-              const sectionId = item.href.replace("#", "");
-              const isActive = sectionId === activeSection;
-              return (
-                <li key={item.label}>
-                  <button
-                    onClick={() => handleNavigate(item.href)}
-                    className={`font-semibold transition-colors ${
-                      isActive ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+              <ul className="hidden items-center gap-8 md:flex">
+                {items.map((item) => {
+                  const sectionId = item.href.replace("#", "");
+                  const isActive = sectionId === activeSection;
+                  return (
+                    <li key={item.label}>
+                      <button
+                        onClick={() => handleNavigate(item.href)}
+                        className={`font-semibold transition-colors ${
+                          isActive ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle dark and light mode"
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-[var(--color-text)] backdrop-blur transition-colors hover:bg-white/20"
-            >
-              {theme === "dark" ? "Light" : "Dark"}
-            </button>
-
-            <button
-              onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label="Open mobile menu"
-              className="md:hidden"
-            >
-              <span className="sr-only">Menu</span>
-              <div className="space-y-1.5">
-                <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setMobileOpen((prev) => !prev)}
+                  aria-label="Open mobile menu"
+                  className="md:hidden"
+                >
+                  <span className="sr-only">Menu</span>
+                  <div className="space-y-1.5">
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                  </div>
+                </button>
               </div>
-            </button>
+            </nav>
           </div>
-          </nav>
         </div>
       </div>
 
