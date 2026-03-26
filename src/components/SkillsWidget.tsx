@@ -32,7 +32,7 @@ export function SkillsWidget() {
         ))}
       </div>
 
-      <div className="flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2">
+      <div className="header-surface relative rounded-2xl px-6 py-5 flex min-w-0 max-w-full flex-wrap items-center justify-center gap-2">
         {skillsData[selectedCategory].map((skill, index) => (
           <span
             key={skill.name}

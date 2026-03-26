@@ -34,12 +34,17 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ customClass, ...rest }, ref) => (
+  ({ customClass, children, className, ...rest }, ref) => (
     <div
       ref={ref}
       {...rest}
-      className={`absolute left-1/2 top-1/2 rounded-xl border border-white/20 bg-[var(--color-surface)] [backface-visibility:hidden] [transform-style:preserve-3d] [will-change:transform] ${customClass ?? ""} ${rest.className ?? ""}`.trim()}
-    />
+      className={`absolute left-1/2 top-1/2 overflow-hidden rounded-2xl [backface-visibility:hidden] [transform-style:preserve-3d] [will-change:transform] ${customClass ?? ""} ${className ?? ""}`.trim()}
+    >
+      {/* Glass on inner node: GSAP transforms stay on outer; avoids backdrop + transform bugs */}
+      <div className="header-surface flex h-full min-h-0 w-full flex-col overflow-hidden rounded-2xl">
+        {children}
+      </div>
+    </div>
   ),
 );
 Card.displayName = "Card";

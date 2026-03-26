@@ -62,7 +62,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
   );
 
   return (
-    <div className="viewport-animate">
+    <div className="viewport-animate w-full">
       {prefersReducedMotion ? (
         <div
           className={`grid gap-5 ${layoutMode === "single" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}
@@ -70,7 +70,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
           {projects.map((project) => (
             <article
               key={project.id}
-              className="overflow-hidden rounded-2xl border border-white/20 bg-[var(--color-surface)] shadow-[0_12px_30px_color-mix(in_srgb,var(--color-bg)_52%,transparent)]"
+              className="header-surface overflow-hidden rounded-2xl shadow-[0_12px_30px_color-mix(in_srgb,var(--color-bg)_52%,transparent)]"
             >
               {renderCardContent(project)}
             </article>
@@ -92,7 +92,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
             <Card
               key={project.id}
               aria-label={`${project.title} project card ${index + 1}`}
-              customClass="overflow-hidden border-white/20 bg-[var(--color-surface)] shadow-[0_18px_42px_color-mix(in_srgb,var(--color-bg)_66%,transparent)]"
+              customClass="shadow-[0_18px_42px_color-mix(in_srgb,var(--color-bg)_66%,transparent)]"
             >
               {renderCardContent(project)}
             </Card>

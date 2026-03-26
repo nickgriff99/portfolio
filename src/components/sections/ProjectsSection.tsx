@@ -2,12 +2,21 @@ import { ProjectCarousel } from "../ProjectCarousel";
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="section-band">
+    <section id="projects" className="section-band" aria-labelledby="projects-heading">
       <div className="content-shell pb-12">
-        <h2 className="section-title">
-          Featured <span className="keyword-accent">Projects</span>
-        </h2>
-        <ProjectCarousel layoutMode="multi" />
+        <div className="relative">
+          <h2
+            id="projects-heading"
+            className="section-title pointer-events-none absolute inset-x-0 top-0 z-10 mb-0 flex justify-center px-4"
+          >
+            <span className="header-surface relative block w-max max-w-[min(100%,42rem)] rounded-2xl px-6 py-3 text-center">
+              Featured <span className="keyword-accent">Projects</span>
+            </span>
+          </h2>
+          <div className="pt-16 sm:pt-20 md:pt-24">
+            <ProjectCarousel layoutMode="multi" />
+          </div>
+        </div>
       </div>
     </section>
   );

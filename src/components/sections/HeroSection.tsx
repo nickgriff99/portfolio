@@ -7,7 +7,10 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
     <section id="home" className="section-band section-hero min-h-screen pt-24">
       <div className="content-shell flex min-h-[72vh] flex-col items-center justify-center text-center">
         <h1 className="viewport-animate mb-5 text-4xl font-extrabold tracking-tight text-[var(--color-text)] sm:text-5xl lg:text-7xl">
-          Hello, I&apos;m <span className="keyword-accent">Nicholas Griffiths</span>
+          Hello, I&apos;m{" "}
+          <span className="header-surface keyword-accent relative inline-block rounded-2xl px-4 py-1">
+            Nicholas Griffiths
+          </span>
         </h1>
         <h2 className="viewport-animate mb-6 text-2xl font-semibold text-[var(--color-muted)] sm:text-3xl">
           Full Stack <span className="keyword-link">Web Developer</span>

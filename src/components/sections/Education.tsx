@@ -6,7 +6,9 @@ export function Education() {
     <section id="education" className="section-band section-alt">
       <div className="content-shell">
         <h2 className="section-title">
-          <span className="keyword-link">Education</span>
+          <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
+            <span className="keyword-link">Education</span>
+          </span>
         </h2>
         <Timeline items={educationData} />
       </div>
