@@ -20,8 +20,9 @@ export function SkillsWidget() {
         {(Object.keys(skillsData) as SkillCategoryKey[]).map((category) => (
           <button
             key={category}
+            type="button"
             onClick={() => handleCategorySelect(category)}
-            className={`rounded-full px-4 py-2 font-semibold capitalize transition-all duration-300 ${
+            className={`cursor-pointer rounded-full px-4 py-2 font-semibold capitalize transition-all duration-300 ${
               selectedCategory === category
                 ? "bg-[var(--color-link)] text-white"
                 : "bg-white/5 text-[var(--color-muted)] hover:-translate-y-0.5 hover:bg-[var(--color-link)] hover:text-white"
@@ -36,7 +37,7 @@ export function SkillsWidget() {
         {skillsData[selectedCategory].map((skill, index) => (
           <span
             key={skill.name}
-            className={`inline-block rounded-full border border-white/20 px-5 py-3 text-sm font-semibold shadow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+            className={`inline-block cursor-default rounded-full border border-white/20 px-5 py-3 text-sm font-semibold shadow transition-all duration-300 hover:scale-110 hover:shadow-md ${
               animateSkills ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
             }`}
             style={{

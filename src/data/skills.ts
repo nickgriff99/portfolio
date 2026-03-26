@@ -21,5 +21,7 @@ export const skillsData: SkillsMap = {
     { name: "Chrome DevTools", color: "#4285F4" },
     { name: "Testing & QA", color: "#8B5CF6" },
     { name: "Netlify", color: "#00C7B7" },
+    { name: "Figma", color: "#F24E1E" },
+    { name: "Cursor", color: "#000000" },
   ],
 };

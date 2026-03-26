@@ -2,7 +2,7 @@ import type { TimelineEntry } from "../types";
 
 export const educationData: TimelineEntry[] = [
   {
-    title: "Full-Stack Software Engineering Certificate",
+    title: "Full-Stack Web Development Certificate",
     organization: "Codecademy",
     duration: "2025 - Present",
     bullets: [

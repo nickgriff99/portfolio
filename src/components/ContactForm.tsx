@@ -82,7 +82,7 @@ export function ContactForm() {
           Name *
         </label>
         <input
-          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="form-field"
           type="text"
           id="name"
           name="name"
@@ -98,7 +98,7 @@ export function ContactForm() {
           Email *
         </label>
         <input
-          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="form-field"
           type="email"
           id="email"
           name="email"
@@ -112,7 +112,7 @@ export function ContactForm() {
           Subject *
         </label>
         <input
-          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="form-field"
           type="text"
           id="subject"
           name="subject"
@@ -128,7 +128,7 @@ export function ContactForm() {
           Message *
         </label>
         <textarea
-          className="focus-ring w-full rounded-md border border-white/20 bg-white/5 px-3 py-3 text-base text-[var(--color-text)] outline-none transition-colors focus:border-brand-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="form-field min-h-[8rem] resize-y"
           id="message"
           name="message"
           rows={5}

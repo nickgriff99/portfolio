@@ -2,6 +2,17 @@ import type { TimelineEntry } from "../types";
 
 export const experienceData: TimelineEntry[] = [
   {
+    title: "Junior React Developer Intern",
+    organization: "Spot Parking",
+    duration: "June 2026 - Present",
+    bullets: [
+      "Built six production pages using React, reusing existing components for consistency",
+      "Redesigned the Help page to improve usability and content structure",
+      "Improved site responsiveness across desktop, tablet, and mobile breakpoints",
+      "Designed and implemented component-driven UI patterns to accelerate feature development and ensure consistent user interactions across the app",
+    ],
+  },
+  {
     title: "QA/R&D Engineer",
     organization: "Tesla",
     duration: "February 2025 - Present",
