@@ -1,4 +1,4 @@
-# Nicholas Griffiths Portfolio
+# Nicholas Griffiths - Portfolio
 
 Personal portfolio app built with React, TypeScript, Tailwind CSS, and Vite.
 
