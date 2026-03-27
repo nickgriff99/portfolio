@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 
+function isRectInViewport(rect: DOMRect, vh: number): boolean {
+  return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < vh;
+}
+
 export function useRevealOnScroll(selector = ".viewport-animate"): void {
   useEffect(() => {
     const observed = new Set<HTMLElement>();
@@ -18,8 +22,20 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
       return;
     }
 
+    const syncVisibleInViewport = () => {
+      const vh = window.innerHeight || 0;
+      document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        if (isRectInViewport(rect, vh)) {
+          element.classList.add("in-view", "keep-visible");
+          element.classList.remove("out-view");
+        }
+      });
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
+        const vh = window.innerHeight || 0;
         entries.forEach((entry) => {
           const target = entry.target as HTMLElement;
           if (entry.isIntersecting) {
@@ -27,44 +43,48 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
             target.classList.remove("out-view");
             observer.unobserve(target);
           } else if (!target.classList.contains("keep-visible")) {
-            target.classList.add("out-view");
-            target.classList.remove("in-view");
+            const rect = target.getBoundingClientRect();
+            // IO can briefly report not intersecting during layout / HMR; don't hide if still on-screen.
+            if (isRectInViewport(rect, vh)) {
+              target.classList.add("in-view", "keep-visible");
+              target.classList.remove("out-view");
+              observer.unobserve(target);
+            } else {
+              target.classList.add("out-view");
+              target.classList.remove("in-view");
+            }
           }
         });
       },
       {
-        /* threshold 0: any overlap counts. 0.08 could report "not intersecting" on first frame and hide the whole hero. */
         threshold: 0,
-        rootMargin: "0px 0px 120px 0px",
+        rootMargin: "120px 0px 120px 0px",
       },
     );
 
-    /** If layout/IO race left above-the-fold nodes without intersection, force them visible. */
-    const syncVisibleInViewport = () => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const vh = window.innerHeight || 0;
-        const visible =
-          rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < vh;
-        if (visible) {
-          element.classList.add("in-view", "keep-visible");
-          element.classList.remove("out-view");
-        }
-      });
-    };
-
     const observeElements = () => {
+      for (const el of Array.from(observed)) {
+        if (!document.contains(el)) {
+          observed.delete(el);
+        }
+      }
+
       const elements = document.querySelectorAll<HTMLElement>(selector);
       elements.forEach((element, index) => {
-        if (observed.has(element)) {
-          return;
+        if (!observed.has(element)) {
+          element.style.transitionDelay = `${index * 0.04}s`;
+          element.classList.add("in-view");
+          element.classList.remove("out-view");
+          observer.observe(element);
+          observed.add(element);
+        } else {
+          const rect = element.getBoundingClientRect();
+          const vh = window.innerHeight || 0;
+          if (isRectInViewport(rect, vh) && !element.classList.contains("keep-visible")) {
+            element.classList.add("in-view", "keep-visible");
+            element.classList.remove("out-view");
+          }
         }
-
-        element.style.transitionDelay = `${index * 0.04}s`;
-        element.classList.add("in-view");
-        element.classList.remove("out-view");
-        observer.observe(element);
-        observed.add(element);
       });
     };
 
@@ -72,6 +92,16 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
     requestAnimationFrame(() => {
       requestAnimationFrame(syncVisibleInViewport);
     });
+
+    let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
+    const onResize = () => {
+      if (resizeTimeout !== undefined) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        resizeTimeout = undefined;
+        syncVisibleInViewport();
+      }, 100);
+    };
+    window.addEventListener("resize", onResize);
 
     const mutationObserver = new MutationObserver(() => {
       observeElements();
@@ -85,8 +115,24 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
       subtree: true,
     });
 
+    let viteAfterUpdate: (() => void) | undefined;
+    if (import.meta.hot) {
+      viteAfterUpdate = () => {
+        observeElements();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(syncVisibleInViewport);
+        });
+      };
+      import.meta.hot.on("vite:afterUpdate", viteAfterUpdate);
+    }
+
     return () => {
       mutationObserver.disconnect();
+      window.removeEventListener("resize", onResize);
+      if (resizeTimeout !== undefined) clearTimeout(resizeTimeout);
+      if (import.meta.hot && viteAfterUpdate) {
+        import.meta.hot.off("vite:afterUpdate", viteAfterUpdate);
+      }
       observed.forEach((element) => observer.unobserve(element));
       observer.disconnect();
     };

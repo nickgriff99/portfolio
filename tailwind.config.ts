@@ -15,9 +15,9 @@ export default {
       },
       colors: {
         brand: {
-          primary: "#6082B6",
-          dark: "#1B1F4B",
-          light: "#E5E4E2",
+          primary: "#00FFFF",
+          dark: "#000000",
+          light: "#C0C0C0",
         },
         /* shadcn/ui semantic tokens — map to CSS vars in global.css */
         background: "var(--background)",
@@ -45,8 +45,8 @@ export default {
         accent: {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
-          amber: "#FF6F61",
-          emerald: "#2E8B57",
+          amber: "#FF0000",
+          emerald: "#008B8B",
         },
         destructive: "var(--destructive)",
         border: "var(--border)",

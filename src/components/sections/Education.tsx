@@ -6,7 +6,7 @@ export function Education() {
     <section id="education" className="section-band">
       <div className="content-shell">
         <h2 className="section-title">
-          <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
+          <span className="header-surface relative inline-block rounded-2xl px-6 py-3 tracking-wide">
             <span className="keyword-link">Education</span>
           </span>
         </h2>

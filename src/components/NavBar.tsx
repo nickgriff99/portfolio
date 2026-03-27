@@ -1,9 +1,6 @@
-import { Suspense, lazy, useId, useState } from "react";
+import { useId, useState } from "react";
 import type { NavItem } from "../types";
-
-const StaggeredMenu = lazy(() =>
-  import("./StaggeredMenu").then((module) => ({ default: module.StaggeredMenu })),
-);
+import { StaggeredMenu } from "./StaggeredMenu";
 
 type NavBarProps = {
   items: NavItem[];
@@ -36,17 +33,24 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
           >
             <defs>
               <linearGradient id={`${edgeId}-edge-a`} x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f0f4ff" stopOpacity="0.9" />
-                <stop offset="28%" stopColor="#a8b8d8" stopOpacity="0.55" />
-                <stop offset="55%" stopColor="#d4c8f0" stopOpacity="0.7" />
-                <stop offset="78%" stopColor="#9ec4d8" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#e8ecf8" stopOpacity="0.85" />
+                <stop offset="0%" stopColor="#e8ecf8" stopOpacity="0" />
+                <stop offset="8%" stopColor="#f0f4ff" stopOpacity="0.22" />
+                <stop offset="22%" stopColor="#c8d4e8" stopOpacity="0.38" />
+                <stop offset="38%" stopColor="#98a8c8" stopOpacity="0.18" />
+                <stop offset="52%" stopColor="#d4c8f0" stopOpacity="0.32" />
+                <stop offset="66%" stopColor="#8898b0" stopOpacity="0.12" />
+                <stop offset="80%" stopColor="#b8c8e8" stopOpacity="0.28" />
+                <stop offset="92%" stopColor="#9ec4d8" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0" />
               </linearGradient>
               <linearGradient id={`${edgeId}-edge-b`} x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#c8d4e8" stopOpacity="0.65" />
-                <stop offset="40%" stopColor="#8898b8" stopOpacity="0.35" />
-                <stop offset="72%" stopColor="#b8c8e8" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0.75" />
+                <stop offset="0%" stopColor="#d8dce8" stopOpacity="0" />
+                <stop offset="14%" stopColor="#c8d4e8" stopOpacity="0.28" />
+                <stop offset="34%" stopColor="#8898b8" stopOpacity="0.14" />
+                <stop offset="52%" stopColor="#a8b8d8" stopOpacity="0.26" />
+                <stop offset="70%" stopColor="#707890" stopOpacity="0.1" />
+                <stop offset="86%" stopColor="#c8d4e8" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0" />
               </linearGradient>
             </defs>
             <rect
@@ -86,13 +90,13 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
             <nav className="relative z-10 flex w-full items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
               <button
                 onClick={() => handleNavigate("#home")}
-                className="shrink-0 text-left text-xl font-extrabold tracking-tight text-[var(--color-text)]"
+                className="shrink-0 text-left text-xl font-extrabold tracking-tight text-[var(--color-link)]"
               >
                 Nicholas Griffiths
               </button>
 
               <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
-                <ul className="hidden items-center gap-8 md:flex">
+                <ul className="hidden items-center gap-8 lg:flex">
                   {items.map((item) => {
                     const sectionId = item.href.replace("#", "");
                     const isActive = sectionId === activeSection;
@@ -101,7 +105,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                         <button
                           onClick={() => handleNavigate(item.href)}
                           className={`font-semibold transition-colors ${
-                            isActive ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                            isActive ? "text-[var(--color-link)]" : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
                           }`}
                         >
                           {item.label}
@@ -115,7 +119,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                   <button
                     onClick={() => setMobileOpen((prev) => !prev)}
                     aria-label="Open mobile menu"
-                    className="md:hidden"
+                    className="lg:hidden"
                   >
                     <span className="sr-only">Menu</span>
                     <div className="space-y-1.5">
@@ -131,17 +135,13 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Suspense fallback={null}>
-          <StaggeredMenu
-            open={mobileOpen}
-            items={items}
-            activeSection={activeSection}
-            onNavigate={handleNavigate}
-            onClose={() => setMobileOpen(false)}
-          />
-        </Suspense>
-      </div>
+      <StaggeredMenu
+        open={mobileOpen}
+        items={items}
+        activeSection={activeSection}
+        onNavigate={handleNavigate}
+        onClose={() => setMobileOpen(false)}
+      />
     </header>
   );
 }
