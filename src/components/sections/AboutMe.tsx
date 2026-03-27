@@ -20,7 +20,7 @@ export function AboutMe() {
               </p>
               <p className="mb-6 text-lg leading-8 text-[var(--color-muted)]">
                 As a natural leader who believes in team success, I work tirelessly to ensure the highest quality in
-                everything I deliver. Now working as a QA/R&D Engineer with Tesla and freelance web developer, I
+                everything I deliver. I currently work with Spot parking as a Junior React Developer Intern. I also work as a QA/R&D Engineer with Tesla and freelance web developer, I
                 specialize in creating user-friendly, gorgeous websites that enhance your online presence and drive
                 results.
               </p>
