@@ -17,7 +17,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
       ref={heroContainerRef}
       className="section-band section-hero relative min-h-screen overflow-visible pt-24"
     >
-      <div className="pointer-events-none absolute -inset-[max(5rem,12vw)] z-0">
+      <div className="pointer-events-none absolute inset-x-0 -top-[max(5rem,12vw)] -bottom-[calc(max(5rem,12vw)+min(28vh,14rem))] z-0">
         <Particles
           interactionRef={heroContainerRef}
           interactionProximityPx={900}
