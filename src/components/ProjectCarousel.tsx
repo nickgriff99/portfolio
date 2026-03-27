@@ -24,11 +24,13 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
 
   const renderCardContent = (project: Project) => (
     <>
-      <div className="relative flex h-[96px] items-center justify-between border-b border-white/15 bg-gradient-to-r from-[color-mix(in_srgb,var(--color-link)_58%,transparent)] to-[color-mix(in_srgb,var(--color-highlight)_52%,transparent)] px-6">
+      <div className="relative flex h-[96px] items-center justify-between border-b border-[color-mix(in_srgb,var(--color-border)_38%,transparent)] bg-gradient-to-r from-[color-mix(in_srgb,var(--color-link)_58%,transparent)] to-[color-mix(in_srgb,var(--color-accent-secondary)_52%,transparent)] px-6">
         <h3 className="text-2xl font-semibold tracking-tight text-[var(--color-text)]">{project.title}</h3>
         <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-white ${
-            project.category === "frontend" ? "bg-[var(--color-accent)]" : "bg-[var(--color-highlight)]"
+          className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] ${
+            project.category === "frontend"
+              ? "bg-[var(--color-accent)] text-[#0a0a0a]"
+              : "bg-[var(--color-accent-secondary)] text-[#f4f4f5]"
           }`}
         >
           {project.category}
@@ -42,7 +44,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
           {project.tech.map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs text-[var(--color-muted)]"
+              className="rounded-full border border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-border)_10%,transparent)] px-3 py-1 text-xs text-[var(--color-muted)]"
             >
               {tech}
             </span>
@@ -53,7 +55,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
           href={project.githubLink}
           target="_blank"
           rel="noreferrer"
-          className="mt-auto inline-flex w-fit items-center rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110"
+          className="mt-auto inline-flex w-fit items-center rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110"
         >
           View Code
         </a>

@@ -36,7 +36,7 @@ export function ThankYou() {
           to you within 24 hours at the email address you provided.
         </p>
 
-        <div className="viewport-animate mb-8 rounded-lg bg-white/5 p-6">
+        <div className="viewport-animate mb-8 rounded-lg bg-[color-mix(in_srgb,var(--color-border)_12%,transparent)] p-6">
           <p className="m-0 text-sm text-[var(--color-muted)]">
             <strong>Email:</strong> nichg999@gmail.com
             <br />
@@ -47,7 +47,7 @@ export function ThankYou() {
         <div className="viewport-animate flex flex-wrap justify-center gap-4 sm:gap-6">
           <button
             onClick={() => navigate("/")}
-            className="focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-xl font-medium text-white shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+            className="focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-xl font-medium text-[#0a0a0a] shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
           >
             ← Back to Portfolio
           </button>

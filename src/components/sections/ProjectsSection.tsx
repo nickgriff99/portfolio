@@ -9,7 +9,7 @@ export function ProjectsSection() {
             id="projects-heading"
             className="section-title pointer-events-none absolute inset-x-0 top-0 z-10 mb-0 flex justify-center px-4"
           >
-            <span className="header-surface relative block w-max max-w-[min(100%,42rem)] rounded-2xl px-6 py-3 text-center">
+            <span className="header-surface relative block w-max max-w-[min(100%,42rem)] rounded-2xl px-6 py-3 text-center tracking-wide">
               Featured <span className="keyword-accent">Projects</span>
             </span>
           </h2>

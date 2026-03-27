@@ -10,6 +10,7 @@ interface GrainientProps {
   warpSpeed?: number;
   warpAmplitude?: number;
   blendAngle?: number;
+  /** Wider color transitions (higher = softer, more “blobby” blends between the three colors). */
   blendSoftness?: number;
   rotationAmount?: number;
   noiseScale?: number;
@@ -26,6 +27,8 @@ interface GrainientProps {
   color2?: string;
   color3?: string;
   className?: string;
+  /** Called when WebGL2 init fails or the shader pipeline cannot start (use CSS fallback elsewhere). */
+  onUnavailable?: () => void;
 }
 
 const hexToRgb = (hex: string): [number, number, number] => {
@@ -148,9 +151,15 @@ const Grainient: React.FC<GrainientProps> = ({
   color1 = '#FF9FFC',
   color2 = '#5227FF',
   color3 = '#B19EEF',
-  className = ''
+  className = '',
+  onUnavailable
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const onUnavailableRef = useRef(onUnavailable);
+
+  useEffect(() => {
+    onUnavailableRef.current = onUnavailable;
+  }, [onUnavailable]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -162,6 +171,7 @@ const Grainient: React.FC<GrainientProps> = ({
       dpr: Math.min(window.devicePixelRatio || 1, 2)
     });
     if (!renderer || !renderer.isWebgl2) {
+      onUnavailableRef.current?.();
       return;
     }
 

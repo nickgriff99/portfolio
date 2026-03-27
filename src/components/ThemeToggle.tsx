@@ -61,7 +61,7 @@ export function ThemeToggle() {
       aria-checked={isDark}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={toggleTheme}
-      className={`relative h-12 w-[90px] shrink-0 rounded-full border bg-white/10 text-[var(--color-text)] backdrop-blur transition-[background-color,border-color,box-shadow] hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[color-mix(in_srgb,var(--color-bg)_72%,transparent)] ${modeChrome}`}
+      className={`relative h-12 w-[90px] shrink-0 rounded-full border bg-[color-mix(in_srgb,var(--color-border)_14%,transparent)] text-[var(--color-text)] backdrop-blur transition-[background-color,border-color,box-shadow] hover:bg-[color-mix(in_srgb,var(--color-border)_22%,transparent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[color-mix(in_srgb,var(--color-bg)_72%,transparent)] ${modeChrome}`}
     >
       {/* Inactive icon on the side opposite the thumb */}
       {isDark ? (

@@ -20,6 +20,8 @@ interface ParticlesProps {
   interactionRef?: React.RefObject<HTMLElement | null>;
   /** Pixels to expand the interaction bounds beyond the target element so the cursor can be “near” (e.g. over a fixed nav) and still affect particles. */
   interactionProximityPx?: number;
+  /** Called when WebGL cannot be created (use CSS fallback elsewhere). */
+  onUnavailable?: () => void;
 }
 
 const defaultColors: string[] = ['#ffffff', '#ffffff', '#ffffff'];
@@ -120,10 +122,16 @@ const Particles: React.FC<ParticlesProps> = ({
   pixelRatio = 1,
   className,
   interactionRef,
-  interactionProximityPx = 0
+  interactionProximityPx = 0,
+  onUnavailable
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const onUnavailableRef = useRef(onUnavailable);
+
+  useEffect(() => {
+    onUnavailableRef.current = onUnavailable;
+  }, [onUnavailable]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -131,6 +139,7 @@ const Particles: React.FC<ParticlesProps> = ({
 
     const renderer = tryCreateOglRenderer({ dpr: pixelRatio, depth: false, alpha: true });
     if (!renderer) {
+      onUnavailableRef.current?.();
       return;
     }
     const gl = renderer.gl;

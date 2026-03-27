@@ -16,7 +16,7 @@ export function SkillsWidget() {
 
   return (
     <div className="skills-widget w-full h-auto">
-      <div className="mb-8 flex flex-wrap justify-center gap-3 border-b border-white/15 pb-4">
+      <div className="mb-8 flex flex-wrap justify-center gap-3 border-b border-[color-mix(in_srgb,var(--color-border)_35%,transparent)] pb-4">
         {(Object.keys(skillsData) as SkillCategoryKey[]).map((category) => (
           <button
             key={category}
@@ -24,8 +24,8 @@ export function SkillsWidget() {
             onClick={() => handleCategorySelect(category)}
             className={`cursor-pointer rounded-full px-4 py-2 font-semibold capitalize transition-all duration-300 ${
               selectedCategory === category
-                ? "bg-[var(--color-link)] text-white"
-                : "bg-white/5 text-[var(--color-muted)] hover:-translate-y-0.5 hover:bg-[var(--color-link)] hover:text-white"
+                ? "bg-[var(--color-link)] text-[#0a0a0a]"
+                : "bg-[color-mix(in_srgb,var(--color-border)_10%,transparent)] text-[var(--color-muted)] hover:-translate-y-0.5 hover:bg-[var(--color-link)] hover:text-[#0a0a0a]"
             }`}
           >
             {category}
@@ -37,7 +37,7 @@ export function SkillsWidget() {
         {skillsData[selectedCategory].map((skill, index) => (
           <span
             key={skill.name}
-            className={`inline-block cursor-default rounded-full border border-white/20 px-5 py-3 text-sm font-semibold shadow transition-all duration-300 hover:scale-110 hover:shadow-md ${
+            className={`inline-block cursor-default rounded-full border border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] px-5 py-3 text-sm font-semibold shadow transition-all duration-300 hover:scale-110 hover:shadow-md ${
               animateSkills ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
             }`}
             style={{

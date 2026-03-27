@@ -384,7 +384,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           <button
             type="button"
             onClick={() => prevActionRef.current()}
-            className="absolute left-0 hidden rounded-lg border border-white/20 bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110 md:block"
+            className="absolute left-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 md:block"
           >
             Previous
           </button>
@@ -402,7 +402,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           <button
             type="button"
             onClick={() => nextActionRef.current()}
-            className="absolute right-0 hidden rounded-lg border border-white/20 bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110 md:block"
+            className="absolute right-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 md:block"
           >
             Next
           </button>
@@ -421,7 +421,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
                 className={`h-3 w-3 rounded-full border transition-all duration-150 ${
                   isActive
                     ? "border-[var(--color-accent)] bg-[var(--color-accent)]"
-                    : "border-white/20 bg-white/10 hover:bg-white/25"
+                    : "border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[color-mix(in_srgb,var(--color-border)_12%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-border)_26%,transparent)]"
                 }`}
                 aria-label={`Go to card ${i + 1}`}
               />
@@ -435,14 +435,14 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           <button
             type="button"
             onClick={() => prevActionRef.current()}
-            className="rounded-md border border-white/20 bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110"
+            className="rounded-md border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110"
           >
             Previous
           </button>
           <button
             type="button"
             onClick={() => nextActionRef.current()}
-            className="rounded-md border border-white/20 bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110"
+            className="rounded-md border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110"
           >
             Next
           </button>

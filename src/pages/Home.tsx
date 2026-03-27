@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import Grainient from "@/bits/Grainient";
 import { Footer } from "../components/Footer";
@@ -47,6 +47,10 @@ export function Home() {
 
   useRevealOnScroll();
 
+  const [grainientUnavailable, setGrainientUnavailable] = useState(false);
+  const [particlesUnavailable, setParticlesUnavailable] = useState(false);
+  const useHeroCssFallback = grainientUnavailable || particlesUnavailable;
+
   const handleNavClick = (href: string) => {
     const id = href.replace("#", "");
     scrollToSection(id);
@@ -67,33 +71,38 @@ export function Home() {
           className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
         >
           <Grainient
+            onUnavailable={() => setGrainientUnavailable(true)}
             color1="#000000"
-            color2="#353131"
-            color3="#25313c"
-            timeSpeed={0.2}
-            colorBalance={0.27}
-            warpStrength={3.45}
-            warpFrequency={6.4}
-            warpSpeed={2}
-            warpAmplitude={17}
-            blendAngle={50}
-            blendSoftness={0.6}
-            rotationAmount={500}
-            noiseScale={0.35}
+            color2="#0d273B"
+            color3="#194360"
+            timeSpeed={0.05}
+            colorBalance={-0.12}
+            warpStrength={0.58}
+            warpFrequency={0.48}
+            warpSpeed={0}
+            warpAmplitude={42}
+            blendAngle={144}
+            blendSoftness={1.28}
+            rotationAmount={300}
+            noiseScale={1.25}
             grainAmount={0}
-            grainScale={2}
+            grainScale={0.2}
             grainAnimated={false}
-            contrast={1.5}
-            gamma={1.25}
-            saturation={1.4}
-            centerX={-0.2}
-            centerY={-0.15}
-            zoom={0.9}
+            contrast={0.8}
+            gamma={0.82}
+            saturation={0.9}
+            centerX={0.5}
+            centerY={-0.5}
+            zoom={0.6}
           />
         </div>
 
         <main className="relative z-10 w-full">
-          <HeroSection onNavigate={handleNavClick} />
+          <HeroSection
+            onNavigate={handleNavClick}
+            useHeroCssFallback={useHeroCssFallback}
+            onParticlesUnavailable={() => setParticlesUnavailable(true)}
+          />
           <AboutMe />
           <SkillsAndTechnologies />
           <Experience />
@@ -113,7 +122,7 @@ export function Home() {
           type="button"
           aria-label="Return to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-white shadow-lg shadow-black/20 transition-all duration-300 hover:brightness-110 ${
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-all duration-300 hover:brightness-110 ${
             showBackToTop ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
           }`}
         >

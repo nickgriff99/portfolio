@@ -1,6 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
+import { createPortal } from "react-dom";
 import type { NavItem } from "../types";
+import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 type StaggeredMenuProps = {
@@ -11,6 +11,11 @@ type StaggeredMenuProps = {
   onClose: () => void;
 };
 
+/**
+ * Mobile drawer + backdrop rendered via portal (header uses transform; fixed children would be trapped).
+ * Uses CSS transforms only — GSAP inline styles previously overrode Tailwind and could leave opacity:0 stuck
+ * (e.g. after prefers-reduced-motion toggled or effect early-return).
+ */
 export function StaggeredMenu({
   open,
   items,
@@ -18,59 +23,27 @@ export function StaggeredMenu({
   onNavigate,
   onClose,
 }: StaggeredMenuProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  useLayoutEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const panel = panelRef.current;
-    if (!panel) {
-      return;
-    }
-
-    const links = panel.querySelectorAll(".sm-item");
-
-    if (open) {
-      gsap.fromTo(
-        panel,
-        { xPercent: 100, opacity: 0 },
-        { xPercent: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
-      );
-
-      gsap.fromTo(
-        links,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.08, duration: 0.36, ease: "power2.out", delay: 0.1 },
-      );
-      return;
-    }
-
-    gsap.to(panel, {
-      xPercent: 100,
-      opacity: 0,
-      duration: 0.28,
-      ease: "power2.in",
-    });
-  }, [open, prefersReducedMotion]);
-
-  return (
+  return createPortal(
     <>
       <div
-        className={`fixed inset-0 z-40 bg-[#1B264F]/45 backdrop-blur-sm transition-opacity md:hidden ${
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={cn(
+          "fixed inset-0 z-[100] bg-[color-mix(in_srgb,var(--color-bg)_50%,transparent)] backdrop-blur-sm transition-opacity duration-300 ease-out motion-reduce:transition-none lg:hidden",
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+        )}
         onClick={onClose}
+        aria-hidden={!open}
       />
       <aside
-        ref={panelRef}
-        className={`fixed right-0 top-0 z-50 h-screen w-[86vw] max-w-sm border-l border-white/20 bg-[var(--color-surface)] p-8 transition-transform duration-300 md:hidden ${
-          open
-            ? "pointer-events-auto translate-x-0 opacity-100"
-            : "pointer-events-none translate-x-full opacity-0"
-        }`}
+        className={cn(
+          "fixed right-0 top-0 z-[110] h-screen w-[86vw] max-w-sm border-l border-[color-mix(in_srgb,var(--color-border)_45%,transparent)] bg-[var(--color-surface)] p-8 shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
+          open ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full",
+        )}
+        aria-hidden={!open}
+        aria-label="Site navigation"
+        {...(open ? { "aria-modal": true as const } : {})}
+        role="dialog"
       >
         <p className="mb-8 text-sm uppercase tracking-[0.3em] text-[var(--color-soft)]">Menu</p>
         <ul className="space-y-4">
@@ -78,12 +51,24 @@ export function StaggeredMenu({
             const sectionId = item.href.replace("#", "");
             const isActive = sectionId === activeSection;
             return (
-              <li key={item.label}>
+              <li
+                key={item.label}
+                className={cn(
+                  "transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none",
+                  open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+                )}
+                style={{
+                  transitionDelay:
+                    open && !prefersReducedMotion ? `${80 + index * 50}ms` : "0ms",
+                }}
+              >
                 <button
+                  type="button"
                   onClick={() => onNavigate(item.href)}
-                  className={`sm-item w-full text-left text-3xl font-semibold tracking-tight transition-colors ${
-                    isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text)] hover:text-[var(--color-accent)]"
-                  }`}
+                  className={cn(
+                    "sm-item w-full text-left text-3xl font-semibold tracking-tight transition-colors",
+                    isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text)] hover:text-[var(--color-accent)]",
+                  )}
                 >
                   <span className="mr-3 text-base align-middle text-[var(--color-soft)]">0{index + 1}</span>
                   {item.label}
@@ -93,6 +78,7 @@ export function StaggeredMenu({
           })}
         </ul>
       </aside>
-    </>
+    </>,
+    document.body,
   );
 }

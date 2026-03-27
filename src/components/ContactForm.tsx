@@ -146,7 +146,7 @@ export function ContactForm() {
       <div className="form-group">
         <button
           type="submit"
-          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-[#0a0a0a] shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           id="submitBtn"
           disabled={isSubmitting}
         >
