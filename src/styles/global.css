@@ -67,10 +67,13 @@
   html {
     scroll-behavior: smooth;
     background-color: var(--color-bg);
+    /* Site-wide: block horizontal scroll without clipping vertical overflow of descendants */
+    overflow-x: hidden;
     @apply font-sans;
   }
 
   body {
+    overflow-x: hidden;
     @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 24%, transparent) 0%, transparent 38%),
