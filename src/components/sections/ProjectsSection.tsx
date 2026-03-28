@@ -13,7 +13,7 @@ export function ProjectsSection() {
               Featured <span className="keyword-accent">Projects</span>
             </span>
           </h2>
-          <div className="pt-16 sm:pt-20 md:pt-24">
+          <div className="pt-16 sm:pt-20 lg:pt-24">
             <ProjectCarousel layoutMode="multi" />
           </div>
         </div>

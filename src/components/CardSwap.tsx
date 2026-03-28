@@ -384,7 +384,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           <button
             type="button"
             onClick={() => prevActionRef.current()}
-            className="absolute left-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 md:block"
+            className="absolute left-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 lg:block"
           >
             Previous
           </button>
@@ -402,7 +402,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
           <button
             type="button"
             onClick={() => nextActionRef.current()}
-            className="absolute right-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 md:block"
+            className="absolute right-0 hidden rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[var(--color-accent)] px-3 py-2 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:brightness-110 lg:block"
           >
             Next
           </button>
@@ -431,7 +431,7 @@ export const CardSwap: React.FC<CardSwapProps> = ({
       ) : null}
 
       {showControls && cardCount > 1 ? (
-        <div className="flex gap-3 md:hidden">
+        <div className="flex gap-3 lg:hidden">
           <button
             type="button"
             onClick={() => prevActionRef.current()}
