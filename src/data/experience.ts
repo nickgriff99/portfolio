@@ -4,7 +4,7 @@ export const experienceData: TimelineEntry[] = [
   {
     title: "Junior React Developer Intern",
     organization: "Spot Parking",
-    duration: "June 2026 - Present",
+    duration: "January 2026 - Present",
     bullets: [
       "Built six production pages using React, reusing existing components for consistency",
       "Redesigned the Help page to improve usability and content structure",
