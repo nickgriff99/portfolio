@@ -67,7 +67,7 @@ export function ProjectCarousel({ layoutMode = "multi" }: ProjectCarouselProps) 
     <div className="viewport-animate w-full">
       {prefersReducedMotion ? (
         <div
-          className={`grid gap-5 ${layoutMode === "single" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}
+          className={`grid gap-5 ${layoutMode === "single" ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-2"}`}
         >
           {projects.map((project) => (
             <article

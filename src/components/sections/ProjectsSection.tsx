@@ -7,13 +7,13 @@ export function ProjectsSection() {
         <div className="relative">
           <h2
             id="projects-heading"
-            className="section-title pointer-events-none absolute inset-x-0 top-0 z-10 mb-0 flex justify-center px-4"
+            className="section-title pointer-events-none absolute inset-x-0 top-0 z-10 -mt-16 sm:-mt-12 flex justify-center px-4 lg:-mt-6"
           >
             <span className="header-surface relative block w-max max-w-[min(100%,42rem)] rounded-2xl px-6 py-3 text-center tracking-wide">
               Featured <span className="keyword-accent">Projects</span>
             </span>
           </h2>
-          <div className="pt-16 sm:pt-20 md:pt-24">
+          <div className="pt-16 sm:pt-20 lg:pt-24">
             <ProjectCarousel layoutMode="multi" />
           </div>
         </div>

@@ -86,8 +86,8 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
           <button onClick={() => onNavigate("#projects")} className="btn-primary">
             View My Work
           </button>
-          <button onClick={() => onNavigate("#contact")} className="btn-secondary">
-            Get In Touch
+          <button onClick={() => onNavigate("#about-me")} className="btn-secondary">
+            About Me
           </button>
         </div>
       </div>

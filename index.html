@@ -2,24 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Apply saved theme before first paint so :root[data-theme] CSS matches localStorage. -->
-    <script>
-      (function () {
-        try {
-          var k = "portfolio-theme";
-          var t = localStorage.getItem(k);
-          if (t === "light" || t === "dark") {
-            document.documentElement.setAttribute("data-theme", t);
-            document.documentElement.style.colorScheme = t;
-            return;
-          }
-          if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-            document.documentElement.setAttribute("data-theme", "light");
-            document.documentElement.style.colorScheme = "light";
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <meta name="color-scheme" content="dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"

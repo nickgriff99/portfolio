@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import Grainient from "@/bits/Grainient";
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
-// import { ThemeToggle } from "../components/ThemeToggle";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
 import { Education } from "../components/sections/Education";
@@ -117,7 +116,6 @@ export function Home() {
       </div>
 
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
-        {/* <ThemeToggle /> */}
         <button
           type="button"
           aria-label="Return to top"

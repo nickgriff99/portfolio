@@ -2,7 +2,7 @@ import { AdaptiveGrid } from "../AdaptiveGrid";
 
 export function AboutMe() {
   return (
-    <section id="about" className="section-band">
+    <section id="about-me" className="section-band">
       <div className="content-shell">
         <h2 className="section-title">
           <span className="header-surface relative inline-block rounded-2xl px-6 py-3 tracking-wide">
