@@ -11,10 +11,21 @@ export interface Project {
   id: number;
   title: string;
   category: "frontend" | "backend";
+  /** One-line hook under the title */
+  tagline: string;
   description: string;
   tech: string[];
-  githubLink: string;
-  featured: boolean;
+  /** Screenshot or placeholder under /public */
+  imageSrc: string;
+  imageAlt: string;
+  /** Primary CTA when a public app exists */
+  liveUrl?: string;
+  /** Repository or secondary link */
+  githubLink?: string;
+  /** Extra line(s) for the Deployment cell (e.g. Discord: no web URL) */
+  deploymentNote?: string;
+  /** Small header badge for client / flagship work */
+  isClientProject?: boolean;
 }
 
 export interface TimelineEntry {

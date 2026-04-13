@@ -1,4 +1,4 @@
-import { ProjectCarousel } from "../ProjectCarousel";
+import { ProjectsShowcase } from "../ProjectsShowcase";
 
 export function ProjectsSection() {
   return (
@@ -14,7 +14,7 @@ export function ProjectsSection() {
             </span>
           </h2>
           <div className="pt-16 sm:pt-20 lg:pt-24">
-            <ProjectCarousel layoutMode="multi" />
+            <ProjectsShowcase />
           </div>
         </div>
       </div>
