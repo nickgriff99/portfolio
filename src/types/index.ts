@@ -13,19 +13,26 @@ export interface Project {
   category: "frontend" | "backend";
   /** One-line hook under the title */
   tagline: string;
+  /** Longer narrative; used for SEO and optional expanded context */
   description: string;
+  /** Short outcome bullets for project cards (problem → build → result) */
+  highlights: string[];
   tech: string[];
-  /** Screenshot or placeholder under /public */
+  /** Preview image under /public (WebP/PNG/SVG) */
   imageSrc: string;
   imageAlt: string;
   /** Primary CTA when a public app exists */
   liveUrl?: string;
   /** Repository or secondary link */
   githubLink?: string;
-  /** Extra line(s) for the Deployment cell (e.g. Discord: no web URL) */
+  /** Extra line when there is no public URL or deploy is unusual */
   deploymentNote?: string;
-  /** Small header badge for client / flagship work */
+  /** Surfaces in the “Client work” filter */
   isClientProject?: boolean;
+  /** e.g. “Solo build — design + front-end” */
+  role?: string;
+  /** Small proof badges (stack slice, impact, constraint) */
+  metrics?: string[];
 }
 
 export interface TimelineEntry {
