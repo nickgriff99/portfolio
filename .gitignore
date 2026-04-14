@@ -29,6 +29,9 @@ coverage
 # Netlify CLI local folder
 .netlify
 
+# Temporary clones for screenshot scripts
+scripts/.capture-work/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

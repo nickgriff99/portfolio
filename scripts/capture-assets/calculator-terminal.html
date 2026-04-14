@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1600" />
+  <title>Node calculator — terminal capture</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 1600px;
+      height: 1000px;
+      overflow: hidden;
+      background: #0c0c0c;
+      color: #cccccc;
+      font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .wrap {
+      padding: 28px 36px;
+      height: 1000px;
+    }
+    .prompt { color: #6a9955; }
+    .cmd { color: #dcdcaa; }
+    .dim { color: #858585; }
+    .num { color: #b5cea8; }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <pre><span class="prompt">PS C:\node-calculator&gt;</span> <span class="cmd">node index.js</span>
+
+<span class="dim">What operation would you like to perform? (/, *, -, +)
+Or enter a full equation:</span>
+<span class="num">12+34</span>
+
+The result is: 46
+</pre>
+  </div>
+</body>
+</html>
