@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 const STORAGE_KEY = "cookie-consent";
 
@@ -11,10 +11,6 @@ function readStoredConsent(): ConsentStatus {
 
 export function useConsent() {
   const [consent, setConsentState] = useState<ConsentStatus>(readStoredConsent);
-
-  useEffect(() => {
-    setConsentState(readStoredConsent());
-  }, []);
 
   const setConsent = useCallback((value: ConsentStatus) => {
     if (value === undefined) {
