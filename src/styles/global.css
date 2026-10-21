@@ -143,11 +143,15 @@
   }
 
   .content-shell {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-column {
+    @apply max-w-[70ch];
   }
 
   .section-title {
-    @apply mb-10 text-center font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl;
+    @apply mb-10 text-center font-display text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl;
     color: var(--color-text);
     text-wrap: balance;
   }
