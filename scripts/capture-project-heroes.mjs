@@ -15,8 +15,16 @@ const shots = [
     out: join(root, "public/projects/bgmid-hero.png"),
   },
   {
-    url: "https://youtubemusicbot.netlify.app/",
-    out: join(root, "public/projects/discord-bot-hero.png"),
+    url: "https://clackforge-client.onrender.com",
+    out: join(root, "public/projects/clackforge-hero.png"),
+  },
+  {
+    url: "https://thelistinghub-demo.netlify.app",
+    out: join(root, "public/projects/thelistinghub-hero.png"),
+  },
+  {
+    url: "https://streak-garden-client.onrender.com/",
+    out: join(root, "public/projects/streak-garden-hero.png"),
   },
 ];
 

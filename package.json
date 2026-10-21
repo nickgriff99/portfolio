@@ -11,8 +11,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
-    "capture:heroes": "node scripts/capture-project-heroes.mjs",
-    "capture:local-projects": "node scripts/capture-local-projects.mjs"
+    "capture:heroes": "node scripts/capture-project-heroes.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
