@@ -142,6 +142,28 @@
       radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 52%);
   }
 
+  /* Hero portrait grounding treatment. The portrait is now a transparent background-removed
+     cutout (no rectangle to wash with `multiply` anymore), so this just sits *behind* the <img>
+     in paint order and shows straight through the real alpha padding around the subject:
+     a low-opacity ambient glow centered roughly behind the figure's torso for depth, plus a
+     softly-feathered elliptical "contact shadow" low in the column so the figure reads as
+     standing in the scene instead of floating. Restrained on purpose — gradients alone give the
+     soft edges, no `filter: blur` (would smear against the column's `overflow-hidden` edge). */
+  .hero-photo-overlay {
+    background:
+      radial-gradient(
+        ellipse 46% 9% at 50% 94%,
+        color-mix(in srgb, var(--color-bg) 65%, transparent) 0%,
+        color-mix(in srgb, var(--color-bg) 30%, transparent) 55%,
+        transparent 100%
+      ),
+      radial-gradient(
+        circle at 50% 42%,
+        color-mix(in srgb, var(--color-link) 16%, transparent) 0%,
+        transparent 60%
+      );
+  }
+
   .content-shell {
     @apply mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8;
   }
@@ -325,7 +347,7 @@
   }
 
   .btn-primary {
-    @apply rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
+    @apply focus-ring rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }
@@ -336,7 +358,7 @@
   }
 
   .btn-secondary {
-    @apply rounded-xl border px-6 py-3 text-lg font-semibold transition-colors duration-300;
+    @apply focus-ring rounded-xl border px-6 py-3 text-lg font-semibold transition-colors duration-300;
     border-color: color-mix(in srgb, var(--color-border) 55%, transparent);
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-surface) 65%, transparent);
