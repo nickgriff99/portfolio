@@ -42,7 +42,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
         />
       </div>
       <div className="content-shell relative z-20 flex min-h-[72vh] flex-col items-center justify-center text-center">
-        <h1 className="viewport-animate mb-5 text-4xl font-extrabold text-[var(--color-text)] sm:text-5xl lg:text-7xl">
+        <h1 className="viewport-animate mb-5 text-5xl font-extrabold text-[var(--color-text)] sm:text-7xl lg:text-8xl">
           Hello, I&apos;m{" "}
           <ShinyText
             text="Nicholas Griffiths"
@@ -57,7 +57,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
             disabled={false}
         />
         </h1>
-        <h2 className="viewport-animate mb-6 text-2xl font-semibold text-[var(--color-link)] sm:text-3xl tracking-wider">
+        <h2 className="viewport-animate mb-6 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
           <TextType
             text={["Web Development", "User Experience", "Software Engineering"]}
             typingSpeed={75}
