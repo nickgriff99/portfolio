@@ -18,7 +18,7 @@ const filterCategories: Array<{ key: FilterKey; label: string }> = [
 function categoryPillClass(category: Project["category"]) {
   if (category === "frontend") return "bg-[var(--color-accent)] text-[#0a0a0a]";
   if (category === "fullstack") return "bg-[var(--color-link)] text-[#0a0a0a]";
-  return "bg-[var(--color-accent-secondary)] text-[#f4f4f5]";
+  return "bg-[var(--color-dev)] text-[#f4f4f5]";
 }
 
 function projectPrimaryHref(project: Project): string | undefined {

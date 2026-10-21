@@ -48,8 +48,8 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
             text="Nicholas Griffiths"
             speed={4}
             delay={0}
-            color="#f59e0b"
-            shineColor="#fcd34d"
+            color="#a3e635"
+            shineColor="#e4ffb0"
             spread={70}
             direction="left"
             yoyo={false}

@@ -22,7 +22,7 @@ export function AboutMe() {
                 Tesla, and I&apos;m actively looking for a full-stack role where I can do this full-time.
               </p>
               <p className="text-lg leading-8 text-[var(--color-muted)]">
-                Oh, and careful what you say around my receipts-bot — he keeps receipts. 😉
+                Oh, and careful what you say around my receipts-bot... he keeps receipts... 😉
               </p>
             </div>
           </div>
