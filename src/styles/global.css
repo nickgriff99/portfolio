@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 
 @tailwind base;
 @tailwind components;
@@ -9,17 +10,17 @@
 
 :root {
   --color-bg: #000000;
-  --color-bg-soft: #121212;
-  --color-surface: #0b1014;
-  --color-surface-alt: #121212;
-  --color-text: #cdd7df;
-  --color-muted: #94a3b8;
-  --color-soft: #a8b4c4;
-  --color-accent: #f59e0b;
-  --color-accent-secondary: #008b8b;
-  --color-highlight: #ff0000;
-  --color-link: #00ffff;
-  --color-border: #708090;
+  --color-bg-soft: #121210;
+  --color-surface: #0c0b09;
+  --color-surface-alt: #121210;
+  --color-text: #e8e4d9;
+  --color-muted: #9c9888;
+  --color-soft: #c2bca8;
+  --color-accent: #a3e635;
+  --color-dev: #d6a253;
+  --color-highlight: #e8464f;
+  --color-link: #7c5cfc;
+  --color-border: #8a8470;
 }
 
 @property --metal-a {
@@ -67,7 +68,7 @@
     @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 22%, transparent) 0%, transparent 38%),
-      radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--color-accent-secondary) 20%, transparent) 0%, transparent 34%),
+      radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--color-dev) 20%, transparent) 0%, transparent 34%),
       linear-gradient(180deg, var(--color-bg), var(--color-bg-soft));
     color: var(--color-text);
     transition: background-color 320ms ease, color 320ms ease, background 420ms ease;
@@ -81,6 +82,7 @@
   .theme {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
+    --font-mono: 'Geist Mono Variable', monospace;
   }
   :root {
     --background: oklch(0 0 0);
@@ -325,7 +327,7 @@
   }
 
   .btn-primary:hover {
-    background-color: var(--color-accent-secondary);
+    background-color: var(--color-dev);
     color: #f4f4f5;
   }
 

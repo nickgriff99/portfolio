@@ -4,7 +4,7 @@ export const educationData: TimelineEntry[] = [
   {
     title: "Full-Stack Engineer — Professional Certification",
     organization: "Codecademy",
-    duration: "2025 - October 2026",
+    duration: "September 2025 - October 2026",
     bullets: [
       "Mastered comprehensive full-stack curriculum through interactive coding exercises and challenges",
       "Built strong foundational knowledge in JavaScript ES6+, React, Node.js, SQL, and Git workflows",
@@ -17,7 +17,7 @@ export const educationData: TimelineEntry[] = [
   {
     title: "Full-Stack Software Engineering Certificate",
     organization: "Devslopes Academy",
-    duration: "2023 - 2025",
+    duration: "December 2023 - September 2025",
     bullets: [
       "Completed project-driven bootcamp building 8+ full-stack applications from concept to deployment",
       "Developed real-world portfolio projects including e-commerce platforms, social media apps, and RESTful APIs",

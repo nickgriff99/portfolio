@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ["Space Grotesk", "sans-serif"],
         display: ["Sora", "sans-serif"],
+        mono: ["Geist Mono Variable", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -15,9 +16,7 @@ export default {
       },
       colors: {
         brand: {
-          primary: "#00FFFF",
-          dark: "#000000",
-          light: "#C0C0C0",
+          primary: "var(--color-link)",
         },
         /* shadcn/ui semantic tokens — map to CSS vars in global.css */
         background: "var(--background)",
@@ -45,8 +44,6 @@ export default {
         accent: {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
-          amber: "#FF0000",
-          emerald: "#008B8B",
         },
         destructive: "var(--destructive)",
         border: "var(--border)",

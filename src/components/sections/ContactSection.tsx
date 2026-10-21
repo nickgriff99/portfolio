@@ -34,7 +34,7 @@ export function ContactSection() {
               <div className="flex gap-4">
                 <a
                   href="https://www.linkedin.com/in/nicholas-griffiths-1a1883220/"
-                  className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)]"
+                  className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -42,7 +42,7 @@ export function ContactSection() {
                 </a>
                 <a
                   href="https://github.com/nickgriff99"
-                  className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)]"
+                  className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
                   target="_blank"
                   rel="noreferrer"
                 >
