@@ -19,7 +19,7 @@
   --color-accent: #a3e635;
   --color-dev: #d6a253;
   --color-highlight: #e8464f;
-  --color-link: #7c5cfc;
+  --color-link: #4fddd1;
   --color-border: #8a8470;
 }
 
@@ -142,8 +142,28 @@
       radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 52%);
   }
 
+  /* Hero portrait grounding treatment. Particles (starfield) now render behind the *entire*
+     hero section, both columns — see HeroSection.tsx — so this overlay must stay out of the way:
+     the transparent padding around the cutout needs to show the starfield cleanly through, like
+     the figure was pasted onto the background. Dropped the old ambient glow entirely (it used
+     `radial-gradient(circle at ...)` with implicit farthest-corner sizing, which washed most of
+     the column, not just the area near the figure — exactly what was blocking the particles).
+     What's left: one tight, soft contact-shadow puddle right under the feet, sized to roughly the
+     figure's footprint rather than the column, for minimal grounding only. Still no `filter: blur`
+     (would smear against the column's `overflow-hidden` edge) — softness is purely the gradient's
+     own stop percentages. Positioned near the very bottom edge (not mid-column) because
+     `object-bottom` on the <img> already pins the figure's feet to y≈100% of this box. */
+  .hero-photo-overlay {
+    background: radial-gradient(
+      ellipse 16% 4% at 50% 98%,
+      color-mix(in srgb, var(--color-bg) 45%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 15%, transparent) 55%,
+      transparent 100%
+    );
+  }
+
   .content-shell {
-    @apply mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full px-4 sm:px-6 lg:px-8;
   }
 
   .text-column {
@@ -325,7 +345,7 @@
   }
 
   .btn-primary {
-    @apply rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
+    @apply focus-ring rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }
@@ -336,7 +356,7 @@
   }
 
   .btn-secondary {
-    @apply rounded-xl border px-6 py-3 text-lg font-semibold transition-colors duration-300;
+    @apply focus-ring rounded-xl border px-6 py-3 text-lg font-semibold transition-colors duration-300;
     border-color: color-mix(in srgb, var(--color-border) 55%, transparent);
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-surface) 65%, transparent);
