@@ -1,23 +1,24 @@
 import { useMemo, useState, type ReactNode } from "react";
 
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Terminal } from "lucide-react";
 
 import { projectsData } from "../data/projects";
 import type { Project } from "../types";
 
-type FilterKey = "all" | "frontend" | "backend" | "client";
+type FilterKey = "all" | "frontend" | "backend" | "fullstack" | "client";
 
 const filterCategories: Array<{ key: FilterKey; label: string }> = [
   { key: "all", label: "All" },
   { key: "frontend", label: "Frontend" },
   { key: "backend", label: "Backend" },
+  { key: "fullstack", label: "Full-stack" },
   { key: "client", label: "Client work" },
 ];
 
 function categoryPillClass(category: Project["category"]) {
-  return category === "frontend"
-    ? "bg-[var(--color-accent)] text-[#0a0a0a]"
-    : "bg-[var(--color-accent-secondary)] text-[#f4f4f5]";
+  if (category === "frontend") return "bg-[var(--color-accent)] text-[#0a0a0a]";
+  if (category === "fullstack") return "bg-[var(--color-link)] text-[#0a0a0a]";
+  return "bg-[var(--color-accent-secondary)] text-[#f4f4f5]";
 }
 
 function projectPrimaryHref(project: Project): string | undefined {
@@ -58,19 +59,25 @@ function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_38%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] shadow-[0_20px_48px_color-mix(in_srgb,var(--color-bg)_58%,transparent)] transition-[box-shadow,transform] duration-300 hover:shadow-[0_28px_56px_color-mix(in_srgb,var(--color-bg)_45%,transparent)] motion-reduce:transition-none">
-      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[var(--color-bg-soft)]">
-        <img
-          src={project.imageSrc}
-          alt={project.imageAlt}
-          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:transition-none"
-          loading="lazy"
-          decoding="async"
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--color-bg)_72%,transparent)] via-transparent to-transparent"
-          aria-hidden
-        />
-      </div>
+      {project.imageSrc ? (
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[var(--color-bg-soft)]">
+          <img
+            src={project.imageSrc}
+            alt={project.imageAlt}
+            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:transition-none"
+            loading="lazy"
+            decoding="async"
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--color-bg)_72%,transparent)] via-transparent to-transparent"
+            aria-hidden
+          />
+        </div>
+      ) : (
+        <div className="relative flex aspect-[16/10] w-full shrink-0 items-center justify-center overflow-hidden bg-[var(--color-bg-soft)]">
+          <Terminal className="size-12 text-[var(--color-muted)] opacity-40" aria-hidden />
+        </div>
+      )}
 
       <div className="flex min-h-0 flex-1 flex-col p-6 sm:p-7">
         <div className="flex min-h-0 flex-1 flex-col">

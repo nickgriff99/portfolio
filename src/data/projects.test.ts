@@ -20,10 +20,12 @@ describe("projectsData", () => {
       expect(p.highlights.length).toBeGreaterThan(0);
       expect(p.tech.length).toBeGreaterThan(0);
 
-      expect(p.imageSrc.startsWith("/")).toBe(true);
-      expect(p.imageAlt.trim().length).toBeGreaterThan(0);
+      if (p.imageSrc !== undefined || p.imageAlt !== undefined) {
+        expect(p.imageSrc?.startsWith("/")).toBe(true);
+        expect(p.imageAlt?.trim().length).toBeGreaterThan(0);
+      }
 
-      expect(p.category === "frontend" || p.category === "backend").toBe(true);
+      expect(p.category === "frontend" || p.category === "backend" || p.category === "fullstack").toBe(true);
 
       const hasLive = Boolean(p.liveUrl);
       const hasGithub = Boolean(p.githubLink);
