@@ -10,7 +10,7 @@ export type SkillsMap = Record<SkillCategoryKey, Skill[]>;
 export interface Project {
   id: number;
   title: string;
-  category: "frontend" | "backend";
+  category: "frontend" | "backend" | "fullstack";
   /** One-line hook under the title */
   tagline: string;
   /** Longer narrative; used for SEO and optional expanded context */
@@ -19,8 +19,8 @@ export interface Project {
   highlights: string[];
   tech: string[];
   /** Preview image under /public (WebP/PNG/SVG) */
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc?: string;
+  imageAlt?: string;
   /** Primary CTA when a public app exists */
   liveUrl?: string;
   /** Repository or secondary link */
@@ -40,6 +40,10 @@ export interface TimelineEntry {
   organization: string;
   duration: string;
   bullets: string[];
+  /** Verification ID for a completed professional certification */
+  credentialId?: string;
+  /** Path to a hosted certificate asset under /public (PDF/image) */
+  credentialUrl?: string;
 }
 
 export interface NavItem {

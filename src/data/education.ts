@@ -2,15 +2,17 @@ import type { TimelineEntry } from "../types";
 
 export const educationData: TimelineEntry[] = [
   {
-    title: "Full-Stack Web Development Certificate",
+    title: "Full-Stack Engineer — Professional Certification",
     organization: "Codecademy",
-    duration: "2025 - Present",
+    duration: "2025 - October 2026",
     bullets: [
-      "Mastering comprehensive full-stack curriculum through interactive coding exercises and challenges",
-      "Building strong foundational knowledge in JavaScript ES6+, React, Node.js, SQL, and Git workflows",
-      "Completing hands-on labs and skill assessments covering responsive design, API integration, and database management",
-      "Strengthening problem-solving abilities through structured learning paths and coding practice",
+      "Mastered comprehensive full-stack curriculum through interactive coding exercises and challenges",
+      "Built strong foundational knowledge in JavaScript ES6+, React, Node.js, SQL, and Git workflows",
+      "Completed hands-on labs and skill assessments covering responsive design, API integration, and database management",
+      "Strengthened problem-solving abilities through structured learning paths and coding practice",
     ],
+    credentialId: "8A9F85D8-D",
+    credentialUrl: "/credentials/codecademy-full-stack-engineer-certificate.pdf",
   },
   {
     title: "Full-Stack Software Engineering Certificate",
