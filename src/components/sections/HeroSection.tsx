@@ -27,11 +27,32 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
         useHeroCssFallback && "section-hero--css-fallback",
       )}
     >
-      {/* Full-bleed 2-col grid: touches true viewport edges, only capped by the site's ultrawide max-width.
+      {/* Particles span the full hero section (both columns), mounted as a sibling behind the
+          grid so transparent areas of the photo cutout show the starfield too, not just the
+          text column. z-0 here, grid wrapper below is z-10. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+        <Particles
+          onUnavailable={onParticlesUnavailable}
+          interactionRef={heroContainerRef}
+          interactionProximityPx={900}
+          particleColors={["#ffffff"]}
+          particleCount={800}
+          particleSpread={10}
+          speed={0.1}
+          particleBaseSize={100}
+          moveParticlesOnHover
+          alphaParticles
+          disableRotation
+          pixelRatio={4}
+        />
+      </div>
+
+      {/* Full-bleed 2-col grid: touches true viewport edges, no max-width cap (brutalist
+          full-bleed, matches `.content-shell`'s cap removal in global.css).
           DOM order stays photo-first/text-second at every breakpoint (neither column carries
           interactive content, so this doesn't disturb tab order or reading order) — only the
           *visual* order flips to text-left/photo-right at md+ via `order` utilities below. */}
-      <div className="mx-auto grid w-full max-w-[1920px] grid-cols-1 md:grid-cols-2">
+      <div className="relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
         {/* Photo column (LCP element). md:order-2 pushes it to the right on desktop. */}
         <div className="relative min-h-[60vh] w-full overflow-hidden md:order-2 md:min-h-screen">
           {/* Grounding treatment, painted behind the cutout (declared first in DOM, no z-index
@@ -53,23 +74,6 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
 
         {/* Text column. md:order-1 pulls it to the left on desktop. */}
         <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center overflow-hidden px-6 py-16 sm:px-8 md:order-1 md:min-h-screen md:px-12 md:py-0 lg:px-16">
-          <div className="pointer-events-none absolute inset-0 z-0">
-            <Particles
-              onUnavailable={onParticlesUnavailable}
-              interactionRef={heroContainerRef}
-              interactionProximityPx={900}
-              particleColors={["#ffffff"]}
-              particleCount={800}
-              particleSpread={10}
-              speed={0.1}
-              particleBaseSize={100}
-              moveParticlesOnHover
-              alphaParticles
-              disableRotation
-              pixelRatio={4}
-            />
-          </div>
-
           <div className="relative z-10 flex flex-col items-start text-left">
             <span className="viewport-animate mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
