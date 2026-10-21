@@ -13,21 +13,16 @@ export function AboutMe() {
           <div className="viewport-animate w-full">
             <div className="header-surface relative rounded-2xl p-8">
               <p className="mb-6 text-lg leading-8 text-[var(--color-muted)]">
-                Hello world! I&apos;m Nick, a web developer with a strong focus on professionalism and attention to
-                detail-making your site look EXTRA nice. With a diverse background spanning management, sales, and
-                quality assurance, I bring valuable real-world experience and exceptional time management skills to every
-                project.
+                I build full-stack products end-to-end — from the PostgreSQL schema to a Three.js configurator people
+                actually enjoy using. Clean architecture and a sharp interface aren&apos;t separate skills to me; the
+                stack and the experience get designed together, which is exactly what this site is built to prove.
               </p>
               <p className="mb-6 text-lg leading-8 text-[var(--color-muted)]">
-                As a natural leader who believes in team success, I work tirelessly to ensure the highest quality in
-                everything I deliver. I currently work with Spot parking as a Junior React Developer Intern. I also work as a QA/R&D Engineer with Tesla and freelance web developer, I
-                specialize in creating user-friendly, gorgeous websites that enhance your online presence and drive
-                results.
+                I recently wrapped a six-month React contract at Spot Parking, I&apos;m currently a Data Labeller at
+                Tesla, and I&apos;m actively looking for a full-stack role where I can do this full-time.
               </p>
               <p className="text-lg leading-8 text-[var(--color-muted)]">
-                I&apos;m passionate about continuous learning and staying current with emerging technologies and trends. My
-                approach combines strong people skills and work ethic from my previous roles with ever-evolving web
-                development expertise, always looking for ways to improve operations and enhance the user experience.
+                Oh, and careful what you say around my receipts-bot — he keeps receipts. 😉
               </p>
             </div>
           </div>

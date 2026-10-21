@@ -14,7 +14,7 @@ export const experienceData: TimelineEntry[] = [
     ],
   },
   {
-    title: "QA/R&D Engineer",
+    title: "Data Labeller",
     organization: "Tesla",
     duration: "February 2025 - Present",
     bullets: [
