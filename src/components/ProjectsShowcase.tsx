@@ -58,7 +58,7 @@ function ProjectCard({ project }: { project: Project }) {
   }
 
   return (
-    <article className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_38%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] shadow-[0_20px_48px_color-mix(in_srgb,var(--color-bg)_58%,transparent)] transition-[box-shadow,transform] duration-300 hover:shadow-[0_28px_56px_color-mix(in_srgb,var(--color-bg)_45%,transparent)] motion-reduce:transition-none">
+    <article className="group flex h-full min-h-0 flex-col overflow-hidden rounded-none border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] shadow-[6px_6px_0_0_color-mix(in_srgb,var(--color-border)_55%,transparent)] transition-[box-shadow,transform,border-color] duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--color-link)_70%,transparent)] hover:shadow-[10px_10px_0_0_color-mix(in_srgb,var(--color-link)_55%,transparent)] motion-reduce:transition-none">
       {project.imageSrc ? (
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[var(--color-bg-soft)]">
           <img
@@ -85,7 +85,7 @@ function ProjectCard({ project }: { project: Project }) {
             <div className="min-w-0 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h3
-                  className="font-display text-xl font-bold tracking-tight text-[var(--color-text)] sm:text-2xl"
+                  className="font-display text-2xl font-bold tracking-tight text-[var(--color-text)] sm:text-3xl"
                   id={`project-heading-${project.id}`}
                 >
                   {project.title}
@@ -221,7 +221,7 @@ export function ProjectsShowcase() {
       </div>
 
       {filteredProjects.length === 0 ? (
-        <p className="rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_38%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] px-6 py-12 text-center text-[var(--color-muted)]">
+        <p className="rounded-none border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] px-6 py-12 text-center text-[var(--color-muted)]">
           No projects match this filter.
         </p>
       ) : (
