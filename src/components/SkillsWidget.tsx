@@ -22,7 +22,8 @@ export function SkillsWidget() {
             key={category}
             type="button"
             onClick={() => handleCategorySelect(category)}
-            className={`cursor-pointer rounded-full px-4 py-2 font-semibold capitalize transition-all duration-300 ${
+            aria-pressed={selectedCategory === category}
+            className={`focus-ring cursor-pointer rounded-full px-4 py-2 font-semibold capitalize transition-all duration-300 ${
               selectedCategory === category
                 ? "bg-[var(--color-link)] text-[#0a0a0a]"
                 : "bg-[color-mix(in_srgb,var(--color-border)_10%,transparent)] text-[var(--color-muted)] hover:-translate-y-0.5 hover:bg-[var(--color-link)] hover:text-[#0a0a0a]"

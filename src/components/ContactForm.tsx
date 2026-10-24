@@ -75,7 +75,10 @@ export function ContactForm() {
       </div>
 
       {submitError ? (
-        <p className="rounded-md border border-[var(--color-highlight)]/50 bg-[var(--color-highlight)]/10 px-3 py-2 text-sm text-[var(--color-highlight)]">
+        <p
+          role="alert"
+          className="rounded-md border border-[var(--color-highlight)]/50 bg-[var(--color-highlight)]/10 px-3 py-2 text-sm text-[var(--color-highlight)]"
+        >
           {submitError}
         </p>
       ) : null}

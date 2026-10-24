@@ -30,10 +30,10 @@ export function ContactSection() {
                 <strong>Location:</strong> Available for remote work
               </p>
             </div>
-            <div className="flex gap-6">
+            <div className="flex gap-4">
               <a
                 href="https://www.linkedin.com/in/nicholas-griffiths-1a1883220/"
-                className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
+                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -41,7 +41,7 @@ export function ContactSection() {
               </a>
               <a
                 href="https://github.com/nickgriff99"
-                className="font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
+                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
                 target="_blank"
                 rel="noreferrer"
               >

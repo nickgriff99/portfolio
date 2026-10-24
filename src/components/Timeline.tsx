@@ -39,7 +39,7 @@ export function Timeline({ items }: { items: TimelineEntry[] }) {
                     href={item.credentialUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="focus-ring mt-4 inline-flex items-center gap-2 rounded text-sm font-semibold text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
+                    className="focus-ring mt-4 inline-flex items-center gap-2 rounded px-1 py-1 text-sm font-semibold text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
                   >
                     View certificate
                     {item.credentialId ? (

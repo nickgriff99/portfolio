@@ -10,7 +10,7 @@ export function Footer() {
         <button
           type="button"
           onClick={() => setConsent(undefined)}
-          className="mt-2 underline-offset-2 hover:text-[var(--color-text)] hover:underline"
+          className="focus-ring mt-2 rounded-md px-2 py-1 underline-offset-2 hover:text-[var(--color-text)] hover:underline"
         >
           Cookie settings
         </button>

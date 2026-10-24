@@ -21,14 +21,14 @@ export function CookieConsentBanner() {
           <button
             type="button"
             onClick={() => setConsent("declined")}
-            className="rounded-lg border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] px-4 py-2 text-sm text-[var(--color-soft)] transition-colors hover:text-[var(--color-text)]"
+            className="focus-ring rounded-lg border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] px-4 py-2 text-sm text-[var(--color-soft)] transition-colors hover:text-[var(--color-text)]"
           >
             Decline
           </button>
           <button
             type="button"
             onClick={() => setConsent("accepted")}
-            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[#0a0a0a] transition-all hover:brightness-110"
+            className="focus-ring rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[#0a0a0a] transition-all hover:brightness-110"
           >
             Accept
           </button>

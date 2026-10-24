@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { NavItem } from "../types";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 type StaggeredMenuProps = {
+  id?: string;
   open: boolean;
   items: NavItem[];
   activeSection: string;
@@ -17,6 +19,7 @@ type StaggeredMenuProps = {
  * (e.g. after prefers-reduced-motion toggled or effect early-return).
  */
 export function StaggeredMenu({
+  id,
   open,
   items,
   activeSection,
@@ -24,6 +27,18 @@ export function StaggeredMenu({
   onClose,
 }: StaggeredMenuProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Dialog declares `aria-modal`, so it should at least be escapable by keyboard —
+  // closed items are also made unreachable below via `inert` (closed = not just hidden
+  // behind `pointer-events-none`, items were still Tab-focusable while invisible).
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
 
   return createPortal(
     <>
@@ -36,6 +51,10 @@ export function StaggeredMenu({
         aria-hidden={!open}
       />
       <aside
+        id={id}
+        // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel —
+        // `inert` also removes every descendant from the Tab order (and the a11y tree).
+        inert={!open}
         className={cn(
           "fixed right-0 top-0 z-[110] h-screen w-[86vw] max-w-sm border-l border-[color-mix(in_srgb,var(--color-border)_45%,transparent)] bg-[var(--color-surface)] p-8 shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
           open ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full",
@@ -65,8 +84,9 @@ export function StaggeredMenu({
                 <button
                   type="button"
                   onClick={() => onNavigate(item.href)}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "sm-item w-full text-left text-3xl font-semibold tracking-tight transition-colors",
+                    "focus-ring sm-item w-full text-left text-3xl font-semibold tracking-tight transition-colors",
                     isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text)] hover:text-[var(--color-accent)]",
                   )}
                 >

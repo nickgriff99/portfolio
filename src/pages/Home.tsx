@@ -19,7 +19,7 @@ export function Home() {
   const navItems = useMemo<NavItem[]>(
     () => [
       { label: "Home", href: "#home" },
-      { label: "About", href: "#about" },
+      { label: "About", href: "#about-me" },
       { label: "Skills", href: "#skills" },
       { label: "Experience", href: "#experience" },
       { label: "Education", href: "#education" },
@@ -32,7 +32,7 @@ export function Home() {
   const sectionIds = useMemo(
     () => [
       "home",
-      "about",
+      "about-me",
       "skills",
       "experience",
       "education",
@@ -127,7 +127,7 @@ export function Home() {
           // `transform` deliberately excluded: `useMagneticHover` owns it (mousemove-tracked
           // x/y) — a CSS transform transition here would fight the GSAP tween frame-by-frame.
           // Only `opacity`/`filter` (visibility fade + hover brightness) need one.
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-[opacity,filter] duration-300 hover:brightness-110 ${
+          className={`focus-ring flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-[opacity,filter] duration-300 hover:brightness-110 ${
             showBackToTop ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
           }`}
         >

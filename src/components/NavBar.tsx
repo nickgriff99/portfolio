@@ -9,6 +9,8 @@ type NavBarProps = {
   onNavigate: (href: string) => void;
 };
 
+const MOBILE_MENU_ID = "mobile-nav-drawer";
+
 export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const edgeId = useId().replace(/:/g, "");
@@ -20,7 +22,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+      className={`fixed left-0 top-0 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : "z-50"} ${hidden ? "-translate-y-full" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="nav-metal-border">
@@ -90,7 +92,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
             <nav className="relative z-10 flex w-full items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
               <button
                 onClick={() => handleNavigate("#home")}
-                className="shrink-0 text-left text-xl font-extrabold tracking-tight text-[var(--color-link)]"
+                className="focus-ring shrink-0 rounded-md text-left text-xl font-extrabold tracking-tight text-[var(--color-link)]"
               >
                 Nicholas Griffiths
               </button>
@@ -104,7 +106,8 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                       <li key={item.label}>
                         <button
                           onClick={() => handleNavigate(item.href)}
-                          className={`font-semibold transition-colors ${
+                          aria-current={isActive ? "page" : undefined}
+                          className={`focus-ring rounded-md font-semibold transition-colors ${
                             isActive ? "text-[var(--color-link)]" : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
                           }`}
                         >
@@ -118,8 +121,10 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                 <div className="flex shrink-0 items-center gap-3">
                   <button
                     onClick={() => setMobileOpen((prev) => !prev)}
-                    aria-label="Open mobile menu"
-                    className="lg:hidden"
+                    aria-label={mobileOpen ? "Close mobile menu" : "Open mobile menu"}
+                    aria-expanded={mobileOpen}
+                    aria-controls={MOBILE_MENU_ID}
+                    className="focus-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-md lg:hidden"
                   >
                     <span className="sr-only">Menu</span>
                     <div className="space-y-1.5">
@@ -136,6 +141,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
       </div>
 
       <StaggeredMenu
+        id={MOBILE_MENU_ID}
         open={mobileOpen}
         items={items}
         activeSection={activeSection}
