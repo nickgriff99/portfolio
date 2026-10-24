@@ -10,9 +10,9 @@ export function CookieConsentBanner() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-[60] flex justify-center px-4 pb-4"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] flex justify-center px-4 pb-4"
     >
-      <div className="flex w-full max-w-xl flex-col gap-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] bg-[var(--color-bg)] p-4 shadow-lg shadow-black/20 sm:flex-row sm:items-center sm:justify-between">
+      <div className="pointer-events-auto flex w-full max-w-xl flex-col gap-3 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] bg-[var(--color-bg)] p-4 shadow-lg shadow-black/20 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-[var(--color-soft)]">
           This site uses Google Analytics to understand visits. No cookies are set
           until you accept.

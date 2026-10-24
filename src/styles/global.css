@@ -56,7 +56,6 @@
 @layer base {
   html {
     color-scheme: dark;
-    scroll-behavior: smooth;
     background-color: var(--color-bg);
     /* Site-wide: block horizontal scroll without clipping vertical overflow of descendants */
     overflow-x: hidden;
@@ -345,7 +344,12 @@
   }
 
   .btn-primary {
-    @apply focus-ring rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
+    /* Transform intentionally excluded from the transition list and the hover variant:
+       GSAP's `useMagneticHover` now owns this element's `transform` (mousemove-tracked
+       x/y) — a CSS `hover:-translate-y-0.5` or a `transform` transition here would fight
+       the GSAP tween frame-by-frame (each inline transform update re-triggers the CSS
+       transition), producing jitter instead of the intended buttery glide. */
+    @apply focus-ring rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[background-color,color] duration-300;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }

@@ -12,6 +12,7 @@ import { ProjectsSection } from "../components/sections/ProjectsSection";
 import { SkillsAndTechnologies } from "../components/sections/SkillsAndTechnologies";
 import { usePortfolioScroll } from "../hooks/usePortfolioScroll";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { useMagneticHover } from "../hooks/useMagneticHover";
 import type { NavItem } from "../types";
 
 export function Home() {
@@ -45,6 +46,8 @@ export function Home() {
     usePortfolioScroll(sectionIds);
 
   useRevealOnScroll();
+
+  const backToTopRef = useMagneticHover<HTMLButtonElement>({ strength: 3 });
 
   const [grainientUnavailable, setGrainientUnavailable] = useState(false);
   const [particlesUnavailable, setParticlesUnavailable] = useState(false);
@@ -117,10 +120,14 @@ export function Home() {
 
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
         <button
+          ref={backToTopRef}
           type="button"
           aria-label="Return to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-all duration-300 hover:brightness-110 ${
+          // `transform` deliberately excluded: `useMagneticHover` owns it (mousemove-tracked
+          // x/y) — a CSS transform transition here would fight the GSAP tween frame-by-frame.
+          // Only `opacity`/`filter` (visibility fade + hover brightness) need one.
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-[opacity,filter] duration-300 hover:brightness-110 ${
             showBackToTop ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
           }`}
         >

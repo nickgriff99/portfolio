@@ -2,10 +2,13 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useMagneticHover } from "@/hooks/useMagneticHover";
+
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const submitBtnRef = useMagneticHover<HTMLButtonElement>();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -145,8 +148,12 @@ export function ContactForm() {
 
       <div className="form-group">
         <button
+          ref={submitBtnRef}
           type="submit"
-          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-[#0a0a0a] shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+          // `transform` deliberately excluded from `transition-*`: `useMagneticHover` owns
+          // it (mousemove-tracked x/y) — a CSS transform transition here would fight the
+          // GSAP tween frame-by-frame. Only `filter` (the hover brightness bump) needs one.
+          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-[#0a0a0a] shadow-lg transition-[filter] duration-300 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           id="submitBtn"
           disabled={isSubmitting}
         >

@@ -6,6 +6,7 @@ import Particles from "@/bits/Particles";
 import { cn } from "@/lib/utils";
 import TextType from "@/bits/TextType";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { useMagneticHover } from "@/hooks/useMagneticHover";
 
 type HeroSectionProps = {
   onNavigate: (href: string) => void;
@@ -17,6 +18,8 @@ type HeroSectionProps = {
 export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavailable }: HeroSectionProps) {
   const heroContainerRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const projectsCtaRef = useMagneticHover<HTMLButtonElement>();
+  const aboutCtaRef = useMagneticHover<HTMLButtonElement>();
 
   return (
     <section
@@ -73,7 +76,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
         </div>
 
         {/* Text column. md:order-1 pulls it to the left on desktop. */}
-        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center overflow-hidden px-6 py-16 sm:px-8 md:order-1 md:min-h-screen md:px-12 md:py-0 lg:px-16">
+        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 py-16 sm:px-8 md:order-1 md:min-h-screen md:px-12 md:py-0 lg:px-16">
           <div className="relative z-10 flex flex-col items-start text-left">
             <span className="viewport-animate mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
@@ -83,7 +86,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               Available for Hire
             </span>
 
-            <h1 className="viewport-animate mb-5 flex flex-col text-5xl font-extrabold leading-[0.95] text-[var(--color-text)] sm:text-7xl md:text-8xl lg:text-9xl">
+            <h1 className="viewport-animate mb-5 flex flex-col text-[length:min(19vw,9rem)] font-extrabold leading-[0.95] text-[var(--color-text)] sm:text-[length:min(17vw,12rem)] md:text-[length:min(14vw,17rem)]">
               <span>Nicholas</span>
               <ShinyText
                 text="Griffiths"
@@ -129,10 +132,18 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
             </p>
 
             <div className="viewport-animate flex flex-col gap-4 sm:flex-row">
-              <button onClick={() => onNavigate("#projects")} className="btn-primary">
+              <button
+                ref={projectsCtaRef}
+                onClick={() => onNavigate("#projects")}
+                className="btn-primary"
+              >
                 View My Work
               </button>
-              <button onClick={() => onNavigate("#about-me")} className="btn-secondary">
+              <button
+                ref={aboutCtaRef}
+                onClick={() => onNavigate("#about-me")}
+                className="btn-secondary"
+              >
                 About Me
               </button>
             </div>
