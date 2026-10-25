@@ -1,9 +1,14 @@
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 
 import VariableProximity from "@/bits/VariableProximity";
 import ShinyText from "@/bits/ShinyText";
-import Particles from "@/bits/Particles";
 import { cn } from "@/lib/utils";
+
+// Lazy: pulls in `ogl` (WebGL), purely decorative starfield behind the hero's real
+// LCP element (the portrait `<img>` below, loading="eager"/fetchPriority="high").
+// Hero already paints its own CSS gradients underneath (`.hero-photo-overlay`,
+// global.css), so a `null` fallback during the brief chunk-load window is invisible.
+const Particles = lazy(() => import("@/bits/Particles"));
 import TextType from "@/bits/TextType";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useMagneticHover } from "@/hooks/useMagneticHover";
@@ -34,20 +39,22 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
           grid so transparent areas of the photo cutout show the starfield too, not just the
           text column. z-0 here, grid wrapper below is z-10. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-        <Particles
-          onUnavailable={onParticlesUnavailable}
-          interactionRef={heroContainerRef}
-          interactionProximityPx={900}
-          particleColors={["#ffffff"]}
-          particleCount={800}
-          particleSpread={10}
-          speed={0.1}
-          particleBaseSize={100}
-          moveParticlesOnHover
-          alphaParticles
-          disableRotation
-          pixelRatio={4}
-        />
+        <Suspense fallback={null}>
+          <Particles
+            onUnavailable={onParticlesUnavailable}
+            interactionRef={heroContainerRef}
+            interactionProximityPx={900}
+            particleColors={["#ffffff"]}
+            particleCount={800}
+            particleSpread={10}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover
+            alphaParticles
+            disableRotation
+            pixelRatio={4}
+          />
+        </Suspense>
       </div>
 
       {/* Full-bleed 2-col grid: touches true viewport edges, no max-width cap (brutalist

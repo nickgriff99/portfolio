@@ -1,6 +1,9 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 
-import Grainient from "@/bits/Grainient";
+// Lazy: pulls in `ogl` (WebGL), not needed for first paint — the body's own CSS
+// gradient (global.css) already paints this same dark background underneath, so
+// a `null` Suspense fallback during the brief chunk-load window is invisible.
+const Grainient = lazy(() => import("@/bits/Grainient"));
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
 import { AboutMe } from "../components/sections/AboutMe";
@@ -72,31 +75,33 @@ export function Home() {
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
         >
-          <Grainient
-            onUnavailable={() => setGrainientUnavailable(true)}
-            color1="#000000"
-            color2="#0d273B"
-            color3="#194360"
-            timeSpeed={0.05}
-            colorBalance={-0.12}
-            warpStrength={0.58}
-            warpFrequency={0.48}
-            warpSpeed={0}
-            warpAmplitude={42}
-            blendAngle={144}
-            blendSoftness={1.28}
-            rotationAmount={300}
-            noiseScale={1.25}
-            grainAmount={0}
-            grainScale={0.2}
-            grainAnimated={false}
-            contrast={0.8}
-            gamma={0.82}
-            saturation={0.9}
-            centerX={0.5}
-            centerY={-0.5}
-            zoom={0.6}
-          />
+          <Suspense fallback={null}>
+            <Grainient
+              onUnavailable={() => setGrainientUnavailable(true)}
+              color1="#000000"
+              color2="#0d273B"
+              color3="#194360"
+              timeSpeed={0.05}
+              colorBalance={-0.12}
+              warpStrength={0.58}
+              warpFrequency={0.48}
+              warpSpeed={0}
+              warpAmplitude={42}
+              blendAngle={144}
+              blendSoftness={1.28}
+              rotationAmount={300}
+              noiseScale={1.25}
+              grainAmount={0}
+              grainScale={0.2}
+              grainAnimated={false}
+              contrast={0.8}
+              gamma={0.82}
+              saturation={0.9}
+              centerX={0.5}
+              centerY={-0.5}
+              zoom={0.6}
+            />
+          </Suspense>
         </div>
 
         <main className="relative z-10 w-full">

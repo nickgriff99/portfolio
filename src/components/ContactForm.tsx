@@ -15,6 +15,10 @@ export function ContactForm() {
     setIsSubmitting(true);
     setSubmitError(null);
 
+    // Fire-and-forget: warm the lazy "/thank-you" chunk now so it's ready by the
+    // time we navigate, instead of starting the fetch cold after the POST resolves.
+    void import("../pages/ThankYou");
+
     const formData = new FormData(event.currentTarget);
 
     // Keep local development fast and deterministic.

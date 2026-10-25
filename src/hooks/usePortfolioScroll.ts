@@ -7,7 +7,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
   const lastScrollTopRef = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => {
+    const update = () => {
       const header = document.querySelector("header");
       const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
       const scrollTop =
@@ -33,10 +33,27 @@ export function usePortfolioScroll(sectionIds: string[]) {
       setShowBackToTop(scrollTop > 500);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    // rAF-throttle: native `scroll` can fire far more often than once per frame
+    // (especially with momentum scrolling), and each tick was doing a `querySelector`
+    // + up to 7 `getElementById` calls synchronously. Coalescing to one pass per
+    // animation frame keeps the same visual update cadence (never more than 1
+    // frame of latency) while cutting redundant DOM reads during a scroll burst.
+    let rafId: number | null = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        update();
+      });
+    };
 
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [sectionIds]);
 
   const scrollToSection = (sectionId: string) => {
