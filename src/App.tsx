@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CookieConsentBanner } from "./components/CookieConsentBanner";
 import { RouteErrorBoundary } from "./components/RouteErrorBoundary";
 import { useAnalyticsPageviews } from "./hooks/useAnalyticsPageviews";
+import { ConsentProvider } from "./hooks/useConsent";
 import { Home } from "./pages/Home";
 
 // Lazy: separate route, never needed on the "/" page's first load. Named export,
@@ -19,23 +20,25 @@ function AnalyticsListener() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AnalyticsListener />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/thank-you"
-          element={
-            <RouteErrorBoundary>
-              <Suspense fallback={null}>
-                <ThankYou />
-              </Suspense>
-            </RouteErrorBoundary>
-          }
-        />
-      </Routes>
-      <CookieConsentBanner />
-    </BrowserRouter>
+    <ConsentProvider>
+      <BrowserRouter>
+        <AnalyticsListener />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/thank-you"
+            element={
+              <RouteErrorBoundary>
+                <Suspense fallback={null}>
+                  <ThankYou />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+        </Routes>
+        <CookieConsentBanner />
+      </BrowserRouter>
+    </ConsentProvider>
   );
 }
 

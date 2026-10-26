@@ -10,6 +10,7 @@ export function useAnalyticsPageviews() {
   const { consent } = useConsent();
   const location = useLocation();
   const hasLoaded = useRef(false);
+  const lastTrackedPath = useRef<string | null>(null);
 
   useEffect(() => {
     if (consent !== "accepted" || hasLoaded.current) return;
@@ -18,7 +19,16 @@ export function useAnalyticsPageviews() {
   }, [consent]);
 
   useEffect(() => {
-    if (consent !== "accepted") return;
+    // Reset on every non-accepted state (not just once): otherwise a
+    // revoke-then-reaccept on the same path (now reachable without reload
+    // since consent lives in Context) would see the stale ref match the
+    // unchanged pathname and silently skip the reacceptance's pageview.
+    if (consent !== "accepted") {
+      lastTrackedPath.current = null;
+      return;
+    }
+    if (lastTrackedPath.current === location.pathname) return;
+    lastTrackedPath.current = location.pathname;
     trackPageview(location.pathname);
   }, [location.pathname, consent]);
 }

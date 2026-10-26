@@ -1,7 +1,26 @@
+import { useEffect, useRef } from "react";
+
 import { useConsent } from "../hooks/useConsent";
 
 export function CookieConsentBanner() {
   const { consent, setConsent } = useConsent();
+  const declineRef = useRef<HTMLButtonElement>(null);
+  const prevConsentRef = useRef(consent);
+
+  useEffect(() => {
+    const prev = prevConsentRef.current;
+    prevConsentRef.current = consent;
+    // Footer's "Cookie settings" can now bring this dialog back mid-session
+    // (no reload) by resetting consent to undefined. `aria-live` on a node
+    // that was just re-inserted into the DOM isn't reliably announced by
+    // every AT, and focus otherwise silently stays on the Footer button, so
+    // move focus into the dialog on reopen. Skip it on the very first mount
+    // (prev === consent, nothing has transitioned yet) so first-time
+    // visitors don't get their page load hijacked by an autofocus steal.
+    if (consent === undefined && prev !== undefined) {
+      declineRef.current?.focus();
+    }
+  }, [consent]);
 
   if (consent !== undefined) return null;
 
@@ -19,6 +38,7 @@ export function CookieConsentBanner() {
         </p>
         <div className="flex shrink-0 gap-2">
           <button
+            ref={declineRef}
             type="button"
             onClick={() => setConsent("declined")}
             className="focus-ring rounded-lg border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] px-4 py-2 text-sm text-[var(--color-soft)] transition-colors hover:text-[var(--color-text)]"

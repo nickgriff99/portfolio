@@ -42,7 +42,7 @@ export interface TimelineEntry {
   bullets: string[];
   /** Verification ID for a completed professional certification */
   credentialId?: string;
-  /** Path to a hosted certificate asset under /public (PDF/image) */
+  /** URL where the credential can be viewed or verified (external profile or hosted asset) */
   credentialUrl?: string;
 }
 

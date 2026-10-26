@@ -12,7 +12,7 @@ export const educationData: TimelineEntry[] = [
       "Strengthened problem-solving abilities through structured learning paths and coding practice",
     ],
     credentialId: "8A9F85D8-D",
-    credentialUrl: "/credentials/codecademy-full-stack-engineer-certificate.pdf",
+    credentialUrl: "https://www.codecademy.com/profiles/nickgriff99/certificates/ffd0f42cce1a44e9a0108b365047a0a6",
   },
   {
     title: "Full-Stack Software Engineering Certificate",
