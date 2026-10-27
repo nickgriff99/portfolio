@@ -6,6 +6,7 @@ import { lazy, Suspense, useMemo, useState } from "react";
 const Grainient = lazy(() => import("@/bits/Grainient"));
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { RouteErrorBoundary } from "../components/RouteErrorBoundary";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
 import { Education } from "../components/sections/Education";
@@ -13,6 +14,7 @@ import { Experience } from "../components/sections/Experience";
 import { HeroSection } from "../components/sections/HeroSection";
 import { ProjectsSection } from "../components/sections/ProjectsSection";
 import { SkillsAndTechnologies } from "../components/sections/SkillsAndTechnologies";
+import { useConsent } from "../hooks/useConsent";
 import { usePortfolioScroll } from "../hooks/usePortfolioScroll";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import { useMagneticHover } from "../hooks/useMagneticHover";
@@ -51,6 +53,12 @@ export function Home() {
   useRevealOnScroll();
 
   const backToTopRef = useMagneticHover<HTMLButtonElement>({ strength: 3 });
+  // Consent banner's mobile card (flex-col, ~144px tall) physically occupies the
+  // same bottom-right corner as this button at <640px — not just a stacking-order
+  // z-index clash, the banner's card is a real obstruction. Rather than viewport-
+  // specific offset math, just don't show both reachable targets at once.
+  const { consent } = useConsent();
+  const bannerVisible = consent === undefined;
 
   const [grainientUnavailable, setGrainientUnavailable] = useState(false);
   const [particlesUnavailable, setParticlesUnavailable] = useState(false);
@@ -75,33 +83,38 @@ export function Home() {
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
         >
-          <Suspense fallback={null}>
-            <Grainient
-              onUnavailable={() => setGrainientUnavailable(true)}
-              color1="#000000"
-              color2="#0d273B"
-              color3="#194360"
-              timeSpeed={0.05}
-              colorBalance={-0.12}
-              warpStrength={0.58}
-              warpFrequency={0.48}
-              warpSpeed={0}
-              warpAmplitude={42}
-              blendAngle={144}
-              blendSoftness={1.28}
-              rotationAmount={300}
-              noiseScale={1.25}
-              grainAmount={0}
-              grainScale={0.2}
-              grainAnimated={false}
-              contrast={0.8}
-              gamma={0.82}
-              saturation={0.9}
-              centerX={0.5}
-              centerY={-0.5}
-              zoom={0.6}
-            />
-          </Suspense>
+          {/* Boundary outside Suspense: a rejected `lazy()` chunk-fetch promise throws
+              during render and would otherwise unmount the whole app (no boundary above
+              this in the tree) — silent fallback since this effect is purely decorative. */}
+          <RouteErrorBoundary fallback={null}>
+            <Suspense fallback={null}>
+              <Grainient
+                onUnavailable={() => setGrainientUnavailable(true)}
+                color1="#000000"
+                color2="#0d273B"
+                color3="#194360"
+                timeSpeed={0.05}
+                colorBalance={-0.12}
+                warpStrength={0.58}
+                warpFrequency={0.48}
+                warpSpeed={0}
+                warpAmplitude={42}
+                blendAngle={144}
+                blendSoftness={1.28}
+                rotationAmount={300}
+                noiseScale={1.25}
+                grainAmount={0}
+                grainScale={0.2}
+                grainAnimated={false}
+                contrast={0.8}
+                gamma={0.82}
+                saturation={0.9}
+                centerX={0.5}
+                centerY={-0.5}
+                zoom={0.6}
+              />
+            </Suspense>
+          </RouteErrorBoundary>
         </div>
 
         <main className="relative z-10 w-full">
@@ -133,7 +146,9 @@ export function Home() {
           // x/y) — a CSS transform transition here would fight the GSAP tween frame-by-frame.
           // Only `opacity`/`filter` (visibility fade + hover brightness) need one.
           className={`focus-ring flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-[opacity,filter] duration-300 hover:brightness-110 ${
-            showBackToTop ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+            showBackToTop && !bannerVisible
+              ? "visible opacity-100"
+              : "invisible pointer-events-none opacity-0"
           }`}
         >
           ↑

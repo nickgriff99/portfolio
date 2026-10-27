@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +9,15 @@ export function ContactForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
   const submitBtnRef = useMagneticHover<HTMLButtonElement>();
+  // Synchronous lock, not state: two rapid clicks can both fire this handler from the
+  // same stale closure before React re-renders/commits `isSubmitting`, so the state
+  // guard alone can't reject the second call in time. A ref mutates immediately and is
+  // read live (not captured per-render), so it closes the race regardless of commit timing.
+  const submitLockRef = useRef(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (submitLockRef.current) return;
+    submitLockRef.current = true;
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitError(null);
@@ -55,6 +62,7 @@ export function ContactForm() {
         "Message failed to send. Please try again or email nichg999@gmail.com directly.",
       );
       setIsSubmitting(false);
+      submitLockRef.current = false;
     }
   };
 

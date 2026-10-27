@@ -29,7 +29,26 @@ function App() {
             path="/thank-you"
             element={
               <RouteErrorBoundary>
-                <Suspense fallback={null}>
+                {/* Non-null: Home unmounts fully on route change (fixed NavBar/Footer
+                    included), so a `null` fallback here left a ~300ms fully blank body
+                    between Home's content disappearing and the ThankYou chunk mounting,
+                    even with the submit-intent chunk prewarm in ContactForm. This matches
+                    the body's own background token so there's no white flash, plus a
+                    small pulse so the gap doesn't read as a dead page. */}
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
                   <ThankYou />
                 </Suspense>
               </RouteErrorBoundary>

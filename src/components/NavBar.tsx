@@ -22,6 +22,10 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
 
   return (
     <header
+      // `inert` also removes every descendant (nav links) from the Tab order and a11y
+      // tree while the header is translated off-screen — same pattern as StaggeredMenu's
+      // off-canvas `<aside>`, see StaggeredMenu.tsx.
+      inert={hidden}
       className={`fixed left-0 top-0 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : "z-50"} ${hidden ? "-translate-y-full" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl">

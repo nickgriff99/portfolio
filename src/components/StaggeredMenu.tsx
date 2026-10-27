@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { NavItem } from "../types";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+
+// Only `button`s live inside the drawer today, but keep this generic in case a link/input joins them.
+const FOCUSABLE_SELECTOR = 'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 type StaggeredMenuProps = {
   id?: string;
@@ -27,14 +30,46 @@ export function StaggeredMenu({
   onClose,
 }: StaggeredMenuProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const asideRef = useRef<HTMLElement>(null);
+  // Holds whatever had focus before the drawer opened (the hamburger button, in practice).
+  // Captured via `document.activeElement` rather than a prop ref from NavBar, since this
+  // component has no ref to that button and isn't allowed to touch NavBar.tsx this round.
+  const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Dialog declares `aria-modal`, so it should at least be escapable by keyboard —
-  // closed items are also made unreachable below via `inert` (closed = not just hidden
-  // behind `pointer-events-none`, items were still Tab-focusable while invisible).
+  // Move focus into the drawer on open (first nav item), restore it to the trigger on close —
+  // `aria-modal="true"` promises modal focus behavior, so it has to actually happen.
+  useEffect(() => {
+    if (open) {
+      triggerRef.current = document.activeElement as HTMLElement | null;
+      asideRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
+    } else {
+      triggerRef.current?.focus();
+      triggerRef.current = null;
+    }
+  }, [open]);
+
+  // Escape-to-close (Phase 5) + real Tab-cycling focus trap: while open, Tab from the last
+  // focusable item wraps to the first (Shift+Tab from the first wraps to the last) so focus
+  // can never escape into `inert`-excluded background content.
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = asideRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+      if (!focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -52,6 +87,7 @@ export function StaggeredMenu({
       />
       <aside
         id={id}
+        ref={asideRef}
         // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel —
         // `inert` also removes every descendant from the Tab order (and the a11y tree).
         inert={!open}
