@@ -65,31 +65,12 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
 
       {/* Full-bleed 2-col grid: touches true viewport edges, no max-width cap (brutalist
           full-bleed, matches `.content-shell`'s cap removal in global.css).
-          DOM order stays photo-first/text-second at every breakpoint (neither column carries
-          interactive content, so this doesn't disturb tab order or reading order) — only the
-          *visual* order flips to text-left/photo-right at md+ via `order` utilities below. */}
+          Text column is first in DOM and first in visual order at every breakpoint: text-top on
+          mobile, text-left on desktop. No `order` utilities needed — DOM order matches visual
+          order at all sizes. */}
       <div className="relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
-        {/* Photo column (LCP element). md:order-2 pushes it to the right on desktop. */}
-        <div className="relative min-h-[60vh] w-full overflow-hidden md:order-2 md:min-h-[100dvh]">
-          {/* Grounding treatment, painted behind the cutout (declared first in DOM, no z-index
-              hack needed): a soft ambient glow behind the figure plus a blurred elliptical
-              "contact shadow" under the feet, so the transparent cutout reads as standing in the
-              scene instead of floating on a flat page. */}
-          <div aria-hidden="true" className="hero-photo-overlay pointer-events-none absolute inset-0" />
-          <img
-            src="/assets/images/hero-portrait-cutout.webp"
-            alt="Nicholas Griffiths"
-            width={1600}
-            height={1600}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-contain object-bottom"
-          />
-        </div>
-
-        {/* Text column. md:order-1 pulls it to the left on desktop. */}
-        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 py-16 sm:px-8 md:order-1 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
+        {/* Text column. First in DOM → text-top on mobile, text-left on desktop (md:col 1). */}
+        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 pb-16 pt-24 sm:px-8 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
           <div className="relative z-10 flex flex-col items-start text-left">
             <span className="hero-animate hero-animate-1 mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
@@ -161,6 +142,25 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Photo column (LCP element). Second in DOM → photo-bottom on mobile, photo-right on desktop (md:col 2). */}
+        <div className="relative min-h-[60vh] w-full overflow-hidden md:min-h-[100dvh]">
+          {/* Grounding treatment, painted behind the cutout (declared first in DOM, no z-index
+              hack needed): a soft ambient glow behind the figure plus a blurred elliptical
+              "contact shadow" under the feet, so the transparent cutout reads as standing in the
+              scene instead of floating on a flat page. */}
+          <div aria-hidden="true" className="hero-photo-overlay pointer-events-none absolute inset-0" />
+          <img
+            src="/assets/images/hero-portrait-cutout.webp"
+            alt="Nicholas Griffiths"
+            width={1600}
+            height={1600}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-contain object-bottom"
+          />
         </div>
       </div>
     </section>
