@@ -32,7 +32,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
       id="home"
       ref={heroContainerRef}
       className={cn(
-        "section-hero relative min-h-screen overflow-hidden",
+        "section-hero relative min-h-[100dvh] overflow-hidden",
         useHeroCssFallback && "section-hero--css-fallback",
       )}
     >
@@ -70,7 +70,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
           *visual* order flips to text-left/photo-right at md+ via `order` utilities below. */}
       <div className="relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
         {/* Photo column (LCP element). md:order-2 pushes it to the right on desktop. */}
-        <div className="relative min-h-[60vh] w-full overflow-hidden md:order-2 md:min-h-screen">
+        <div className="relative min-h-[60vh] w-full overflow-hidden md:order-2 md:min-h-[100dvh]">
           {/* Grounding treatment, painted behind the cutout (declared first in DOM, no z-index
               hack needed): a soft ambient glow behind the figure plus a blurred elliptical
               "contact shadow" under the feet, so the transparent cutout reads as standing in the
@@ -89,9 +89,9 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
         </div>
 
         {/* Text column. md:order-1 pulls it to the left on desktop. */}
-        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 py-16 sm:px-8 md:order-1 md:min-h-screen md:px-12 md:py-0 lg:px-16">
+        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 py-16 sm:px-8 md:order-1 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
           <div className="relative z-10 flex flex-col items-start text-left">
-            <span className="viewport-animate mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
+            <span className="hero-animate hero-animate-1 mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
                 aria-hidden="true"
                 className={cn("h-2 w-2 rounded-full bg-[#0a0a0a]", !prefersReducedMotion && "animate-pulse")}
@@ -99,7 +99,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               Available for Hire
             </span>
 
-            <h1 className="viewport-animate mb-5 flex flex-col text-[length:min(19vw,9rem)] font-extrabold leading-[0.95] text-[var(--color-text)] sm:text-[length:min(17vw,12rem)] md:text-[length:min(14vw,17rem)]">
+            <h1 className="hero-animate hero-animate-2 mb-5 flex flex-col text-[length:min(19vw,18vh,9rem)] font-extrabold leading-[0.95] text-[var(--color-text)] sm:text-[length:min(17vw,18vh,12rem)] md:text-[length:min(14vw,18vh,17rem)]">
               <span>Nicholas</span>
               <ShinyText
                 text="Griffiths"
@@ -115,7 +115,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               />
             </h1>
 
-            <h2 className="viewport-animate mb-6 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
+            <h2 className="hero-animate hero-animate-3 mb-6 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
               <TextType
                 as="span"
                 text={["Web Development", "User Experience", "Software Engineering"]}
@@ -129,7 +129,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               />
             </h2>
 
-            <p className="viewport-animate mb-10 max-w-xl text-lg leading-8 text-[var(--color-soft)]">
+            <p className="hero-animate hero-animate-4 mb-10 max-w-xl text-lg leading-8 text-[var(--color-soft)]">
               I create exceptional digital experiences through <span className="keyword-highlight">clean code</span>{" "}
               and{" "}
               <VariableProximity
@@ -144,7 +144,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               .
             </p>
 
-            <div className="viewport-animate flex flex-col gap-4 sm:flex-row">
+            <div className="hero-animate hero-animate-5 flex flex-col gap-4 sm:flex-row">
               <button
                 ref={projectsCtaRef}
                 onClick={() => onNavigate("#projects")}
