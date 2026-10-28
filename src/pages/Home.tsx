@@ -13,7 +13,6 @@ import { Education } from "../components/sections/Education";
 import { Experience } from "../components/sections/Experience";
 import { HeroSection } from "../components/sections/HeroSection";
 import { ProjectsSection } from "../components/sections/ProjectsSection";
-import { SkillsAndTechnologies } from "../components/sections/SkillsAndTechnologies";
 import { useConsent } from "../hooks/useConsent";
 import { usePortfolioScroll } from "../hooks/usePortfolioScroll";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
@@ -25,7 +24,6 @@ export function Home() {
     () => [
       { label: "Home", href: "#home" },
       { label: "About", href: "#about-me" },
-      { label: "Skills", href: "#skills" },
       { label: "Experience", href: "#experience" },
       { label: "Education", href: "#education" },
       { label: "Projects", href: "#projects" },
@@ -38,7 +36,6 @@ export function Home() {
     () => [
       "home",
       "about-me",
-      "skills",
       "experience",
       "education",
       "projects",
@@ -208,7 +205,6 @@ export function Home() {
             background covers the hero through the very end of the page. */}
         <div className="page-curtain">
           <AboutMe />
-          <SkillsAndTechnologies />
           <Experience />
           <Education />
           <ProjectsSection />
