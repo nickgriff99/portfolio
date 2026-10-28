@@ -57,13 +57,17 @@
   html {
     color-scheme: dark;
     background-color: var(--color-bg);
-    /* Site-wide: block horizontal scroll without clipping vertical overflow of descendants */
-    overflow-x: hidden;
+    /* overflow-x: clip (NOT hidden) — clip paints a clipping boundary without creating a
+       scroll container, so position:sticky descendants work correctly. overflow-x:hidden on
+       both html AND body was causing body to become its own scroll container (body's overflow
+       is not propagated to the viewport when html also has overflow set), meaning sticky
+       elements stuck relative to body's always-zero scrollTop instead of the viewport. */
+    overflow-x: clip;
     @apply font-sans;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 22%, transparent) 0%, transparent 38%),
@@ -127,6 +131,22 @@
   /* Default: no painted layer so Grainient + Particles show through; see `.section-hero--css-fallback` */
   .section-hero {
     background: transparent;
+    /* Sticky pin: hero stays at natural position until bottom aligns with viewport bottom,
+       then pins. `min(0px, ...)` is 0 for hero <= viewport height (pins at top immediately)
+       and negative for tall heroes (lets user scroll to reach bottom before pinning). */
+    position: sticky;
+    top: min(0px, calc(100dvh - var(--hero-h, 100dvh)));
+    /* z-index: 0 within main's stacking context — curtain (.page-curtain, z-index:1) paints over */
+    z-index: 0;
+  }
+
+  /* Curtain: opaque dark surface that slides up over the pinned hero on scroll.
+     Single wrapper around all post-hero content (About … Footer). Step 9 will add
+     texture/gradients to this surface — keep class name obvious for that. */
+  .page-curtain {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg); /* #000000 — darkest bg token, matches CSS fallback */
   }
 
   /* When WebGL hero effects are unavailable, restore the palette gradients */
@@ -452,5 +472,21 @@
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
     --tw-ring-offset-color: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  }
+
+  /* Hero parallax: driven by --hero-progress (0→1) written by scroll listener in Home.tsx.
+     Applied to WRAPPER divs, never to .hero-animate children (animation-fill-mode:both owns
+     their transform). Disabled under prefers-reduced-motion.
+     Text column drifts up ≤ 8vh; photo drifts down (opposite) ≤ 4vh.
+     will-change declared so compositor promotes the layers during scroll. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-text-parallax {
+      transform: translateY(calc(var(--hero-progress, 0) * -8vh));
+      will-change: transform;
+    }
+    .hero-photo-parallax {
+      transform: translateY(calc(var(--hero-progress, 0) * 4vh));
+      will-change: transform;
+    }
   }
 }

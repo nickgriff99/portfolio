@@ -32,7 +32,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
       id="home"
       ref={heroContainerRef}
       className={cn(
-        "section-hero relative min-h-[100dvh] overflow-hidden",
+        "section-hero sticky min-h-[100dvh] overflow-hidden",
         useHeroCssFallback && "section-hero--css-fallback",
       )}
     >
@@ -71,7 +71,10 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
       <div className="relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
         {/* Text column. First in DOM → text-top on mobile, text-left on desktop (md:col 1). */}
         <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 pb-16 pt-24 sm:px-8 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
-          <div className="relative z-10 flex flex-col items-start text-left">
+          {/* hero-text-parallax: parallax WRAPPER — transform applied here, never on
+              .hero-animate children (animation-fill-mode:both owns their transform).
+              CSS drives the drift via --hero-progress (Home.tsx scroll listener). */}
+          <div className="hero-text-parallax relative z-10 flex flex-col items-start text-left">
             <span className="hero-animate hero-animate-1 mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
                 aria-hidden="true"
@@ -146,6 +149,9 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
 
         {/* Photo column (LCP element). Second in DOM → photo-bottom on mobile, photo-right on desktop (md:col 2). */}
         <div className="relative min-h-[60vh] w-full overflow-hidden md:min-h-[100dvh]">
+          {/* hero-photo-parallax: inner wrapper so overflow-hidden on the column clips the
+              drift; transform applied here (opposite direction to text parallax). */}
+          <div className="hero-photo-parallax absolute inset-0">
           {/* Grounding treatment, painted behind the cutout (declared first in DOM, no z-index
               hack needed): a soft ambient glow behind the figure plus a blurred elliptical
               "contact shadow" under the feet, so the transparent cutout reads as standing in the
@@ -161,6 +167,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
             fetchPriority="high"
             className="absolute inset-0 h-full w-full object-contain object-bottom"
           />
+          </div>{/* end hero-photo-parallax */}
         </div>
       </div>
     </section>

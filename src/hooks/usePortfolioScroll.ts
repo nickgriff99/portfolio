@@ -1,5 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
+/** Traverse offsetParent chain to get absolute page layout offset (not affected by
+ *  sticky positioning), so scroll-spy and scrollToSection work correctly when sections
+ *  live inside a `position:relative` curtain wrapper (.page-curtain). */
+function getAbsoluteTop(el: HTMLElement): number {
+  let top = 0;
+  let cur: HTMLElement | null = el;
+  while (cur) {
+    top += cur.offsetTop;
+    cur = cur.offsetParent as HTMLElement | null;
+  }
+  return top;
+}
+
 export function usePortfolioScroll(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "home");
   const [headerHidden, setHeaderHidden] = useState(false);
@@ -24,7 +37,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
           continue;
         }
 
-        if (scrollTop >= section.offsetTop - headerHeight - 200) {
+        if (scrollTop >= getAbsoluteTop(section) - headerHeight - 200) {
           setActiveSection(id);
         }
       }
@@ -69,7 +82,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
     }
 
     const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
-    const top = target.offsetTop - headerHeight;
+    const top = getAbsoluteTop(target) - headerHeight;
 
     window.scrollTo({
       top,

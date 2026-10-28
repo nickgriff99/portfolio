@@ -12,7 +12,9 @@
     "test": "vitest",
     "test:run": "vitest run",
     "capture:heroes": "node scripts/capture-project-heroes.mjs",
-    "verify:hero": "node scripts/verify-hero-viewports.mjs"
+    "verify:hero": "node scripts/verify-hero-viewports.mjs",
+    "verify:pin": "node scripts/verify-pin-reachability.mjs",
+    "verify:all": "npm run verify:hero && npm run verify:pin"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
