@@ -24,7 +24,7 @@ const LEAD_CLASS =
   "text-xl font-semibold leading-snug tracking-tight text-[var(--color-text)] sm:text-2xl sm:leading-snug lg:text-3xl";
 
 const LEAD_TEXT =
-  "I build full-stack products end-to-end \u2014 from the PostgreSQL schema to a Three.js configurator people actually enjoy using. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
+  "I build full-stack products end-to-end from the PostgreSQL schema to a Three.js configurator people actually enjoy using. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
 
 const SECOND_TEXT =
   "I recently wrapped a six-month React contract at Spot Parking, I\u2019m currently a Data Labeller at Tesla, and I\u2019m actively looking for a full-stack role where I can do this full-time.";
@@ -87,7 +87,7 @@ export function AboutMe() {
                     shuffleDirection="right"
                     animationMode="sequence"
                     stagger={0.012}
-                    duration={0.28}
+                    duration={0.18}
                     shuffleTimes={1}
                     triggerOnce={true}
                     triggerOnHover={false}
@@ -113,8 +113,8 @@ export function AboutMe() {
               <DecryptedText
                 text={SECOND_TEXT}
                 animateOn="view"
-                speed={35}
-                maxIterations={8}
+                speed={15}
+                maxIterations={4}
                 sequential={true}
                 revealDirection="start"
                 parentClassName="inline"
