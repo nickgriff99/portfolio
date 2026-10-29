@@ -96,7 +96,7 @@ export function ContactForm() {
       ) : null}
 
       <div className="form-group">
-        <label htmlFor="name" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="name" className="mb-2 block font-mono text-xs font-medium uppercase tracking-widest text-[var(--color-muted)]">
           Name *
         </label>
         <input
@@ -112,7 +112,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="email" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="email" className="mb-2 block font-mono text-xs font-medium uppercase tracking-widest text-[var(--color-muted)]">
           Email *
         </label>
         <input
@@ -126,7 +126,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="subject" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="subject" className="mb-2 block font-mono text-xs font-medium uppercase tracking-widest text-[var(--color-muted)]">
           Subject *
         </label>
         <input
@@ -142,7 +142,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="message" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="message" className="mb-2 block font-mono text-xs font-medium uppercase tracking-widest text-[var(--color-muted)]">
           Message *
         </label>
         <textarea
@@ -168,7 +168,7 @@ export function ContactForm() {
           // `transform` deliberately excluded from `transition-*`: `useMagneticHover` owns
           // it (mousemove-tracked x/y) — a CSS transform transition here would fight the
           // GSAP tween frame-by-frame. Only `filter` (the hover brightness bump) needs one.
-          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-[#0a0a0a] shadow-lg transition-[filter] duration-300 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+          className={`focus-ring rounded-none border-2 border-[color-mix(in_srgb,var(--color-accent)_80%,transparent)] bg-[var(--color-accent)] px-6 py-3 font-mono text-sm font-bold uppercase tracking-widest text-[#0a0a0a] shadow-[4px_4px_0_0_color-mix(in_srgb,var(--color-border)_55%,transparent)] transition-[filter] duration-300 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           id="submitBtn"
           disabled={isSubmitting}
         >
