@@ -9,8 +9,7 @@ import { NavBar } from "../components/NavBar";
 import { RouteErrorBoundary } from "../components/RouteErrorBoundary";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
-import { Education } from "../components/sections/Education";
-import { Experience } from "../components/sections/Experience";
+import { TerminalSession } from "../components/sections/TerminalSession";
 import { HeroSection } from "../components/sections/HeroSection";
 import { ProjectsSection } from "../components/sections/ProjectsSection";
 import { useConsent } from "../hooks/useConsent";
@@ -205,8 +204,7 @@ export function Home() {
             background covers the hero through the very end of the page. */}
         <div className="page-curtain">
           <AboutMe />
-          <Experience />
-          <Education />
+          <TerminalSession />
           <ProjectsSection />
           <ContactSection />
           <Footer />

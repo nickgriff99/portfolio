@@ -416,6 +416,143 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TERMINAL SECTION — Step 6: Experience + Education hacker terminal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Blinking block cursor ─────────────────────────────────────────────── */
+/* step-end: instant on/off like a real terminal cursor; no fade between blinks */
+@keyframes terminal-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.terminal-cursor {
+  color: var(--color-accent);
+  animation: terminal-cursor-blink 1s step-end infinite;
+  font-style: normal;
+}
+
+/* ─── CRT scanlines overlay ──────────────────────────────────────────────── */
+/* repeating-linear-gradient produces horizontal scanlines without layout cost.
+   Kept at low opacity so text remains readable; pointer-events:none set in JSX. */
+.terminal-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+}
+
+/* ─── Phosphor glow — applied to the terminal body text ─────────────────── */
+/* Subtle text-shadow mimics the green phosphor emission of old CRT terminals.
+   Kept lightweight: one tight shadow only. No blur filter (would cause paint storm). */
+.terminal-window .font-mono {
+  text-shadow: 0 0 6px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* ─── Glitch keyframes ────────────────────────────────────────────────────── */
+/* Two variants so h2 glitches don't sync with the title-bar glitch.
+   Each burst is < 0.15 s and < 3 state changes → well under WCAG 2.3.1 flash threshold.
+   Affected area is tiny text (< 2 % viewport) → below the general-flash area threshold.
+   Only `transform` and `text-shadow` animated → compositor-only, no paint storm. */
+
+@keyframes terminal-glitch-a {
+  0%,  93.5%, 100% {
+    transform: none;
+    text-shadow: none;
+  }
+  94% {
+    transform: translateX(-2px);
+    text-shadow: 2px 0 var(--color-highlight), -2px 0 var(--color-link);
+  }
+  96% {
+    transform: translateX(2px);
+    text-shadow: -2px 0 var(--color-highlight), 1px 0 var(--color-link);
+  }
+  98% {
+    transform: translateX(-1px) skewX(-0.5deg);
+    text-shadow: none;
+  }
+}
+
+@keyframes terminal-glitch-b {
+  0%,  91%, 100% {
+    transform: none;
+    text-shadow: none;
+  }
+  91.5% {
+    transform: translateX(2px);
+    text-shadow: -2px 0 var(--color-highlight), 2px 0 var(--color-link);
+  }
+  93.5% {
+    transform: translateX(-1px);
+    text-shadow: 2px 0 var(--color-link);
+  }
+  95% {
+    transform: none;
+    text-shadow: none;
+  }
+}
+
+/* Glitch on visible section headings (Experience / Education) and any small terminal labels.
+   Applied to the label <span> inside each SectionHeading h2; also used on SectionDivider.
+   transform requires block-level formatting context. */
+.terminal-glitch-h2 {
+  display: inline-block;
+}
+
+/* Glitch on title bar text */
+.terminal-glitch-title {
+  display: inline-block;
+}
+
+/* Status chip — subtle pulse on the "SYSTEM COMPROMISED" badge */
+@keyframes terminal-chip-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* ─── Reduced-motion overrides ───────────────────────────────────────────── */
+/* ALL animation off: static text, no glitch, no scanlines blink, cursor static.
+   Scanlines overlay removed via JSX conditional; cursor display controlled by JS.
+   CSS handles the animation disabling for declarative animations. */
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor {
+    animation: none;
+    opacity: 1; /* static cursor */
+  }
+
+  .terminal-glitch-h2,
+  .terminal-glitch-title {
+    animation: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ─── Motion-enabled animations ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Both visible section headings use terminal-glitch-a on their label <span>.
+     Desync via animationDelay inline style: 0s for Experience, 1.3s for Education.
+     1.3s offset keeps them permanently staggered across the 7s cycle. */
+  .terminal-glitch-h2 {
+    animation: terminal-glitch-a 7s ease-in-out infinite;
+  }
+
+  /* Title bar uses variant-b animation at a different total duration → never syncs with headings */
+  .terminal-glitch-title {
+    animation: terminal-glitch-b 11s ease-in-out infinite;
+    animation-delay: 2.5s;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   END TERMINAL SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 /* Hero entrance animation — never IO-gated, fires immediately on load.
    Separate from .viewport-animate (scroll-reveal for other sections). */
 @keyframes hero-fade {
