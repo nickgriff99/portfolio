@@ -139,7 +139,7 @@ export function AboutMe() {
                   <span className="text-[var(--color-link)]">@</span> Data Labeller · Tesla
                 </li>
                 <li>
-                  <span className="text-[var(--color-dev)]">✓</span> Building full-stack products for fun (check <a href="/projects" className="text-[var(--color-link)]">my projects</a> below!)
+                  <span className="text-[var(--color-dev)]">✓</span> Building full-stack products for fun (check <a href="#projects" className="text-[var(--color-link)]">my projects</a> below!)
                 </li>
                 <li>
                   <span className="text-[var(--color-accent)]">→</span> Open to full-stack roles
