@@ -10,12 +10,14 @@ export const skillsData: SkillsMap = {
   backend: [
     { name: "Node.js", color: "#339933" },
     { name: "Express", color: "#4B5563" },
+    { name: "Python", color: "#3776AB" },
     { name: "PostgreSQL", color: "#336791" },
     { name: "Prisma", color: "#2D3748" },
     { name: "Supabase", color: "#15803D" },
   ],
   tools: [
     { name: "Stripe", color: "#635BFF" },
+    { name: "Claude API", color: "#D97757" },
     { name: "Playwright", color: "#2EAD33" },
     { name: "Docker", color: "#2496ED" },
   ],

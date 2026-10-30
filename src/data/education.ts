@@ -14,7 +14,7 @@ export const educationData: TimelineEntry[] = [
   {
     title: "Full-Stack Software Engineering Certificate",
     organization: "Devslopes Academy",
-    duration: "December 2023 - September 2025",
+    duration: "November 2022 - September 2025",
     bullets: [
       "Project-driven bootcamp — 8+ full-stack apps shipped from concept to deployment.",
     ],
