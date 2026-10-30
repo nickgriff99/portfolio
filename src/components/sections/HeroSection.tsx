@@ -74,7 +74,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               .hero-animate children (animation-fill-mode:both owns their transform).
               CSS drives the drift via --hero-progress (Home.tsx scroll listener). */}
           <div className="hero-text-parallax relative z-10 flex flex-col items-start text-left">
-            <span className="hero-animate hero-animate-1 mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
+            <span className="hero-animate hero-animate-1 mb-4 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
                 aria-hidden="true"
                 className={cn("h-2 w-2 rounded-full bg-[#0a0a0a]", !prefersReducedMotion && "animate-pulse")}
@@ -82,7 +82,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               Available for Hire
             </span>
 
-            <h1 className="hero-animate hero-animate-2 mb-5 flex flex-col text-[length:min(19vw,18vh,9rem)] font-extrabold leading-[0.95] text-[var(--color-text)] sm:text-[length:min(17vw,18vh,12rem)] md:text-[length:min(14vw,18vh,17rem)]">
+            <h1 className="hero-animate hero-animate-2 mb-3 flex flex-col text-[length:min(16vw,14vh,5.5rem)] font-extrabold leading-[0.9] tracking-tighter text-[var(--color-text)] sm:text-[length:min(11vw,14vh,6.5rem)] md:text-[length:min(7.5vw,16vh,7rem)]">
               <span>Nicholas</span>
               <ShinyText
                 text="Griffiths"
@@ -98,22 +98,22 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               />
             </h1>
 
-            <h2 className="hero-animate hero-animate-3 mb-3 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
+            <h2 className="hero-animate hero-animate-3 mb-2 text-3xl font-semibold tracking-tight text-[var(--color-link)] sm:text-4xl">
               Full-Stack Engineer
             </h2>
 
-            <p className="hero-animate hero-animate-3 mb-6 text-sm font-medium uppercase tracking-wide text-[var(--color-soft)]">
+            <p className="hero-animate hero-animate-3 mb-7 text-sm font-medium uppercase tracking-wide text-[var(--color-soft)]">
               Provo, UT · Remote (Mountain Time)
             </p>
 
-            <p className="hero-animate hero-animate-4 mb-10 max-w-xl text-lg leading-8 text-[var(--color-soft)]">
+            <p className="hero-animate hero-animate-4 mb-8 max-w-xl text-lg leading-7 text-[var(--color-soft)]">
               I build full-stack products end-to-end — from the{" "}
               <span className="keyword-highlight">Postgres schema</span> to a{" "}
               <VariableProximity
                 label="Three.js configurator"
                 containerRef={heroContainerRef}
-                fromFontVariationSettings="'wght' 400, 'opsz' 9"
-                toFontVariationSettings="'wght' 1000, 'opsz' 40"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 800"
                 radius={200}
                 falloff="gaussian"
                 className="inline align-baseline text-inherit"

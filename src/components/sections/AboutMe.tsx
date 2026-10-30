@@ -37,7 +37,7 @@ export function AboutMe() {
       <div className="content-shell">
         {/* Section heading — same look as existing (section-title + header-surface) */}
         <h2 className="section-title">
-          <span className="header-surface relative inline-block rounded-2xl px-6 py-3 tracking-wide">
+          <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
             About <span className="keyword-link">Me</span>
           </span>
         </h2>
@@ -46,7 +46,7 @@ export function AboutMe() {
           Two-column layout on desktop (lg+), stacked on mobile.
           items-start so neither column stretches the other.
         */}
-        <div className="flex flex-col gap-12 lg:grid lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-24">
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-16">
 
           {/* LEFT — About text */}
           <div className="text-left">
@@ -131,7 +131,7 @@ export function AboutMe() {
 
             {/* Currently strip — mono status line below the paragraphs */}
             <div className="viewport-animate mt-8 border-l-2 border-[color-mix(in_srgb,var(--color-link)_45%,transparent)] pl-4">
-              <p className="font-mono text-xs uppercase tracking-widest text-[var(--color-soft)] mb-1">
+              <p className="font-mono text-xs uppercase tracking-wide text-[var(--color-soft)] mb-1">
                 // currently
               </p>
               <ul className="space-y-1 font-mono text-sm text-[var(--color-muted)] sm:text-base">
@@ -151,7 +151,7 @@ export function AboutMe() {
           {/* RIGHT — SkillsWidget, sticky on desktop so it stays in view while left scrolls */}
           <div className="lg:sticky lg:top-28">
             {/* Sub-heading for the skills panel */}
-            <p className="mb-6 font-mono text-xs uppercase tracking-widest text-[var(--color-soft)]">
+            <p className="mb-6 font-mono text-xs uppercase tracking-wide text-[var(--color-soft)]">
               // skills &amp; technologies
             </p>
             <SkillsWidget />

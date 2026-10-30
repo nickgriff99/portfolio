@@ -16,9 +16,9 @@ function ShowcaseFallback() {
 export function ProjectsSection() {
   return (
     <section id="projects" className="section-band" aria-labelledby="projects-heading">
-      <div className="content-shell pb-12">
+      <div className="content-shell">
         <h2 id="projects-heading" className="section-title">
-          <span className="header-surface relative inline-block rounded-2xl px-6 py-3 tracking-wide">
+          <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
             Featured <span className="keyword-accent">Projects</span>
           </span>
         </h2>

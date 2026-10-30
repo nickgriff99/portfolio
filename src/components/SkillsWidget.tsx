@@ -335,7 +335,6 @@ export function SkillsWidget() {
                 backgroundColor: skill.color,
                 color: textColorFor(skill.color),
                 borderRadius: BLOB_RADII[(index * 2 + 1) % BLOB_RADII.length],
-                fontFamily: '"Roboto Flex", sans-serif',
                 fontVariationSettings: PROXIMITY_FROM,
               }}
             >

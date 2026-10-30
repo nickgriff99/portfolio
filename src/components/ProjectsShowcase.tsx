@@ -119,7 +119,7 @@ function FocusedCard({
                   {project.title}
                 </h3>
                 {project.isClientProject ? (
-                  <span className="shrink-0 rounded-full border border-[color-mix(in_srgb,var(--color-accent)_55%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_18%,transparent)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                  <span className="shrink-0 rounded-full border border-[color-mix(in_srgb,var(--color-accent)_55%,transparent)] bg-[color-mix(in_srgb,var(--color-accent)_18%,transparent)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--color-accent)]">
                     Client
                   </span>
                 ) : null}
@@ -129,7 +129,7 @@ function FocusedCard({
               ) : null}
             </div>
             <span
-              className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] ${categoryPillClass(project.category)}`}
+              className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${categoryPillClass(project.category)}`}
             >
               {project.category}
             </span>
@@ -143,7 +143,7 @@ function FocusedCard({
             <ul className="mt-3 flex shrink-0 flex-wrap gap-2" aria-label="Project notes">
               {project.metrics.map((metric) => (
                 <li key={metric}>
-                  <span className="inline-block rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[color-mix(in_srgb,var(--color-border)_12%,transparent)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--color-soft)]">
+                  <span className="inline-block rounded-lg border border-[color-mix(in_srgb,var(--color-border)_42%,transparent)] bg-[color-mix(in_srgb,var(--color-border)_12%,transparent)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-soft)]">
                     {metric}
                   </span>
                 </li>
@@ -230,14 +230,14 @@ function CompactTile({
             {project.title}
           </span>
           <span
-            className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] ${categoryPillClass(project.category)}`}
+            className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${categoryPillClass(project.category)}`}
           >
             {project.category}
           </span>
         </div>
         <p className="text-sm leading-snug text-[var(--color-muted)]">{project.tagline}</p>
         {isDiscontinued(project) ? (
-          <span className="w-fit rounded-lg border border-[color-mix(in_srgb,var(--color-highlight)_50%,transparent)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[var(--color-highlight)]">
+          <span className="w-fit rounded-lg border border-[color-mix(in_srgb,var(--color-highlight)_50%,transparent)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--color-highlight)]">
             Discontinued
           </span>
         ) : null}

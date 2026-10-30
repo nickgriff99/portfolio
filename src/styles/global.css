@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
 @tailwind base;
@@ -9,7 +7,7 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #000000;
+  --color-bg: #070F12;
   --color-bg-soft: #121210;
   --color-surface: #0c0b09;
   --color-surface-alt: #121210;
@@ -64,17 +62,27 @@
        elements stuck relative to body's always-zero scrollTop instead of the viewport. */
     overflow-x: clip;
     @apply font-sans;
+    letter-spacing: 0.01em;
+    font-kerning: normal;
   }
 
   body {
     overflow-x: clip;
     @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
+    letter-spacing: 0.01em;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 22%, transparent) 0%, transparent 38%),
       radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--color-dev) 20%, transparent) 0%, transparent 34%),
       linear-gradient(180deg, var(--color-bg), var(--color-bg-soft));
     color: var(--color-text);
     transition: background-color 320ms ease, color 320ms ease, background 420ms ease;
+  }
+
+  h1, h2, h3 {
+    letter-spacing: -0.03em;
+    hyphens: none;
   }
 
   * {
@@ -120,7 +128,8 @@
 
 @layer components {
   .section-band {
-    @apply w-full px-0 py-16 sm:py-20 md:py-28 lg:py-32;
+    /* Adjacent bands add together (~160px at lg). Previous py-32+py-32 was 256px of dead air. */
+    @apply w-full px-0 py-12 sm:py-14 md:py-16 lg:py-20;
     background-color: transparent;
   }
 
@@ -185,7 +194,7 @@
   }
 
   .section-title {
-    @apply mb-10 text-center font-display text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl;
+    @apply mb-8 text-center font-display text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl;
     color: var(--color-text);
     text-wrap: balance;
   }

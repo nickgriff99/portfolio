@@ -100,7 +100,7 @@ export function StaggeredMenu({
         {...(open ? { "aria-modal": true as const } : {})}
         role="dialog"
       >
-        <p className="mb-8 text-sm uppercase tracking-[0.3em] text-[var(--color-soft)]">Menu</p>
+        <p className="mb-8 text-sm uppercase tracking-wide text-[var(--color-soft)]">Menu</p>
         <ul className="space-y-4">
           {items.map((item, index) => {
             const sectionId = item.href.replace("#", "");
@@ -137,7 +137,7 @@ export function StaggeredMenu({
           href="/resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring mt-8 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
+          className="focus-ring mt-8 inline-block text-sm font-semibold uppercase tracking-wide text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
         >
           Resume ↗
         </a>

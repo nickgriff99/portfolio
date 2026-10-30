@@ -7,7 +7,7 @@ export function ContactSection() {
       <div className="content-shell">
         <h2
           id="contact-heading"
-          className="mb-10 max-w-5xl font-display text-[clamp(2.25rem,8vw,5.5rem)] font-extrabold leading-[0.95] tracking-tight text-[var(--color-text)] sm:mb-14"
+          className="mb-8 max-w-5xl font-display text-[clamp(2.25rem,8vw,5.5rem)] font-extrabold leading-[0.95] tracking-tight text-[var(--color-text)] sm:mb-10"
         >
           Let&apos;s <span className="keyword-accent">Work</span> Together
         </h2>
@@ -21,7 +21,7 @@ export function ContactSection() {
 
             <dl className="mb-8 space-y-3 font-mono text-sm text-[var(--color-muted)] sm:text-base">
               <div>
-                <dt className="text-xs uppercase tracking-widest text-[var(--color-soft)]">Email</dt>
+                <dt className="text-xs uppercase tracking-wide text-[var(--color-soft)]">Email</dt>
                 <dd>
                   <a
                     href="mailto:nichg999@gmail.com"
@@ -32,11 +32,11 @@ export function ContactSection() {
                 </dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-widest text-[var(--color-soft)]">Phone</dt>
+                <dt className="text-xs uppercase tracking-wide text-[var(--color-soft)]">Phone</dt>
                 <dd>Available upon request</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-widest text-[var(--color-soft)]">Location</dt>
+                <dt className="text-xs uppercase tracking-wide text-[var(--color-soft)]">Location</dt>
                 <dd>Available for remote work</dd>
               </div>
             </dl>

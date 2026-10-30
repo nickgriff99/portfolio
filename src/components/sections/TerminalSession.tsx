@@ -231,11 +231,11 @@ function TitleBar() {
       <span className="h-3 w-3 rounded-full bg-[var(--color-dev)] opacity-75 flex-shrink-0" />
       <span className="h-3 w-3 rounded-full bg-[var(--color-accent)] opacity-75 flex-shrink-0" />
       {/* Title — glitch animation for the title bar too */}
-      <span className="terminal-glitch-title flex-1 text-center font-mono text-xs text-[var(--color-muted)] tracking-wider select-none truncate px-2">
+      <span className="terminal-glitch-title flex-1 text-center font-mono text-xs text-[var(--color-muted)] tracking-normal select-none truncate px-2">
         root@portfolio: ~/career — bash
       </span>
       {/* Status chip */}
-      <span className="flex-shrink-0 rounded border border-[var(--color-highlight)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-highlight)] select-none">
+      <span className="flex-shrink-0 rounded border border-[var(--color-highlight)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--color-highlight)] select-none">
         SYSTEM COMPROMISED
       </span>
     </div>
@@ -364,7 +364,7 @@ export function TerminalSession() {
   const certEntry = educationData.find((e) => e.credentialUrl);
 
   return (
-    <div className="w-full px-4 py-16 sm:px-6 sm:py-20 md:py-28 lg:px-8 lg:py-32">
+    <div className="w-full px-4 py-12 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
       {/* Terminal window frame — one visual block containing both sections */}
       <div className="terminal-window relative mx-auto w-full max-w-5xl overflow-hidden rounded-lg border border-[var(--color-border)]">
 
