@@ -120,7 +120,7 @@
 
 @layer components {
   .section-band {
-    @apply w-full px-0 py-10 md:py-14;
+    @apply w-full px-0 py-16 sm:py-20 md:py-28 lg:py-32;
     background-color: transparent;
   }
 
@@ -141,8 +141,8 @@
   }
 
   /* Curtain: opaque dark surface that slides up over the pinned hero on scroll.
-     Single wrapper around all post-hero content (About … Footer). Step 9 will add
-     texture/gradients to this surface — keep class name obvious for that. */
+     Single wrapper around all post-hero content (About … Footer). Opaque on purpose
+     so the sticky hero is fully covered; texture was declined in Step 9. */
   .page-curtain {
     position: relative;
     z-index: 1;
@@ -587,7 +587,7 @@
   }
 
   .viewport-animate {
-    @apply translate-y-10 opacity-0 transition-all duration-500 ease-out;
+    @apply translate-y-6 opacity-0 transition-[opacity,transform] duration-500 ease-out;
   }
 
   .viewport-animate.in-view {
@@ -595,15 +595,17 @@
   }
 
   .viewport-animate.out-view {
-    @apply translate-y-10 opacity-0;
+    @apply translate-y-6 opacity-0;
   }
 
-  .viewport-animate.keep-visible {
-    @apply translate-y-0 opacity-100;
-  }
-
-  .keep-visible {
-    @apply opacity-100;
+  @media (prefers-reduced-motion: reduce) {
+    .viewport-animate,
+    .viewport-animate.in-view,
+    .viewport-animate.out-view {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   .focus-ring {

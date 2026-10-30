@@ -6,6 +6,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 const Grainient = lazy(() => import("@/bits/Grainient"));
 import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { SectionRule } from "../components/SectionRule";
 import { RouteErrorBoundary } from "../components/RouteErrorBoundary";
 import { AboutMe } from "../components/sections/AboutMe";
 import { ContactSection } from "../components/sections/ContactSection";
@@ -23,9 +24,9 @@ export function Home() {
     () => [
       { label: "Home", href: "#home" },
       { label: "About", href: "#about-me" },
+      { label: "Projects", href: "#projects" },
       { label: "Experience", href: "#experience" },
       { label: "Education", href: "#education" },
-      { label: "Projects", href: "#projects" },
       { label: "Contact", href: "#contact" },
     ],
     [],
@@ -35,9 +36,9 @@ export function Home() {
     () => [
       "home",
       "about-me",
+      "projects",
       "experience",
       "education",
-      "projects",
       "contact",
     ],
     [],
@@ -204,8 +205,11 @@ export function Home() {
             background covers the hero through the very end of the page. */}
         <div className="page-curtain">
           <AboutMe />
-          <TerminalSession />
+          <SectionRule label="projects" />
           <ProjectsSection />
+          <SectionRule label="experience" />
+          <TerminalSession />
+          <SectionRule label="contact" />
           <ContactSection />
           <Footer />
         </div>

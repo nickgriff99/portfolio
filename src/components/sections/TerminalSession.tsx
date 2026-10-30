@@ -310,7 +310,7 @@ export function TerminalSession() {
   const certEntry = educationData.find((e) => e.credentialUrl);
 
   return (
-    <div className="w-full px-4 py-10 sm:px-6 md:py-14 lg:px-8">
+    <div className="w-full px-4 py-16 sm:px-6 sm:py-20 md:py-28 lg:px-8 lg:py-32">
       {/* Terminal window frame — one visual block containing both sections */}
       <div className="terminal-window relative mx-auto w-full max-w-5xl overflow-hidden rounded-lg border border-[var(--color-border)]">
 

@@ -1,135 +1,78 @@
 import { useEffect } from "react";
 
-function isRectInViewport(rect: DOMRect, vh: number): boolean {
-  return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < vh;
-}
-
+/**
+ * Bidirectional scroll reveal for `.viewport-animate`.
+ * Intersecting → `.in-view`; leaving → `.out-view` so the fade replays on the way back up.
+ * Reduced motion: everything shown, observer skipped.
+ * Do not put `.viewport-animate` on nodes that already own `transform` (terminal, bento tiles, SkillsWidget).
+ */
 export function useRevealOnScroll(selector = ".viewport-animate"): void {
   useEffect(() => {
-    const observed = new Set<HTMLElement>();
-    const revealAll = () => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
-        if (!observed.has(element)) {
-          element.classList.add("in-view");
-          element.classList.remove("out-view");
-          observed.add(element);
-        }
+    const nodes = () => Array.from(document.querySelectorAll<HTMLElement>(selector));
+
+    const showAll = () => {
+      nodes().forEach((element) => {
+        element.classList.add("in-view");
+        element.classList.remove("out-view");
+        element.style.transitionDelay = "";
       });
     };
 
-    if (typeof window.IntersectionObserver === "undefined") {
-      revealAll();
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduced || typeof window.IntersectionObserver === "undefined") {
+      showAll();
       return;
     }
 
-    const syncVisibleInViewport = () => {
-      const vh = window.innerHeight || 0;
-      document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        if (isRectInViewport(rect, vh)) {
-          element.classList.add("in-view", "keep-visible");
-          element.classList.remove("out-view");
-        }
-      });
-    };
-
     const observer = new IntersectionObserver(
       (entries) => {
-        const vh = window.innerHeight || 0;
         entries.forEach((entry) => {
           const target = entry.target as HTMLElement;
           if (entry.isIntersecting) {
-            target.classList.add("in-view", "keep-visible");
+            target.classList.add("in-view");
             target.classList.remove("out-view");
-            observer.unobserve(target);
-          } else if (!target.classList.contains("keep-visible")) {
-            const rect = target.getBoundingClientRect();
-            // IO can briefly report not intersecting during layout / HMR; don't hide if still on-screen.
-            if (isRectInViewport(rect, vh)) {
-              target.classList.add("in-view", "keep-visible");
-              target.classList.remove("out-view");
-              observer.unobserve(target);
-            } else {
-              target.classList.add("out-view");
-              target.classList.remove("in-view");
-            }
+          } else {
+            target.classList.add("out-view");
+            target.classList.remove("in-view");
           }
         });
       },
-      {
-        threshold: 0,
-        rootMargin: "120px 0px 120px 0px",
-      },
+      { threshold: 0, rootMargin: "80px 0px 80px 0px" },
     );
 
-    const observeElements = () => {
-      for (const el of Array.from(observed)) {
-        if (!document.contains(el)) {
-          observed.delete(el);
+    const observed = new Set<HTMLElement>();
+
+    const observeNew = () => {
+      nodes().forEach((element) => {
+        if (observed.has(element) || !document.contains(element)) return;
+        element.style.transitionDelay = "";
+        observer.observe(element);
+        observed.add(element);
+      });
+      for (const element of observed) {
+        if (!document.contains(element)) {
+          observer.unobserve(element);
+          observed.delete(element);
         }
       }
-
-      const elements = document.querySelectorAll<HTMLElement>(selector);
-      elements.forEach((element, index) => {
-        if (!observed.has(element)) {
-          element.style.transitionDelay = `${index * 0.04}s`;
-          element.classList.add("in-view");
-          element.classList.remove("out-view");
-          observer.observe(element);
-          observed.add(element);
-        } else {
-          const rect = element.getBoundingClientRect();
-          const vh = window.innerHeight || 0;
-          if (isRectInViewport(rect, vh) && !element.classList.contains("keep-visible")) {
-            element.classList.add("in-view", "keep-visible");
-            element.classList.remove("out-view");
-          }
-        }
-      });
     };
 
-    observeElements();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(syncVisibleInViewport);
-    });
+    observeNew();
 
-    let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
-    const onResize = () => {
-      if (resizeTimeout !== undefined) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        resizeTimeout = undefined;
-        syncVisibleInViewport();
-      }, 100);
-    };
-    window.addEventListener("resize", onResize);
-
-    const mutationObserver = new MutationObserver(() => {
-      observeElements();
-      requestAnimationFrame(() => {
-        requestAnimationFrame(syncVisibleInViewport);
-      });
-    });
-
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    const mutationObserver = new MutationObserver(observeNew);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
 
     let viteAfterUpdate: (() => void) | undefined;
     if (import.meta.hot) {
-      viteAfterUpdate = () => {
-        observeElements();
-        requestAnimationFrame(() => {
-          requestAnimationFrame(syncVisibleInViewport);
-        });
-      };
+      viteAfterUpdate = observeNew;
       import.meta.hot.on("vite:afterUpdate", viteAfterUpdate);
     }
 
     return () => {
       mutationObserver.disconnect();
-      window.removeEventListener("resize", onResize);
-      if (resizeTimeout !== undefined) clearTimeout(resizeTimeout);
       if (import.meta.hot && viteAfterUpdate) {
         import.meta.hot.off("vite:afterUpdate", viteAfterUpdate);
       }

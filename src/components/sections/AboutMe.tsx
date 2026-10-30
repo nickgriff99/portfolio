@@ -154,9 +154,7 @@ export function AboutMe() {
             <p className="mb-6 font-mono text-xs uppercase tracking-widest text-[var(--color-soft)]">
               // skills &amp; technologies
             </p>
-            <div className="viewport-animate">
-              <SkillsWidget />
-            </div>
+            <SkillsWidget />
           </div>
 
         </div>
