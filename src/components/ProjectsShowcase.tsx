@@ -71,7 +71,7 @@ function FocusedCard({
   headingRef,
 }: {
   project: Project;
-  headingRef: RefObject<HTMLHeadingElement | null>;
+  headingRef?: RefObject<HTMLHeadingElement | null>;
 }) {
   const primaryHref = projectPrimaryHref(project);
   const primaryLabel = projectPrimaryLabel(project);
@@ -246,19 +246,25 @@ function CompactTile({
   );
 }
 
+// Strongest technical depth first — these three are always fully readable, no click required.
+const ALWAYS_EXPANDED_COUNT = 3;
+
 /**
- * Bento showcase: one focused project (full detail) and four compact tiles.
- * Compact clicks swap into the focused slot via motion `layout` (spring overshoot).
- * Mobile is a single column with the focused tile first (DOM order).
+ * Top 3 projects (ClackForge, TheListingHub, receipts-bot) render as full cards,
+ * unconditionally — a recruiter never has to click to read them. The remaining tail
+ * (Streak Garden, B.G.M.I.D.) keeps the original bento swap: one focused, one compact,
+ * click to trade places via motion `layout` (spring overshoot).
  */
 export function ProjectsShowcase() {
   const reducedMotion = usePrefersReducedMotion();
-  const [focusedId, setFocusedId] = useState(projectsData[0].id);
+  const alwaysExpanded = projectsData.slice(0, ALWAYS_EXPANDED_COUNT);
+  const tail = projectsData.slice(ALWAYS_EXPANDED_COUNT);
+
+  const [focusedId, setFocusedId] = useState(tail[0]?.id);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const skipInitialFocus = useRef(true);
 
-  const focused = projectsData.find((project) => project.id === focusedId) ?? projectsData[0];
-  const compact = projectsData.filter((project) => project.id !== focused.id);
+  const focused = tail.find((project) => project.id === focusedId) ?? tail[0];
 
   const layoutTransition = reducedMotion
     ? { duration: 0 }
@@ -274,41 +280,47 @@ export function ProjectsShowcase() {
 
   return (
     <div className="w-full">
-      <p className="sr-only" aria-live="polite">
-        Showing {focused.title}
-      </p>
-      <LayoutGroup>
-        <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
-          {projectsData.map((project) => {
-            const isFocused = project.id === focused.id;
-            const compactIndex = compact.findIndex((item) => item.id === project.id);
-            const rowClass = isFocused
-              ? "order-first md:order-none md:col-span-2 md:row-start-2"
-              : compactIndex < 2
-                ? "md:row-start-1"
-                : "md:row-start-3";
+      <ul className="grid grid-cols-1 gap-5 md:gap-6 lg:gap-8">
+        {alwaysExpanded.map((project) => (
+          <li key={project.id}>
+            <FocusedCard project={project} />
+          </li>
+        ))}
+      </ul>
 
-            return (
-              <motion.li
-                key={project.id}
-                layout
-                layoutId={`project-${project.id}`}
-                className={rowClass}
-                transition={layoutTransition}
-                whileTap={
-                  isFocused || reducedMotion ? undefined : { scaleX: 1.06, scaleY: 0.94 }
-                }
-              >
-                {isFocused ? (
-                  <FocusedCard project={project} headingRef={headingRef} />
-                ) : (
-                  <CompactTile project={project} onSelect={() => setFocusedId(project.id)} />
-                )}
-              </motion.li>
-            );
-          })}
-        </ul>
-      </LayoutGroup>
+      {focused ? (
+        <div className="mt-5 md:mt-6 lg:mt-8">
+          <p className="sr-only" aria-live="polite">
+            Showing {focused.title}
+          </p>
+          <LayoutGroup>
+            <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
+              {tail.map((project) => {
+                const isFocused = project.id === focused.id;
+
+                return (
+                  <motion.li
+                    key={project.id}
+                    layout
+                    layoutId={`project-${project.id}`}
+                    className={isFocused ? "order-first md:order-none md:col-span-2" : undefined}
+                    transition={layoutTransition}
+                    whileTap={
+                      isFocused || reducedMotion ? undefined : { scaleX: 1.06, scaleY: 0.94 }
+                    }
+                  >
+                    {isFocused ? (
+                      <FocusedCard project={project} headingRef={headingRef} />
+                    ) : (
+                      <CompactTile project={project} onSelect={() => setFocusedId(project.id)} />
+                    )}
+                  </motion.li>
+                );
+              })}
+            </ul>
+          </LayoutGroup>
+        </div>
+      ) : null}
     </div>
   );
 }
