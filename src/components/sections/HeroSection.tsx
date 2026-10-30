@@ -10,7 +10,6 @@ import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 // Hero already paints its own CSS gradients underneath (`.hero-photo-overlay`,
 // global.css), so a `null` fallback during the brief chunk-load window is invisible.
 const Particles = lazy(() => import("@/bits/Particles"));
-import TextType from "@/bits/TextType";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useMagneticHover } from "@/hooks/useMagneticHover";
 
@@ -99,33 +98,27 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               />
             </h1>
 
-            <h2 className="hero-animate hero-animate-3 mb-6 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
-              <TextType
-                as="span"
-                text={["Web Development", "User Experience", "Software Engineering"]}
-                typingSpeed={75}
-                pauseDuration={2600}
-                showCursor
-                cursorCharacter="█"
-                deletingSpeed={40}
-                variableSpeed={{ min: 60, max: 120 }}
-                cursorBlinkDuration={0.5}
-              />
+            <h2 className="hero-animate hero-animate-3 mb-3 text-3xl font-semibold text-[var(--color-link)] sm:text-4xl tracking-wider">
+              Full-Stack Engineer
             </h2>
 
+            <p className="hero-animate hero-animate-3 mb-6 text-sm font-medium uppercase tracking-wide text-[var(--color-soft)]">
+              Provo, UT · Remote (Mountain Time)
+            </p>
+
             <p className="hero-animate hero-animate-4 mb-10 max-w-xl text-lg leading-8 text-[var(--color-soft)]">
-              I create exceptional digital experiences through <span className="keyword-highlight">clean code</span>{" "}
-              and{" "}
+              I build full-stack products end-to-end — from the{" "}
+              <span className="keyword-highlight">Postgres schema</span> to a{" "}
               <VariableProximity
-                label="innovative design"
+                label="Three.js configurator"
                 containerRef={heroContainerRef}
                 fromFontVariationSettings="'wght' 400, 'opsz' 9"
                 toFontVariationSettings="'wght' 1000, 'opsz' 40"
                 radius={200}
                 falloff="gaussian"
                 className="inline align-baseline text-inherit"
-              />
-              .
+              />{" "}
+              people actually enjoy using.
             </p>
 
             <div className="hero-animate hero-animate-5 flex flex-col gap-4 sm:flex-row">
