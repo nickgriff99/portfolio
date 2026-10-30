@@ -140,7 +140,7 @@ async function runViewport(browser, width, height) {
       { name: "h2", locator: page.locator("section.section-hero h2").first() },
       { name: "paragraph", locator: page.locator("section.section-hero p").first() },
       { name: "cta1", locator: page.locator("section.section-hero button").filter({ hasText: /view my work/i }).first() },
-      { name: "cta2", locator: page.locator("section.section-hero button").filter({ hasText: /about me/i }).first() },
+      { name: "cta2", locator: page.locator("section.section-hero a").filter({ hasText: /resume/i }).first() },
     ];
 
     // Wait for opacity to settle (CSS animations complete up to 1s)

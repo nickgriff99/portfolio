@@ -24,7 +24,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
   const heroContainerRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const projectsCtaRef = useMagneticHover<HTMLButtonElement>();
-  const aboutCtaRef = useMagneticHover<HTMLButtonElement>();
+  const resumeCtaRef = useMagneticHover<HTMLAnchorElement>();
 
   return (
     <section
@@ -129,13 +129,15 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               >
                 View My Work
               </button>
-              <button
-                ref={aboutCtaRef}
-                onClick={() => onNavigate("#about-me")}
+              <a
+                ref={resumeCtaRef}
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-secondary"
               >
-                About Me
-              </button>
+                Resume
+              </a>
             </div>
           </div>
         </div>

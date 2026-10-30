@@ -122,6 +122,15 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                   })}
                 </ul>
 
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring hidden shrink-0 rounded-md font-semibold text-[var(--color-muted)] transition-colors hover:text-[var(--color-accent)] lg:inline-block"
+                >
+                  Resume ↗
+                </a>
+
                 <div className="flex shrink-0 items-center gap-3">
                   <button
                     onClick={() => setMobileOpen((prev) => !prev)}

@@ -133,6 +133,14 @@ export function StaggeredMenu({
             );
           })}
         </ul>
+        <a
+          href="/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="focus-ring mt-8 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
+        >
+          Resume ↗
+        </a>
       </aside>
     </>,
     document.body,
