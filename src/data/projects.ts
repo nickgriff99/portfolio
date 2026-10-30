@@ -104,4 +104,23 @@ export const projectsData: Project[] = [
     liveUrl: "https://bg-details.com/",
     isClientProject: true,
   },
+  {
+    id: 11,
+    title: "Event-Sourced Wallet Dashboard",
+    category: "backend",
+    tagline: "A digital wallet backend where balances are replayed, not stored.",
+    description:
+      "Real-time wallet backend where every deposit, withdrawal, and transfer is an immutable event — balances are computed by replaying the event log, not mutated in place. REST API plus WebSocket protocol for live balance updates to a dashboard.",
+    highlights: [
+      "Event-sourced core: balances reconstructed by replay, with point-in-time balance queries.",
+      "Optimistic concurrency control and snapshot caching every 50 events, so replay stays fast as history grows.",
+      "Vitest coverage of the replay engine: event application, insufficient funds, snapshots, rollbacks, concurrency.",
+    ],
+    role: "Solo backend build — event sourcing, concurrency, real-time",
+    metrics: ["Event-sourced, replay-based balances", "Optimistic concurrency control", "Vitest-covered replay engine"],
+    tech: ["Node.js", "TypeScript", "Express", "PostgreSQL", "WebSockets", "Vitest", "Docker"],
+    githubLink: "https://github.com/nickgriff99/wallet-dashboard",
+    deploymentNote:
+      "No public demo — backend service with no hosted UI. See the repo's README for setup (Docker or local Postgres) and full API docs.",
+  },
 ];
