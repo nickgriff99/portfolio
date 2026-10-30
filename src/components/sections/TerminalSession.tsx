@@ -3,8 +3,10 @@
  *
  * Structure:
  *  - Two <section> elements (id="experience" / id="education") in normal flow → nav/scroll-spy works.
- *  - Each section has an sr-only <h2> (correct heading order) + sr-only accessible entries list.
- *  - Visual terminal (glitch headings, animated typing) is aria-hidden inside each section.
+ *  - Each section: visible glitch <h2>, then a ReadableTimeline (real content, always visible,
+ *    no scroll-scrub required) — this is the only copy now, for sighted and AT users alike.
+ *  - Visual terminal (glitch title bar, animated typing) is aria-hidden, below the readable
+ *    timeline — atmosphere, not the primary way to read the content.
  *  - ScrollTypedText is lazy → own chunk, main bundle stays flat.
  *  - Cert link is outside the aria-hidden tree — keyboard-focusable, always visible.
  *  - Reduced-motion: static full text, no glitch, no scanlines, no cursor blink.
@@ -15,6 +17,7 @@ import type { TypedBlock, TypedLine, TypedToken } from '../../bits/ScrollTypedTe
 import { educationData } from '../../data/education';
 import { experienceData } from '../../data/experience';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import type { TimelineEntry } from '../../types';
 
 // Lazy import — creates its own chunk so main bundle stays ~flat
 const ScrollTypedText = lazy(() => import('../../bits/ScrollTypedText'));
@@ -240,6 +243,57 @@ function TitleBar() {
 }
 
 /**
+ * Readable timeline — the real content, visible unconditionally above the terminal.
+ * A recruiter never has to wait on the scroll-typed animation to read company/title/
+ * dates/bullets: this renders immediately, in normal document flow. Reuses the same
+ * entry shape (title/organization/duration/bullets) the terminal below also types out,
+ * so there's no parallel copy to keep in sync.
+ */
+function ReadableTimeline({ entries }: { entries: TimelineEntry[] }) {
+  return (
+    <div className="mb-8 space-y-6">
+      {entries.map((entry) => (
+        <article
+          key={entry.organization + entry.title}
+          className="border-l-2 border-[color-mix(in_srgb,var(--color-link)_45%,transparent)] pl-4"
+        >
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+            <h3 className="font-display text-base font-bold tracking-tight text-[var(--color-text)] sm:text-lg">
+              {entry.title}
+            </h3>
+            <time className="shrink-0 font-mono text-xs text-[var(--color-muted)]">{entry.duration}</time>
+          </div>
+          <p className="text-sm font-medium text-[var(--color-link)]">{entry.organization}</p>
+          <ul className="mt-2 space-y-1 text-sm leading-relaxed text-[var(--color-muted)]">
+            {entry.bullets.map((b) => (
+              <li key={b} className="flex gap-2">
+                <span aria-hidden="true" className="text-[var(--color-accent)]">
+                  —
+                </span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+          {entry.credentialUrl && (
+            <p className="mt-2 text-xs text-[var(--color-soft)]">
+              Certificate ID: {entry.credentialId}.{' '}
+              <a
+                href={entry.credentialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--color-link)] underline-offset-2 hover:underline"
+              >
+                View credential
+              </a>
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  );
+}
+
+/**
  * Real visible section heading — hacker terminal style.
  *
  * Anatomy (left→right):
@@ -331,23 +385,9 @@ export function TerminalSession() {
             {/* Real visible heading — first child so nav scroll lands on it */}
             <SectionHeading label="Experience" delay="0s" />
 
-            {/* Accessible entry list — sr-only; gives AT structured bullet content */}
-            <div className="sr-only">
-              <ul>
-                {experienceData.map((entry) => (
-                  <li key={entry.organization + entry.title}>
-                    <article>
-                      <h3>{entry.title}</h3>
-                      <p>{entry.organization}</p>
-                      <time>{entry.duration}</time>
-                      <ul>
-                        {entry.bullets.map((b) => <li key={b}>{b}</li>)}
-                      </ul>
-                    </article>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Readable timeline — real content, visible immediately, no scroll-scrub required.
+                Also the only accessible copy now (terminal below stays aria-hidden). */}
+            <ReadableTimeline entries={experienceData} />
 
             {/* Typed terminal content — visual only (aria-hidden); lazy chunk */}
             <div aria-hidden="true">
@@ -366,31 +406,9 @@ export function TerminalSession() {
             {/* Real visible heading — first child so nav scroll lands on it */}
             <SectionHeading label="Education" delay="1.3s" />
 
-            {/* Accessible entry list — sr-only; gives AT structured entry content */}
-            <div className="sr-only">
-              <ul>
-                {educationData.map((entry) => (
-                  <li key={entry.organization + entry.title}>
-                    <article>
-                      <h3>{entry.title}</h3>
-                      <p>{entry.organization}</p>
-                      <time>{entry.duration}</time>
-                      <ul>
-                        {entry.bullets.map((b) => <li key={b}>{b}</li>)}
-                      </ul>
-                      {entry.credentialUrl && (
-                        <p>
-                          Certificate ID: {entry.credentialId}.{' '}
-                          <a href={entry.credentialUrl} target="_blank" rel="noopener noreferrer">
-                            View credential
-                          </a>
-                        </p>
-                      )}
-                    </article>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Readable timeline — real content, visible immediately, no scroll-scrub required.
+                Also the only accessible copy now (terminal below stays aria-hidden). */}
+            <ReadableTimeline entries={educationData} />
 
             {/* Typed terminal content — visual only (aria-hidden); lazy chunk */}
             <div aria-hidden="true">
