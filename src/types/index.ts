@@ -10,6 +10,8 @@ export type SkillsMap = Record<SkillCategoryKey, Skill[]>;
 export interface Project {
   id: number;
   title: string;
+  /** Stable routing key, kebab-case, independent of title */
+  slug: string;
   category: "frontend" | "backend" | "fullstack";
   /** One-line hook under the title */
   tagline: string;
@@ -33,6 +35,11 @@ export interface Project {
   role?: string;
   /** Small proof badges (stack slice, impact, constraint) */
   metrics?: string[];
+}
+
+export interface ProjectDetail {
+  featureBreakdown: string[];
+  cardSnippet: string;
 }
 
 export interface TimelineEntry {

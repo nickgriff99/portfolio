@@ -7,6 +7,7 @@ export const projectsData: Project[] = [
   {
     id: 7,
     title: "ClackForge",
+    slug: "clackforge",
     category: "fullstack",
     tagline: "Custom mechanical keyboard e-commerce with a live 3D configurator.",
     description:
@@ -27,6 +28,7 @@ export const projectsData: Project[] = [
   {
     id: 8,
     title: "TheListingHub",
+    slug: "thelistinghub",
     category: "fullstack",
     tagline: "Commercial real estate classifieds platform rebuild.",
     description:
@@ -47,6 +49,7 @@ export const projectsData: Project[] = [
   {
     id: 10,
     title: "receipts-bot",
+    slug: "receipts-bot",
     category: "backend",
     tagline: "A Discord AI voice companion — named as a joke, built for real.",
     description:
@@ -66,6 +69,7 @@ export const projectsData: Project[] = [
   {
     id: 9,
     title: "Streak Garden",
+    slug: "streak-garden",
     category: "fullstack",
     tagline: "Habit tracker where your plants grow from real check-ins.",
     description:
@@ -86,6 +90,7 @@ export const projectsData: Project[] = [
   {
     id: 6,
     title: "B.G.M.I.D.",
+    slug: "bgmid",
     category: "frontend",
     tagline: "Mobile car detailing — booking-focused marketing site.",
     description:
@@ -107,6 +112,7 @@ export const projectsData: Project[] = [
   {
     id: 11,
     title: "Event-Sourced Wallet Dashboard",
+    slug: "wallet-dashboard",
     category: "backend",
     tagline: "A digital wallet backend where balances are replayed, not stored.",
     description:
