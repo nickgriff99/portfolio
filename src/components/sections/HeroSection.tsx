@@ -107,8 +107,9 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
             </p>
 
             <p className="hero-animate hero-animate-4 mb-8 max-w-xl text-lg leading-7 text-[var(--color-soft)]">
-              I build full-stack products end-to-end — from the{" "}
-              <span className="keyword-highlight">Postgres schema</span> to a{" "}
+              I design the{" "}
+              <span className="keyword-highlight">Postgres schema and the APIs it powers</span>{" "}
+              — then bring that same rigor to a{" "}
               <VariableProximity
                 label="Three.js configurator"
                 containerRef={heroContainerRef}

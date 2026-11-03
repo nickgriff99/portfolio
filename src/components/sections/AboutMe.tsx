@@ -26,10 +26,10 @@ const LEAD_CLASS =
   "text-xl font-semibold leading-snug tracking-tight text-[var(--color-text)] sm:text-2xl sm:leading-snug lg:text-3xl";
 
 const LEAD_TEXT =
-  "I build full-stack products end-to-end from the PostgreSQL schema to a Three.js configurator people actually enjoy using. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
+  "I design PostgreSQL schemas and the APIs that sit on top of them, then build the interface that makes that data feel alive \u2014 like the Three.js configurator on this site. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
 
 const SECOND_TEXT =
-  "I recently wrapped a six-month React contract at Spot Parking, I\u2019m currently a Data Labeller at Tesla, and I\u2019m actively looking for a full-stack role where I can do this full-time.";
+  "I recently wrapped a six-month React contract at Spot Parking, and right now I\u2019m paying the bills as a Data Labeler at Tesla while I build and ship full-stack work on the side \u2014 actively looking for a full-stack role where I can do this full-time.";
 
 type AboutMeProps = {
   onNavigate: (href: `#${string}`) => void;
@@ -144,13 +144,13 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
               </p>
               <ul className="space-y-1 font-mono text-sm text-[var(--color-muted)] sm:text-base">
                 <li>
-                  <span className="text-[var(--color-link)]">@</span> Data Labeller · Tesla
-                </li>
-                <li>
                   <span className="text-[var(--color-dev)]">✓</span> Building full-stack products for fun (check <a href="#projects" className="text-[var(--color-link)]">my projects</a> below!)
                 </li>
                 <li>
                   <span className="text-[var(--color-accent)]">→</span> Open to full-stack roles
+                </li>
+                <li>
+                  <span className="text-[var(--color-link)]">@</span> Day job: Data Labeler at Tesla — paying the bills while I build the stuff above
                 </li>
               </ul>
             </div>
