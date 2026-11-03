@@ -21,7 +21,7 @@ function isDiscontinued(project: Project): boolean {
 }
 
 const TILE_CHROME =
-  "flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-none border-2 bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] shadow-[6px_6px_0_0_color-mix(in_srgb,var(--color-border)_55%,transparent)]";
+  "flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-[8px] border-2 bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] shadow-[6px_6px_0_0_color-mix(in_srgb,var(--color-border)_55%,transparent)]";
 
 function ProjectImage({
   project,

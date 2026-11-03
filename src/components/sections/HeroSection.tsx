@@ -74,7 +74,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               .hero-animate children (animation-fill-mode:both owns their transform).
               CSS drives the drift via --hero-progress (Home.tsx scroll listener). */}
           <div className="hero-text-parallax relative z-10 flex flex-col items-start text-left">
-            <span className="hero-animate hero-animate-1 mb-4 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
+            <span className="hero-animate hero-animate-1 mb-4 inline-flex items-center gap-2 rounded-[8px] bg-[var(--color-accent)] px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-[#0a0a0a]">
               <span
                 aria-hidden="true"
                 className={cn("h-2 w-2 rounded-full bg-[#0a0a0a]", !prefersReducedMotion && "animate-pulse")}

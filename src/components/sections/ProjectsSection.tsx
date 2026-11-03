@@ -7,7 +7,7 @@ const ProjectsShowcase = lazy(() =>
 function ShowcaseFallback() {
   return (
     <div
-      className="min-h-[40rem] w-full rounded-none border-2 border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)]"
+      className="min-h-[40rem] w-full rounded-[8px] border-2 border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)]"
       aria-hidden="true"
     />
   );

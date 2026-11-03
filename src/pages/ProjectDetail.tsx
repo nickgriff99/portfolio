@@ -19,7 +19,7 @@ function categoryPillClass(category: Project["category"]) {
 function HeroImage({ project }: { project: Project }) {
   if (!project.imageSrc) {
     return (
-      <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-none border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[var(--color-bg-soft)]">
+      <div className="relative flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-[8px] border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[var(--color-bg-soft)]">
         <Terminal
           className="aspect-square h-auto w-1/5 min-w-12 shrink-0 text-[var(--color-muted)] opacity-40"
           strokeWidth={1.25}
@@ -30,7 +30,7 @@ function HeroImage({ project }: { project: Project }) {
   }
 
   return (
-    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-none border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[var(--color-bg-soft)]">
+    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[8px] border-2 border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] bg-[var(--color-bg-soft)]">
       <img
         src={project.imageSrc}
         alt={project.imageAlt ?? ""}

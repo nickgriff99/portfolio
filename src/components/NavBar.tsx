@@ -40,7 +40,11 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
       // tree while the header is translated off-screen — same pattern as StaggeredMenu's
       // off-canvas `<aside>`, see StaggeredMenu.tsx.
       inert={hidden}
-      className={`fixed left-0 top-0 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : "z-50"} ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+      // `-translate-y-full` moves the header by exactly its own height — but `.nav-shell`'s
+      // offset box-shadow paints 6px past the border-box edge, so that sliver would still
+      // land at y=0..6px after the translate ("lingering shadow"). Clearing by `100% + 8px`
+      // takes the shadow fully off-screen too.
+      className={`fixed left-0 top-0 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : "z-50"} ${hidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="nav-shell">
@@ -100,7 +104,7 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
                   aria-label={mobileOpen ? "Close mobile menu" : "Open mobile menu"}
                   aria-expanded={mobileOpen}
                   aria-controls={MOBILE_MENU_ID}
-                  className="focus-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-none border-2 border-[var(--color-border)] lg:hidden"
+                  className="focus-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border-2 border-[var(--color-border)] lg:hidden"
                 >
                   <span className="sr-only">Menu</span>
                   <div className="space-y-1.5">
