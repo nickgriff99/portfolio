@@ -13,6 +13,10 @@ const ThankYou = lazy(() =>
   import("./pages/ThankYou").then((m) => ({ default: m.ThankYou })),
 );
 
+const ProjectDetail = lazy(() =>
+  import("./pages/ProjectDetail").then((m) => ({ default: m.ProjectDetail })),
+);
+
 function AnalyticsListener() {
   useAnalyticsPageviews();
   return null;
@@ -50,6 +54,29 @@ function App() {
                   }
                 >
                   <ThankYou />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+          <Route
+            path="/projects/:slug"
+            element={
+              <RouteErrorBoundary>
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
+                  <ProjectDetail />
                 </Suspense>
               </RouteErrorBoundary>
             }
