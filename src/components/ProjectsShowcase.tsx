@@ -54,7 +54,7 @@ function ProjectImage({
       <img
         src={project.imageSrc}
         alt={compact ? "" : project.imageAlt}
-        className={`h-full w-full object-cover object-center transition-transform ${motionDuration} group-hover:scale-105`}
+        className={`h-full w-full object-cover object-center transition-[transform,filter] ${motionDuration} group-hover:scale-105 group-hover:blur-[2px]`}
         loading="lazy"
         decoding="async"
       />
@@ -66,6 +66,14 @@ function ProjectImage({
         className={`pointer-events-none absolute inset-0 bg-[color-mix(in_srgb,var(--color-bg)_55%,transparent)] opacity-0 transition-opacity ${motionDuration} group-hover:opacity-100`}
         aria-hidden
       />
+      <div
+        className={`pointer-events-none absolute inset-0 flex scale-95 items-center justify-center opacity-0 transition-[opacity,transform] ${motionDuration} group-hover:scale-100 group-hover:opacity-100`}
+        aria-hidden
+      >
+        <span className="font-mono text-xl font-bold uppercase tracking-wide text-[var(--color-link)] sm:text-2xl">
+          See more →
+        </span>
+      </div>
     </div>
   );
 }

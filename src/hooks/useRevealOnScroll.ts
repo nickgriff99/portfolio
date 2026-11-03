@@ -60,7 +60,11 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
       }
     };
 
-    observeNew();
+    // rAF-defer the first observe() call: on a cold direct load the target may not have
+    // finished layout yet when this effect runs, and some engines (older WebKit) report a
+    // stale/zero-size rect on the observer's initial callback in that case. One frame is
+    // enough for layout to settle; later mutations still observe synchronously below.
+    const initialObserveFrame = requestAnimationFrame(observeNew);
 
     const mutationObserver = new MutationObserver(observeNew);
     mutationObserver.observe(document.body, { childList: true, subtree: true });
@@ -72,6 +76,7 @@ export function useRevealOnScroll(selector = ".viewport-animate"): void {
     }
 
     return () => {
+      cancelAnimationFrame(initialObserveFrame);
       mutationObserver.disconnect();
       if (import.meta.hot && viteAfterUpdate) {
         import.meta.hot.off("vite:afterUpdate", viteAfterUpdate);
