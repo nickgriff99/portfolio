@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { NavBar } from "../components/NavBar";
+import { NAV_ITEMS } from "../data/navItems";
 import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
@@ -22,26 +24,31 @@ export function ProjectReadme() {
 
   if (!project || !readme) {
     return (
-      <div className="section-band flex min-h-screen items-center justify-center px-5 text-center">
-        <div>
-          <h1
-            ref={headingRef}
-            tabIndex={-1}
-            className="mb-4 text-2xl font-bold text-[var(--color-text)] focus:outline-none"
-          >
-            Project not found
-          </h1>
-          <Link to="/#projects" className="focus-ring underline text-[var(--color-link)]">
-            ← Back to projects
-          </Link>
+      <>
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+        <div className="section-band flex min-h-screen items-center justify-center px-5 pt-24 text-center sm:pt-28">
+          <div>
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="mb-4 text-2xl font-bold text-[var(--color-text)] focus:outline-none"
+            >
+              Project not found
+            </h1>
+            <Link to="/#projects" className="focus-ring underline text-[var(--color-link)]">
+              ← Back to projects
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="section-band min-h-screen px-5 py-16 sm:py-20 md:py-28">
-      <div className="viewport-animate mx-auto w-full max-w-4xl">
+    <>
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <div className="section-band min-h-screen px-5 pt-24 py-16 sm:pt-28 sm:py-20 md:py-28">
+        <div className="viewport-animate mx-auto w-full max-w-4xl">
         <Link
           to={`/projects/${project.slug}`}
           className="focus-ring inline-block text-sm text-[var(--color-link)] underline"
@@ -77,6 +84,7 @@ export function ProjectReadme() {
           </section>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

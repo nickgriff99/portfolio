@@ -33,17 +33,29 @@ export function About() {
             <p>
               I got into coding the unglamorous way: something broke, I refused to accept
               "that's just how it is," and a few hundred Stack Overflow tabs later I had
-              accidentally learned to program. {/* TODO: replace with real origin story */}
+              accidentally learned to program. That's not really how it had went down,
+              but it's a good story to tell. I have always loved computers and how they work,
+              and I have always been interested in how things work. I move quickly learning new things,
+              and I am always looking for new challenges. So coding was seemed right up my alley.
+              One thing lead to another and I ended up at Codecademy, and the rest is history.
             </p>
             <p>
               What keeps me here is the same thing that got me in trouble as a kid taking
-              apart the family <span className="keyword-link">VCR</span> — I like knowing
+              apart the family <span className="keyword-link">Super Nintendo</span>. I like knowing
               how things actually work underneath, from the Postgres row all the way up to
-              the pixel. {/* TODO: replace with real "why I stayed" details */}
+              the pixel. I love the feeling of building something from scratch, and seeing it come to life.
+              It has been so fun to learn how code can shape a website from nothing into a 
+              functional and beautiful experience for the user.
             </p>
             <p>
               Outside of a keyboard, you'll find me doing a rotating cast of hobbies I will
-              not elaborate on here. {/* TODO: user to fill in real hobbies/interests */}
+              not elaborate on here. I love to play video games, specifically competitive shooters.
+              But I also love to play other games too. From Rocket League to CS2, I love all sorts of
+              multiplayer games. I also love college football. It is WAY better than the NFL.
+              Seeing the passion and energy of the players and fans is something I love and the
+              pure chaos of college football outweighs the NFL any day. I love learning new things,
+              I try my best to learn something new every day and try really hard to keep up with the
+              ever changing world of technology.
             </p>
 
             <div className="viewport-animate border-l-2 border-[color-mix(in_srgb,var(--color-link)_45%,transparent)] pl-4">
