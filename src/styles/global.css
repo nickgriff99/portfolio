@@ -458,16 +458,38 @@
   /* Hero parallax: driven by --hero-progress (0→1) written by scroll listener in Home.tsx.
      Applied to WRAPPER divs, never to .hero-animate children (animation-fill-mode:both owns
      their transform). Disabled under prefers-reduced-motion.
-     Text column drifts up ≤ 8vh; photo drifts down (opposite) ≤ 4vh.
+     Text and photo now drift the SAME direction (up) so depth reads as unified, not diverging —
+     text ≤ 6vh, photo ≤ 3vh (half magnitude, same sign) for a subtle parallax gap.
      will-change declared so compositor promotes the layers during scroll. */
   @media (prefers-reduced-motion: no-preference) {
     .hero-text-parallax {
-      transform: translateY(calc(var(--hero-progress, 0) * -8vh));
+      transform: translateY(calc(var(--hero-progress, 0) * -6vh));
       will-change: transform;
     }
     .hero-photo-parallax {
-      transform: translateY(calc(var(--hero-progress, 0) * 4vh));
+      transform: translateY(calc(var(--hero-progress, 0) * -3vh));
       will-change: transform;
+    }
+
+    /* Hero cover-fade: shared ancestor of both parallax columns (grid wrapper in
+       HeroSection.tsx). As curtain covers hero (--hero-progress 0→1), hero content blurs,
+       zooms slightly, and dims — reads as receding behind the curtain, not flatly covered.
+       Transform lives here (scale only); per-column translateY parallax lives on children,
+       so no transform conflict. Opacity floors at 0.75 — curtain is opaque, full fade is
+       wasted and makes hero vanish early. */
+    .hero-cover-fade {
+      filter: blur(calc(var(--hero-progress, 0) * 6px));
+      transform: scale(calc(1 + var(--hero-progress, 0) * 0.06));
+      opacity: calc(1 - var(--hero-progress, 0) * 0.25);
+      will-change: filter, transform, opacity;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cover-fade {
+      filter: none;
+      transform: none;
+      opacity: 1;
     }
   }
 }
