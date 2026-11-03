@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // Lazy: pulls in `ogl` (WebGL), not needed for first paint — the body's own CSS
 // gradient (global.css) already paints this same dark background underneath, so
@@ -22,25 +23,17 @@ import type { NavItem } from "../types";
 export function Home() {
   const navItems = useMemo<NavItem[]>(
     () => [
-      { label: "Home", href: "#home" },
-      { label: "About", href: "#about-me" },
-      { label: "Projects", href: "#projects" },
-      { label: "Experience", href: "#experience" },
-      { label: "Education", href: "#education" },
-      { label: "Contact", href: "#contact" },
+      { type: "anchor", label: "Home", href: "#home" },
+      { type: "route", label: "About", to: "/about" },
+      { type: "route", label: "Projects", to: "/projects" },
+      { type: "anchor", label: "Experience", href: "#experience" },
+      { type: "anchor", label: "Contact", href: "#contact" },
     ],
     [],
   );
 
   const sectionIds = useMemo(
-    () => [
-      "home",
-      "about-me",
-      "projects",
-      "experience",
-      "education",
-      "contact",
-    ],
+    () => ["home", "about-me", "projects", "experience", "contact"],
     [],
   );
 
@@ -48,6 +41,17 @@ export function Home() {
     usePortfolioScroll(sectionIds);
 
   useRevealOnScroll();
+
+  // Cross-page anchor links (useHomeAnchor) land here as `/#id` — once mounted (and on
+  // every hash change, e.g. clicking another anchor link while already on `/`), scroll
+  // the matching section into view. No existing hash-scroll logic before this.
+  const location = useLocation();
+  useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash.replace("#", "");
+    scrollToSection(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- scrollToSection is stable per sectionIds identity
+  }, [location.hash]);
 
   const backToTopRef = useMagneticHover<HTMLButtonElement>({ strength: 3 });
   // Consent banner's mobile card (flex-col, ~144px tall) physically occupies the
@@ -204,7 +208,7 @@ export function Home() {
             is always visually and click-wise on top. Footer folded in so the curtain
             background covers the hero through the very end of the page. */}
         <div className="page-curtain">
-          <AboutMe />
+          <AboutMe onNavigate={handleNavClick} />
           <SectionRule label="projects" />
           <ProjectsSection />
           <SectionRule label="experience" />

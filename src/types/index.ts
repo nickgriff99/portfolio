@@ -63,9 +63,8 @@ export interface TimelineEntry {
   credentialUrl?: string;
 }
 
-export interface NavItem {
-  label: string;
-  href: `#${string}`;
-}
+export type NavItem =
+  | { type: "anchor"; label: string; href: `#${string}` }
+  | { type: "route"; label: string; to: string };
 
 export type LayoutMode = "single" | "multi";

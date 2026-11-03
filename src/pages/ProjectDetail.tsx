@@ -1,7 +1,9 @@
-import { CheckCircle2, ExternalLink, Github, Terminal } from "lucide-react";
+import { CheckCircle2, Code, ExternalLink, Terminal } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { NavBar } from "../components/NavBar";
+import { NAV_ITEMS } from "../data/navItems";
 import { projectDetails } from "../data/projectDetails";
 import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
@@ -58,20 +60,23 @@ export function ProjectDetail() {
 
   if (!project) {
     return (
-      <div className="section-band flex min-h-screen items-center justify-center px-5 text-center">
-        <div>
-          <h1
-            ref={headingRef}
-            tabIndex={-1}
-            className="mb-4 text-2xl font-bold text-[var(--color-text)] focus:outline-none"
-          >
-            Project not found
-          </h1>
-          <Link to="/#projects" className="focus-ring underline text-[var(--color-link)]">
-            ← Back to projects
-          </Link>
+      <>
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+        <div className="section-band flex min-h-screen items-center justify-center px-5 text-center">
+          <div>
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="mb-4 text-2xl font-bold text-[var(--color-text)] focus:outline-none"
+            >
+              Project not found
+            </h1>
+            <Link to="/#projects" className="focus-ring underline text-[var(--color-link)]">
+              ← Back to projects
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -80,7 +85,10 @@ export function ProjectDetail() {
   const nextProject = projectsData[(index + 1) % projectsData.length];
 
   return (
-    <div className="section-band min-h-screen px-5 py-16 sm:py-20 md:py-28">
+    <>
+      {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here. */}
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <div className="section-band min-h-screen px-5 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-28">
       <div className="viewport-animate mx-auto w-full max-w-4xl">
         <HeroImage project={project} />
 
@@ -167,7 +175,7 @@ export function ProjectDetail() {
               rel="noopener noreferrer"
               className="focus-ring flex items-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] px-6 py-3 text-base font-medium text-[var(--color-text)] transition-all duration-300 hover:-translate-y-0.5"
             >
-              <Github className="h-4 w-4" aria-hidden />
+              <Code className="h-4 w-4" aria-hidden />
               Repository
             </a>
           ) : null}
@@ -211,6 +219,7 @@ export function ProjectDetail() {
           </Link>
         </nav>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

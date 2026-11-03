@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Link, useLocation } from "react-router-dom";
 import type { NavItem } from "../types";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
@@ -12,7 +13,7 @@ type StaggeredMenuProps = {
   open: boolean;
   items: NavItem[];
   activeSection: string;
-  onNavigate: (href: string) => void;
+  onNavigate: (href: `#${string}`) => void;
   onClose: () => void;
 };
 
@@ -30,6 +31,7 @@ export function StaggeredMenu({
   onClose,
 }: StaggeredMenuProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const location = useLocation();
   const asideRef = useRef<HTMLElement>(null);
   // Holds whatever had focus before the drawer opened (the hamburger button, in practice).
   // Captured via `document.activeElement` rather than a prop ref from NavBar, since this
@@ -92,7 +94,9 @@ export function StaggeredMenu({
         // `inert` also removes every descendant from the Tab order (and the a11y tree).
         inert={!open}
         className={cn(
-          "fixed right-0 top-0 z-[110] h-screen w-[86vw] max-w-sm border-l border-[color-mix(in_srgb,var(--color-border)_45%,transparent)] bg-[var(--color-surface)] p-8 shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
+          // Opaque .nav-shell header (NavBar.tsx) is ~92px tall on mobile (pt-3 + 2px border + py-4 + 44px hamburger row + 2px border);
+          // pt-28 (112px) clears it so the first item isn't hidden underneath the solid header.
+          "fixed right-0 top-0 z-[110] h-screen w-[86vw] max-w-sm border-l-2 border-[var(--color-border)] bg-[var(--color-surface)] px-8 pb-8 pt-28 transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
           open ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full",
         )}
         aria-hidden={!open}
@@ -100,11 +104,19 @@ export function StaggeredMenu({
         {...(open ? { "aria-modal": true as const } : {})}
         role="dialog"
       >
-        <p className="mb-8 text-sm uppercase tracking-wide text-[var(--color-soft)]">Menu</p>
+        <p className="mb-8 font-mono text-xs uppercase tracking-wide text-[var(--color-soft)]">// menu</p>
         <ul className="space-y-4">
           {items.map((item, index) => {
-            const sectionId = item.href.replace("#", "");
-            const isActive = sectionId === activeSection;
+            const isActive =
+              item.type === "route"
+                ? location.pathname === item.to
+                : item.href.replace("#", "") === activeSection;
+            const itemClass = cn(
+              "focus-ring sm-item w-full rounded-none text-left font-mono text-2xl font-semibold uppercase tracking-tight underline-offset-4 transition-colors",
+              isActive
+                ? "text-[var(--color-link)] underline"
+                : "text-[var(--color-text)] hover:text-[var(--color-accent)]",
+            );
             return (
               <li
                 key={item.label}
@@ -117,18 +129,27 @@ export function StaggeredMenu({
                     open && !prefersReducedMotion ? `${80 + index * 50}ms` : "0ms",
                 }}
               >
-                <button
-                  type="button"
-                  onClick={() => onNavigate(item.href)}
-                  aria-current={isActive ? "page" : undefined}
-                  className={cn(
-                    "focus-ring sm-item w-full text-left text-3xl font-semibold tracking-tight transition-colors",
-                    isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text)] hover:text-[var(--color-accent)]",
-                  )}
-                >
-                  <span className="mr-3 text-base align-middle text-[var(--color-soft)]">0{index + 1}</span>
-                  {item.label}
-                </button>
+                {item.type === "route" ? (
+                  <Link
+                    to={item.to}
+                    onClick={onClose}
+                    aria-current={isActive ? "page" : undefined}
+                    className={itemClass}
+                  >
+                    <span className="mr-3 text-base align-middle text-[var(--color-soft)]">0{index + 1}</span>
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(item.href)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={itemClass}
+                  >
+                    <span className="mr-3 text-base align-middle text-[var(--color-soft)]">0{index + 1}</span>
+                    {item.label}
+                  </button>
+                )}
               </li>
             );
           })}

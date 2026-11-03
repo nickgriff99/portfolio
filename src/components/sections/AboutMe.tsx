@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 
 import DecryptedText from "@/bits/DecryptedText";
+import { AboutCtaRow } from "@/components/AboutCtaRow";
 import { SkillsWidget } from "@/components/SkillsWidget";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -29,7 +31,11 @@ const LEAD_TEXT =
 const SECOND_TEXT =
   "I recently wrapped a six-month React contract at Spot Parking, I\u2019m currently a Data Labeller at Tesla, and I\u2019m actively looking for a full-stack role where I can do this full-time.";
 
-export function AboutMe() {
+type AboutMeProps = {
+  onNavigate: (href: `#${string}`) => void;
+};
+
+export function AboutMe({ onNavigate }: AboutMeProps) {
   const reducedMotion = usePrefersReducedMotion();
 
   return (
@@ -146,6 +152,15 @@ export function AboutMe() {
                 </li>
               </ul>
             </div>
+
+            <Link
+              to="/about"
+              className="focus-ring mt-6 inline-block text-sm font-semibold text-[var(--color-link)] underline"
+            >
+              Read my full story →
+            </Link>
+
+            <AboutCtaRow onNavigate={onNavigate} />
           </div>
 
           {/* RIGHT — SkillsWidget, sticky on desktop so it stays in view while left scrolls */}

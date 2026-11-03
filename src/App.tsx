@@ -21,6 +21,14 @@ const ProjectReadme = lazy(() =>
   import("./pages/ProjectReadme").then((m) => ({ default: m.ProjectReadme })),
 );
 
+const Projects = lazy(() =>
+  import("./pages/Projects").then((m) => ({ default: m.Projects })),
+);
+
+const About = lazy(() =>
+  import("./pages/About").then((m) => ({ default: m.About })),
+);
+
 function AnalyticsListener() {
   useAnalyticsPageviews();
   return null;
@@ -104,6 +112,52 @@ function App() {
                   }
                 >
                   <ProjectReadme />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+          <Route
+            path="/projects"
+            element={
+              <RouteErrorBoundary>
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
+                  <Projects />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <RouteErrorBoundary>
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
+                  <About />
                 </Suspense>
               </RouteErrorBoundary>
             }
