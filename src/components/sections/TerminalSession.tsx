@@ -12,7 +12,8 @@
  *  - Reduced-motion: static full text, no glitch, no scanlines, no cursor blink.
  */
 
-import { lazy, Suspense } from 'react';
+import { gsap } from 'gsap';
+import { lazy, Suspense, useRef, useState } from 'react';
 import type { TypedBlock, TypedLine, TypedToken } from '../../bits/ScrollTypedText';
 import { educationData } from '../../data/education';
 import { experienceData } from '../../data/experience';
@@ -355,16 +356,78 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
   );
 }
 
+// Organic blob radius for the mode toggle — same idiom as SkillsWidget's BLOB_RADII.
+const TOGGLE_RADIUS = '52% 48% 60% 40% / 45% 55% 45% 55%';
+
 // ─── TerminalSession ──────────────────────────────────────────────────────────
 
 export function TerminalSession() {
   const rm = usePrefersReducedMotion();
+
+  // 'regular' = ReadableTimeline only (default, accessible). 'nerd' = terminal type-in.
+  // Shared by both sections — one toggle, one terminal window.
+  const [mode, setMode] = useState<'regular' | 'nerd'>('regular');
+
+  // Debounce: while a toggle-to-nerd type-in is still running, the button is disabled
+  // so rapid clicking can't spawn overlapping GSAP timelines on the same DOM nodes.
+  // Two ScrollTypedText instances mount together (experience + education); wait for
+  // both to report completion before re-enabling.
+  const [isAnimating, setIsAnimating] = useState(false);
+  const completedCountRef = useRef(0);
+
+  function handlePlayComplete() {
+    completedCountRef.current += 1;
+    if (completedCountRef.current >= 2) setIsAnimating(false);
+  }
+
+  // Click squash — same elastic.out(1, 0.35) squash-and-stretch as SkillsWidget's squashTab.
+  function squashToggle(element: HTMLElement) {
+    if (rm) return;
+    gsap.fromTo(
+      element,
+      { scaleX: 1.16, scaleY: 0.84 },
+      { scaleX: 1, scaleY: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)', overwrite: true },
+    );
+  }
+
+  function handleToggle() {
+    if (isAnimating) return;
+    setMode((m) => {
+      const next = m === 'regular' ? 'nerd' : 'regular';
+      if (next === 'nerd' && !rm) {
+        completedCountRef.current = 0;
+        setIsAnimating(true);
+      }
+      return next;
+    });
+  }
 
   // Find education entry with a credential URL (Codecademy is first)
   const certEntry = educationData.find((e) => e.credentialUrl);
 
   return (
     <div className="w-full px-4 py-12 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
+      {/* Mode toggle — controls both Experience and Education sections below. */}
+      <div className="mx-auto mb-4 flex w-full max-w-5xl justify-end">
+        <button
+          type="button"
+          className={`nerd-toggle focus-ring cursor-pointer px-4 py-2 text-xs font-semibold uppercase tracking-wide transition-[background-color,color,border-radius] duration-500 disabled:cursor-not-allowed disabled:opacity-60 ${
+            mode === 'nerd'
+              ? 'bg-[var(--color-link)] text-[#0a0a0a]'
+              : 'bg-[color-mix(in_srgb,var(--color-border)_10%,transparent)] text-[var(--color-muted)] hover:bg-[var(--color-link)] hover:text-[#0a0a0a]'
+          }`}
+          style={{ borderRadius: TOGGLE_RADIUS }}
+          aria-pressed={mode === 'nerd'}
+          disabled={isAnimating}
+          onClick={(event) => {
+            handleToggle();
+            squashToggle(event.currentTarget);
+          }}
+        >
+          {mode === 'nerd' ? 'Switch to Regular mode' : 'Switch to Nerd mode'}
+        </button>
+      </div>
+
       {/* Terminal window frame — one visual block containing both sections */}
       <div className="terminal-window relative mx-auto w-full max-w-5xl overflow-hidden rounded-lg border border-[var(--color-border)]">
 
@@ -385,20 +448,24 @@ export function TerminalSession() {
             {/* Real visible heading — first child so nav scroll lands on it */}
             <SectionHeading label="Experience" delay="0s" />
 
-            {/* Readable timeline — real content, visible immediately, no scroll-scrub required.
-                Also the only accessible copy now (terminal below stays aria-hidden). */}
-            <ReadableTimeline entries={experienceData} />
+            {/* Readable timeline — real content, visible by default (Regular mode). */}
+            {mode === 'regular' && <ReadableTimeline entries={experienceData} />}
 
-            {/* Typed terminal content — visual only (aria-hidden); lazy chunk */}
-            <div aria-hidden="true">
-              <Suspense fallback={<StaticContent blocks={EXP_BLOCKS} />}>
-                <ScrollTypedText
-                  blocks={EXP_BLOCKS}
-                  reducedMotion={rm}
-                  className="text-sm leading-relaxed"
-                />
-              </Suspense>
-            </div>
+            {/* Typed terminal content — visual only (aria-hidden); lazy chunk.
+                Only mounted in Nerd mode — toggling in IS the type-in trigger. */}
+            {mode === 'nerd' && (
+              <div aria-hidden="true">
+                <Suspense fallback={<StaticContent blocks={EXP_BLOCKS} />}>
+                  <ScrollTypedText
+                    blocks={EXP_BLOCKS}
+                    reducedMotion={rm}
+                    playOnMount
+                    onPlayComplete={handlePlayComplete}
+                    className="text-sm leading-relaxed"
+                  />
+                </Suspense>
+              </div>
+            )}
           </section>
 
           {/* ── EDUCATION SECTION ──────────────────────────────────────────── */}
@@ -406,20 +473,24 @@ export function TerminalSession() {
             {/* Real visible heading — first child so nav scroll lands on it */}
             <SectionHeading label="Education" delay="1.3s" />
 
-            {/* Readable timeline — real content, visible immediately, no scroll-scrub required.
-                Also the only accessible copy now (terminal below stays aria-hidden). */}
-            <ReadableTimeline entries={educationData} />
+            {/* Readable timeline — real content, visible by default (Regular mode). */}
+            {mode === 'regular' && <ReadableTimeline entries={educationData} />}
 
-            {/* Typed terminal content — visual only (aria-hidden); lazy chunk */}
-            <div aria-hidden="true">
-              <Suspense fallback={<StaticContent blocks={EDU_BLOCKS} />}>
-                <ScrollTypedText
-                  blocks={EDU_BLOCKS}
-                  reducedMotion={rm}
-                  className="text-sm leading-relaxed"
-                />
-              </Suspense>
-            </div>
+            {/* Typed terminal content — visual only (aria-hidden); lazy chunk.
+                Only mounted in Nerd mode — toggling in IS the type-in trigger. */}
+            {mode === 'nerd' && (
+              <div aria-hidden="true">
+                <Suspense fallback={<StaticContent blocks={EDU_BLOCKS} />}>
+                  <ScrollTypedText
+                    blocks={EDU_BLOCKS}
+                    reducedMotion={rm}
+                    playOnMount
+                    onPlayComplete={handlePlayComplete}
+                    className="text-sm leading-relaxed"
+                  />
+                </Suspense>
+              </div>
+            )}
           </section>
 
         </div>

@@ -46,6 +46,14 @@ interface Props {
   /** When true: show all text immediately, no triggers, no cursor. */
   reducedMotion: boolean;
   className?: string;
+  /**
+   * When true: skip ScrollTrigger entirely and type each block in on mount via a
+   * timed GSAP tween (sequential, small stagger between blocks). For toggle-triggered
+   * reveals where there's no scroll motion to drive progress off of.
+   */
+  playOnMount?: boolean;
+  /** Fires once the full mount-tween sequence finishes (or immediately under reducedMotion). */
+  onPlayComplete?: () => void;
 }
 
 // ─── Flat-token helpers ───────────────────────────────────────────────────────
@@ -106,7 +114,13 @@ function buildFullHTML(tokens: FlatToken[]): string {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ScrollTypedText({ blocks, reducedMotion, className = '' }: Props) {
+export default function ScrollTypedText({
+  blocks,
+  reducedMotion,
+  className = '',
+  playOnMount = false,
+  onPlayComplete,
+}: Props) {
   const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const typedRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const cursorRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -131,7 +145,53 @@ export default function ScrollTypedText({ blocks, reducedMotion, className = '' 
         if (typedEl) typedEl.innerHTML = buildFullHTML(flatBlocks[i].tokens);
         if (cursorEl) cursorEl.style.display = 'none';
       });
+      onPlayComplete?.();
       return;
+    }
+
+    if (playOnMount) {
+      const tl = gsap.timeline({
+        onComplete() {
+          if (!unmountedRef.current) onPlayComplete?.();
+        },
+      });
+
+      blocks.forEach((block, i) => {
+        const typedEl = typedRefs.current[i];
+        const cursorEl = cursorRefs.current[i];
+        if (!typedEl) return;
+
+        const { tokens, total } = flatBlocks[i];
+        const applyChars = (charCount: number) => {
+          if (unmountedRef.current) return;
+          const clamped = Math.max(0, Math.min(total, charCount));
+          typedEl.innerHTML = buildTypedHTML(tokens, clamped);
+          if (cursorEl) {
+            cursorEl.style.display = clamped > 0 && clamped < total ? 'inline' : 'none';
+          }
+        };
+
+        // Fast but legible: proportional to char count, capped so long blocks don't drag.
+        const duration = Math.min(total * 0.012, 2.5);
+        const counter = { n: 0 };
+        tl.to(
+          counter,
+          {
+            n: total,
+            duration,
+            ease: 'none',
+            onUpdate() {
+              applyChars(Math.round(counter.n));
+            },
+          },
+          i === 0 ? 0 : '+=0.1',
+        );
+      });
+
+      return () => {
+        unmountedRef.current = true;
+        tl.kill();
+      };
     }
 
     const triggers: ScrollTrigger[] = [];
@@ -179,7 +239,7 @@ export default function ScrollTypedText({ blocks, reducedMotion, className = '' 
       unmountedRef.current = true;
       triggers.forEach((t) => t.kill());
     };
-  }, [blocks, flatBlocks, reducedMotion]);
+  }, [blocks, flatBlocks, reducedMotion, playOnMount, onPlayComplete]);
 
   return (
     <div className={className}>
