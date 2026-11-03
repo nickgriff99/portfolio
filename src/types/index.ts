@@ -1,4 +1,4 @@
-export type SkillCategoryKey = "frontend" | "backend" | "tools";
+export type SkillCategoryKey = "languages" | "frontend" | "backend" | "tools";
 
 export interface Skill {
   name: string;

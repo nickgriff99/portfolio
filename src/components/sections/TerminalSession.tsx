@@ -12,9 +12,9 @@
  *  - Reduced-motion: static full text, no glitch, no scanlines, no cursor blink.
  */
 
-import { gsap } from 'gsap';
-import { lazy, Suspense, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useRef, useState } from 'react';
 import type { TypedBlock, TypedLine, TypedToken } from '../../bits/ScrollTypedText';
+import SquishSwitch from '../../bits/SquishSwitch';
 import { educationData } from '../../data/education';
 import { experienceData } from '../../data/experience';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
@@ -356,9 +356,6 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
   );
 }
 
-// Organic blob radius for the mode toggle — same idiom as SkillsWidget's BLOB_RADII.
-const TOGGLE_RADIUS = '52% 48% 60% 40% / 45% 55% 45% 55%';
-
 // ─── TerminalSession ──────────────────────────────────────────────────────────
 
 export function TerminalSession() {
@@ -375,20 +372,13 @@ export function TerminalSession() {
   const [isAnimating, setIsAnimating] = useState(false);
   const completedCountRef = useRef(0);
 
-  function handlePlayComplete() {
+  // Stable identity: ScrollTypedText's effect depends on this callback, and Home's
+  // scroll listener re-renders this tree on every scroll tick — a new function
+  // reference each render would re-fire that effect and restart the type-in tween.
+  const handlePlayComplete = useCallback(() => {
     completedCountRef.current += 1;
     if (completedCountRef.current >= 2) setIsAnimating(false);
-  }
-
-  // Click squash — same elastic.out(1, 0.35) squash-and-stretch as SkillsWidget's squashTab.
-  function squashToggle(element: HTMLElement) {
-    if (rm) return;
-    gsap.fromTo(
-      element,
-      { scaleX: 1.16, scaleY: 0.84 },
-      { scaleX: 1, scaleY: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)', overwrite: true },
-    );
-  }
+  }, []);
 
   function handleToggle() {
     if (isAnimating) return;
@@ -408,24 +398,22 @@ export function TerminalSession() {
   return (
     <div className="w-full px-4 py-12 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
       {/* Mode toggle — controls both Experience and Education sections below. */}
-      <div className="mx-auto mb-4 flex w-full max-w-5xl justify-end">
-        <button
-          type="button"
-          className={`nerd-toggle focus-ring cursor-pointer px-4 py-2 text-xs font-semibold uppercase tracking-wide transition-[background-color,color,border-radius] duration-500 disabled:cursor-not-allowed disabled:opacity-60 ${
-            mode === 'nerd'
-              ? 'bg-[var(--color-link)] text-[#0a0a0a]'
-              : 'bg-[color-mix(in_srgb,var(--color-border)_10%,transparent)] text-[var(--color-muted)] hover:bg-[var(--color-link)] hover:text-[#0a0a0a]'
-          }`}
-          style={{ borderRadius: TOGGLE_RADIUS }}
-          aria-pressed={mode === 'nerd'}
+      <div className="mx-auto mb-4 flex w-full max-w-5xl items-center justify-end gap-2.5">
+        <span className="font-mono text-xs uppercase tracking-wide text-[var(--color-muted)]">
+          {mode === 'nerd' ? 'Nerd mode' : 'Regular mode'}
+        </span>
+        <SquishSwitch
+          checked={mode === 'nerd'}
+          onChange={handleToggle}
           disabled={isAnimating}
-          onClick={(event) => {
-            handleToggle();
-            squashToggle(event.currentTarget);
-          }}
-        >
-          {mode === 'nerd' ? 'Switch to Regular mode' : 'Switch to Nerd mode'}
-        </button>
+          ariaLabel={mode === 'nerd' ? 'Switch to Regular mode' : 'Switch to Nerd mode'}
+          trackColor="color-mix(in srgb, var(--color-border) 35%, transparent)"
+          trackOnColor="var(--color-link)"
+          thumbColor="var(--color-surface)"
+          thumbOnColor="#0a0a0a"
+          width={56}
+          height={30}
+        />
       </div>
 
       {/* Terminal window frame — one visual block containing both sections */}

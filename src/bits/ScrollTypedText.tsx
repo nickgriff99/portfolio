@@ -125,6 +125,14 @@ export default function ScrollTypedText({
   const typedRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const cursorRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const unmountedRef = useRef(false);
+  // Latest-ref: callers rarely memoize an onPlayComplete passed inline, and including
+  // the prop directly in the effect's deps would re-run (and restart the type-in tween)
+  // on every unrelated parent re-render. Kept current via a layout effect (runs before
+  // the main effect below, in declaration order) rather than during render.
+  const onPlayCompleteRef = useRef(onPlayComplete);
+  useLayoutEffect(() => {
+    onPlayCompleteRef.current = onPlayComplete;
+  }, [onPlayComplete]);
 
   // Flat tokens computed once — blocks is assembled from static module-level data
   // in TerminalSession so reference is stable across renders.
@@ -145,14 +153,14 @@ export default function ScrollTypedText({
         if (typedEl) typedEl.innerHTML = buildFullHTML(flatBlocks[i].tokens);
         if (cursorEl) cursorEl.style.display = 'none';
       });
-      onPlayComplete?.();
+      onPlayCompleteRef.current?.();
       return;
     }
 
     if (playOnMount) {
       const tl = gsap.timeline({
         onComplete() {
-          if (!unmountedRef.current) onPlayComplete?.();
+          if (!unmountedRef.current) onPlayCompleteRef.current?.();
         },
       });
 
@@ -239,7 +247,7 @@ export default function ScrollTypedText({
       unmountedRef.current = true;
       triggers.forEach((t) => t.kill());
     };
-  }, [blocks, flatBlocks, reducedMotion, playOnMount, onPlayComplete]);
+  }, [blocks, flatBlocks, reducedMotion, playOnMount]);
 
   return (
     <div className={className}>
