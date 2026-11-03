@@ -50,9 +50,11 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
 
         {/*
           Two-column layout on desktop (lg+), stacked on mobile.
-          items-start so neither column stretches the other.
+          Default align-items (stretch) on purpose: the right grid item must stretch to the
+          left column's full track height, or its sticky child has no room to travel and
+          unsticks almost immediately (see comment on the right column below).
         */}
-        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-16">
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:gap-16">
 
           {/* LEFT — About text */}
           <div className="text-left">
@@ -163,8 +165,8 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
             <AboutCtaRow onNavigate={onNavigate} />
           </div>
 
-          {/* RIGHT — SkillsWidget, sticky on desktop so it stays in view while left scrolls */}
-          <div className="lg:sticky lg:top-28">
+          {/* RIGHT — SkillsWidget, static in normal flow (not sticky/pinned). */}
+          <div>
             {/* Sub-heading for the skills panel */}
             <p className="mb-6 font-mono text-xs uppercase tracking-wide text-[var(--color-soft)]">
               // skills &amp; technologies
