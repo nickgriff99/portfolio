@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { projectDetails } from "../data/projectDetails";
+import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import type { Project } from "../types";
@@ -176,6 +177,16 @@ export function ProjectDetail() {
         </div>
         {(project.liveUrl || project.githubLink) && project.deploymentNote ? (
           <p className="mt-3 text-sm text-[var(--color-soft)]">{project.deploymentNote}</p>
+        ) : null}
+
+        {projectReadmes[project.id] ? (
+          <Link
+            to={`/projects/${project.slug}/readme`}
+            aria-label={`Read the full README for ${project.title}`}
+            className="focus-ring mt-6 inline-block text-sm text-[var(--color-link)] underline"
+          >
+            See more →
+          </Link>
         ) : null}
 
         <nav
