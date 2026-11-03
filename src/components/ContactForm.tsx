@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useMagneticHover } from "@/hooks/useMagneticHover";
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const submitBtnRef = useMagneticHover<HTMLButtonElement>();
+  // Synchronous lock, not state: two rapid clicks can both fire this handler from the
+  // same stale closure before React re-renders/commits `isSubmitting`, so the state
+  // guard alone can't reject the second call in time. A ref mutates immediately and is
+  // read live (not captured per-render), so it closes the race regardless of commit timing.
+  const submitLockRef = useRef(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (submitLockRef.current) return;
+    submitLockRef.current = true;
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitError(null);
+
+    // Fire-and-forget: warm the lazy "/thank-you" chunk now so it's ready by the
+    // time we navigate, instead of starting the fetch cold after the POST resolves.
+    void import("../pages/ThankYou");
 
     const formData = new FormData(event.currentTarget);
 
@@ -48,6 +62,7 @@ export function ContactForm() {
         "Message failed to send. Please try again or email nichg999@gmail.com directly.",
       );
       setIsSubmitting(false);
+      submitLockRef.current = false;
     }
   };
 
@@ -72,13 +87,16 @@ export function ContactForm() {
       </div>
 
       {submitError ? (
-        <p className="rounded-md border border-[var(--color-highlight)]/50 bg-[var(--color-highlight)]/10 px-3 py-2 text-sm text-[var(--color-highlight)]">
+        <p
+          role="alert"
+          className="rounded-md border border-[var(--color-highlight)]/50 bg-[var(--color-highlight)]/10 px-3 py-2 text-sm text-[var(--color-highlight)]"
+        >
           {submitError}
         </p>
       ) : null}
 
       <div className="form-group">
-        <label htmlFor="name" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="name" className="mb-2 block font-mono text-xs font-medium uppercase tracking-wide text-[var(--color-muted)]">
           Name *
         </label>
         <input
@@ -94,7 +112,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="email" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="email" className="mb-2 block font-mono text-xs font-medium uppercase tracking-wide text-[var(--color-muted)]">
           Email *
         </label>
         <input
@@ -108,7 +126,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="subject" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="subject" className="mb-2 block font-mono text-xs font-medium uppercase tracking-wide text-[var(--color-muted)]">
           Subject *
         </label>
         <input
@@ -124,7 +142,7 @@ export function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="message" className="mb-2 block font-medium text-[var(--color-text)]">
+        <label htmlFor="message" className="mb-2 block font-mono text-xs font-medium uppercase tracking-wide text-[var(--color-muted)]">
           Message *
         </label>
         <textarea
@@ -145,8 +163,12 @@ export function ContactForm() {
 
       <div className="form-group">
         <button
+          ref={submitBtnRef}
           type="submit"
-          className={`focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-lg font-semibold text-[#0a0a0a] shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
+          // `transform` deliberately excluded from `transition-*`: `useMagneticHover` owns
+          // it (mousemove-tracked x/y) — a CSS transform transition here would fight the
+          // GSAP tween frame-by-frame. Only `filter` (the hover brightness bump) needs one.
+          className={`focus-ring rounded-[8px] border-2 border-[color-mix(in_srgb,var(--color-accent)_80%,transparent)] bg-[var(--color-accent)] px-6 py-3 font-mono text-sm font-bold uppercase tracking-wide text-[#0a0a0a] shadow-[4px_4px_0_0_color-mix(in_srgb,var(--color-border)_55%,transparent)] transition-[filter] duration-300 hover:brightness-110 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           id="submitBtn"
           disabled={isSubmitting}
         >

@@ -5,9 +5,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Space Grotesk", "sans-serif"],
-        display: ["Sora", "sans-serif"],
-        mono: ["Geist Mono Variable", "monospace"],
+        sans: ["Geist Mono Variable", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        display: ["Geist Mono Variable", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        mono: ["Geist Mono Variable", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

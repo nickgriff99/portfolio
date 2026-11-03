@@ -1,141 +1,126 @@
-import { useId, useState } from "react";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import type { NavItem } from "../types";
+import { useHomeAnchor } from "../hooks/useHomeAnchor";
 import { StaggeredMenu } from "./StaggeredMenu";
 
 type NavBarProps = {
   items: NavItem[];
   activeSection: string;
   hidden: boolean;
-  onNavigate: (href: string) => void;
+  onNavigate: (href: `#${string}`) => void;
 };
+
+const MOBILE_MENU_ID = "mobile-nav-drawer";
+
+// Shared desktop item class so a later styling pass has one place to edit for both
+// the anchor <button> and the route <Link>. Brutalist mono-uppercase pill labels,
+// matching the "// label" comment-style headers used elsewhere (AboutMe, ProjectsShowcase).
+function navItemClass(isActive: boolean) {
+  return `focus-ring rounded-none px-2 py-2 font-mono text-sm font-semibold uppercase tracking-wide underline-offset-4 transition-colors ${
+    isActive
+      ? "text-[var(--color-link)] underline"
+      : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+  }`;
+}
 
 export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const edgeId = useId().replace(/:/g, "");
+  const location = useLocation();
+  const goToAnchor = useHomeAnchor(onNavigate);
 
-  const handleNavigate = (href: string) => {
-    onNavigate(href);
+  const handleNavigate = (href: `#${string}`) => {
+    goToAnchor(href);
     setMobileOpen(false);
   };
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+      // `inert` also removes every descendant (nav links) from the Tab order and a11y
+      // tree while the header is translated off-screen — same pattern as StaggeredMenu's
+      // off-canvas `<aside>`, see StaggeredMenu.tsx.
+      inert={hidden}
+      // `-translate-y-full` moves the header by exactly its own height — but `.nav-shell`'s
+      // offset box-shadow paints 6px past the border-box edge, so that sliver would still
+      // land at y=0..6px after the translate ("lingering shadow"). Clearing by `100% + 8px`
+      // takes the shadow fully off-screen too.
+      className={`fixed left-0 top-0 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : "z-50"} ${hidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl">
-        <div className="nav-metal-border">
-          <svg
-            className="nav-edge-svg"
-            aria-hidden
-            width="100%"
-            height="100%"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id={`${edgeId}-edge-a`} x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#e8ecf8" stopOpacity="0" />
-                <stop offset="8%" stopColor="#f0f4ff" stopOpacity="0.22" />
-                <stop offset="22%" stopColor="#c8d4e8" stopOpacity="0.38" />
-                <stop offset="38%" stopColor="#98a8c8" stopOpacity="0.18" />
-                <stop offset="52%" stopColor="#d4c8f0" stopOpacity="0.32" />
-                <stop offset="66%" stopColor="#8898b0" stopOpacity="0.12" />
-                <stop offset="80%" stopColor="#b8c8e8" stopOpacity="0.28" />
-                <stop offset="92%" stopColor="#9ec4d8" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id={`${edgeId}-edge-b`} x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#d8dce8" stopOpacity="0" />
-                <stop offset="14%" stopColor="#c8d4e8" stopOpacity="0.28" />
-                <stop offset="34%" stopColor="#8898b8" stopOpacity="0.14" />
-                <stop offset="52%" stopColor="#a8b8d8" stopOpacity="0.26" />
-                <stop offset="70%" stopColor="#707890" stopOpacity="0.1" />
-                <stop offset="86%" stopColor="#c8d4e8" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#e0e4f8" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <rect
-              className="nav-edge-dash nav-edge-dash-a"
-              x="1.5"
-              y="1.5"
-              width="calc(100% - 3px)"
-              height="calc(100% - 3px)"
-              rx="calc(1rem - 1.5px)"
-              ry="calc(1rem - 1.5px)"
-              fill="none"
-              stroke={`url(#${edgeId}-edge-a)`}
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={100}
-              vectorEffect="nonScalingStroke"
-            />
-            <rect
-              className="nav-edge-dash nav-edge-dash-b"
-              x="1.5"
-              y="1.5"
-              width="calc(100% - 3px)"
-              height="calc(100% - 3px)"
-              rx="calc(1rem - 1.5px)"
-              ry="calc(1rem - 1.5px)"
-              fill="none"
-              stroke={`url(#${edgeId}-edge-b)`}
-              strokeWidth={2.25}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={100}
-              vectorEffect="nonScalingStroke"
-            />
-          </svg>
-          <div className="header-surface relative">
-            <nav className="relative z-10 flex w-full items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
-              <button
-                onClick={() => handleNavigate("#home")}
-                className="shrink-0 text-left text-xl font-extrabold tracking-tight text-[var(--color-link)]"
-              >
-                Nicholas Griffiths
-              </button>
+        <div className="nav-shell">
+          <nav className="relative flex w-full items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+            <button
+              onClick={() => handleNavigate("#home")}
+              className="focus-ring shrink-0 rounded-none text-left font-mono text-lg font-extrabold uppercase tracking-tight text-[var(--color-link)]"
+            >
+              Nicholas Griffiths
+            </button>
 
-              <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
-                <ul className="hidden items-center gap-8 lg:flex">
-                  {items.map((item) => {
-                    const sectionId = item.href.replace("#", "");
-                    const isActive = sectionId === activeSection;
+            <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
+              <ul className="hidden items-center gap-8 lg:flex">
+                {items.map((item) => {
+                  if (item.type === "route") {
+                    const isActive = location.pathname === item.to;
                     return (
                       <li key={item.label}>
-                        <button
-                          onClick={() => handleNavigate(item.href)}
-                          className={`font-semibold transition-colors ${
-                            isActive ? "text-[var(--color-link)]" : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
-                          }`}
+                        <Link
+                          to={item.to}
+                          aria-current={isActive ? "page" : undefined}
+                          className={navItemClass(isActive)}
                         >
                           {item.label}
-                        </button>
+                        </Link>
                       </li>
                     );
-                  })}
-                </ul>
+                  }
+                  const sectionId = item.href.replace("#", "");
+                  const isActive = sectionId === activeSection;
+                  return (
+                    <li key={item.label}>
+                      <button
+                        onClick={() => handleNavigate(item.href)}
+                        aria-current={isActive ? "page" : undefined}
+                        className={navItemClass(isActive)}
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
 
-                <div className="flex shrink-0 items-center gap-3">
-                  <button
-                    onClick={() => setMobileOpen((prev) => !prev)}
-                    aria-label="Open mobile menu"
-                    className="lg:hidden"
-                  >
-                    <span className="sr-only">Menu</span>
-                    <div className="space-y-1.5">
-                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                      <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
-                    </div>
-                  </button>
-                </div>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring hidden shrink-0 rounded-none font-mono text-sm font-semibold uppercase tracking-wide text-[var(--color-muted)] transition-colors hover:text-[var(--color-accent)] lg:inline-block"
+              >
+                Resume ↗
+              </a>
+
+              <div className="flex shrink-0 items-center gap-3">
+                <button
+                  onClick={() => setMobileOpen((prev) => !prev)}
+                  aria-label={mobileOpen ? "Close mobile menu" : "Open mobile menu"}
+                  aria-expanded={mobileOpen}
+                  aria-controls={MOBILE_MENU_ID}
+                  className="focus-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] border-2 border-[var(--color-border)] lg:hidden"
+                >
+                  <span className="sr-only">Menu</span>
+                  <div className="space-y-1.5">
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                    <span className="block h-0.5 w-6 bg-[var(--color-text)]" />
+                  </div>
+                </button>
               </div>
-            </nav>
-          </div>
+            </div>
+          </nav>
         </div>
       </div>
 
       <StaggeredMenu
+        id={MOBILE_MENU_ID}
         open={mobileOpen}
         items={items}
         activeSection={activeSection}

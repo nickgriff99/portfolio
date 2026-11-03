@@ -1,13 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 
+/** Traverse offsetParent chain to get absolute page layout offset (not affected by
+ *  sticky positioning), so scroll-spy and scrollToSection work correctly when sections
+ *  live inside a `position:relative` curtain wrapper (.page-curtain). */
+function getAbsoluteTop(el: HTMLElement): number {
+  let top = 0;
+  let cur: HTMLElement | null = el;
+  while (cur) {
+    top += cur.offsetTop;
+    cur = cur.offsetParent as HTMLElement | null;
+  }
+  return top;
+}
+
 export function usePortfolioScroll(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "home");
   const [headerHidden, setHeaderHidden] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const lastScrollTopRef = useRef(0);
+  // Lazy-init to the real scroll position at mount, not 0 — a hardcoded 0 here makes
+  // the first `update()` misread a restored/jumped scroll position (browser scroll
+  // restore, keyboard-focus auto-scroll) as a large fast downward scroll and hides
+  // the header with zero actual user input.
+  const lastScrollTopRef = useRef(window.scrollY);
 
   useEffect(() => {
-    const onScroll = () => {
+    const update = () => {
       const header = document.querySelector("header");
       const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
       const scrollTop =
@@ -20,7 +37,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
           continue;
         }
 
-        if (scrollTop >= section.offsetTop - headerHeight - 200) {
+        if (scrollTop >= getAbsoluteTop(section) - headerHeight - 200) {
           setActiveSection(id);
         }
       }
@@ -33,10 +50,27 @@ export function usePortfolioScroll(sectionIds: string[]) {
       setShowBackToTop(scrollTop > 500);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    // rAF-throttle: native `scroll` can fire far more often than once per frame
+    // (especially with momentum scrolling), and each tick was doing a `querySelector`
+    // + up to 7 `getElementById` calls synchronously. Coalescing to one pass per
+    // animation frame keeps the same visual update cadence (never more than 1
+    // frame of latency) while cutting redundant DOM reads during a scroll burst.
+    let rafId: number | null = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        update();
+      });
+    };
 
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [sectionIds]);
 
   const scrollToSection = (sectionId: string) => {
@@ -48,7 +82,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
     }
 
     const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
-    const top = target.offsetTop - headerHeight;
+    const top = getAbsoluteTop(target) - headerHeight;
 
     window.scrollTo({
       top,

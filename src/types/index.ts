@@ -1,4 +1,4 @@
-export type SkillCategoryKey = "frontend" | "backend" | "tools" | "fundamentals";
+export type SkillCategoryKey = "frontend" | "backend" | "tools";
 
 export interface Skill {
   name: string;
@@ -10,6 +10,8 @@ export type SkillsMap = Record<SkillCategoryKey, Skill[]>;
 export interface Project {
   id: number;
   title: string;
+  /** Stable routing key, kebab-case, independent of title */
+  slug: string;
   category: "frontend" | "backend" | "fullstack";
   /** One-line hook under the title */
   tagline: string;
@@ -35,6 +37,21 @@ export interface Project {
   metrics?: string[];
 }
 
+export interface ProjectDetail {
+  featureBreakdown: string[];
+  cardSnippet: string;
+}
+
+export interface ReadmeSection {
+  heading: string;
+  body: string[];
+}
+
+export interface ProjectReadme {
+  intro: string;
+  sections: ReadmeSection[];
+}
+
 export interface TimelineEntry {
   title: string;
   organization: string;
@@ -42,13 +59,12 @@ export interface TimelineEntry {
   bullets: string[];
   /** Verification ID for a completed professional certification */
   credentialId?: string;
-  /** Path to a hosted certificate asset under /public (PDF/image) */
+  /** URL where the credential can be viewed or verified (external profile or hosted asset) */
   credentialUrl?: string;
 }
 
-export interface NavItem {
-  label: string;
-  href: `#${string}`;
-}
+export type NavItem =
+  | { type: "anchor"; label: string; href: `#${string}` }
+  | { type: "route"; label: string; to: string };
 
 export type LayoutMode = "single" | "multi";

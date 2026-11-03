@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
 @tailwind base;
@@ -9,7 +7,7 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #000000;
+  --color-bg: #070F12;
   --color-bg-soft: #121210;
   --color-surface: #0c0b09;
   --color-surface-alt: #121210;
@@ -23,49 +21,27 @@
   --color-border: #8a8470;
 }
 
-@property --metal-a {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@property --metal-b {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 127deg;
-}
-
-@keyframes metal-spin-a {
-  from {
-    --metal-a: 0deg;
-  }
-  to {
-    --metal-a: 360deg;
-  }
-}
-
-@keyframes metal-spin-b {
-  from {
-    --metal-b: 360deg;
-  }
-  to {
-    --metal-b: 0deg;
-  }
-}
-
 @layer base {
   html {
     color-scheme: dark;
-    scroll-behavior: smooth;
     background-color: var(--color-bg);
-    /* Site-wide: block horizontal scroll without clipping vertical overflow of descendants */
-    overflow-x: hidden;
+    /* overflow-x: clip (NOT hidden) — clip paints a clipping boundary without creating a
+       scroll container, so position:sticky descendants work correctly. overflow-x:hidden on
+       both html AND body was causing body to become its own scroll container (body's overflow
+       is not propagated to the viewport when html also has overflow set), meaning sticky
+       elements stuck relative to body's always-zero scrollTop instead of the viewport. */
+    overflow-x: clip;
     @apply font-sans;
+    letter-spacing: 0.01em;
+    font-kerning: normal;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     @apply m-0 min-h-screen font-sans antialiased bg-background text-foreground;
+    letter-spacing: 0.01em;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
     background:
       radial-gradient(circle at 5% 0%, color-mix(in srgb, var(--color-link) 22%, transparent) 0%, transparent 38%),
       radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--color-dev) 20%, transparent) 0%, transparent 34%),
@@ -74,15 +50,15 @@
     transition: background-color 320ms ease, color 320ms ease, background 420ms ease;
   }
 
+  h1, h2, h3 {
+    letter-spacing: -0.03em;
+    hyphens: none;
+  }
+
   * {
     @apply box-border border-border;
     /* Tailwind can’t resolve outline-ring/50 when `ring` is a raw var() color */
     outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
-  }
-  .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
-    --font-mono: 'Geist Mono Variable', monospace;
   }
   :root {
     --background: oklch(0 0 0);
@@ -122,7 +98,8 @@
 
 @layer components {
   .section-band {
-    @apply w-full px-0 py-10 md:py-14;
+    /* Adjacent bands add together (~160px at lg). Previous py-32+py-32 was 256px of dead air. */
+    @apply w-full px-0 py-12 sm:py-14 md:py-16 lg:py-20;
     background-color: transparent;
   }
 
@@ -133,6 +110,22 @@
   /* Default: no painted layer so Grainient + Particles show through; see `.section-hero--css-fallback` */
   .section-hero {
     background: transparent;
+    /* Sticky pin: hero stays at natural position until bottom aligns with viewport bottom,
+       then pins. `min(0px, ...)` is 0 for hero <= viewport height (pins at top immediately)
+       and negative for tall heroes (lets user scroll to reach bottom before pinning). */
+    position: sticky;
+    top: min(0px, calc(100dvh - var(--hero-h, 100dvh)));
+    /* z-index: 0 within main's stacking context — curtain (.page-curtain, z-index:1) paints over */
+    z-index: 0;
+  }
+
+  /* Curtain: opaque dark surface that slides up over the pinned hero on scroll.
+     Single wrapper around all post-hero content (About … Footer). Opaque on purpose
+     so the sticky hero is fully covered; texture was declined in Step 9. */
+  .page-curtain {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg); /* #000000 — darkest bg token, matches CSS fallback */
   }
 
   /* When WebGL hero effects are unavailable, restore the palette gradients */
@@ -171,160 +164,23 @@
   }
 
   .section-title {
-    @apply mb-10 text-center font-display text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl;
+    @apply mb-8 text-center font-display text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl;
     color: var(--color-text);
     text-wrap: balance;
   }
 
-  /* Liquid metal only on the ring (::before + mask); center stays clear for real glass */
-  .nav-metal-border {
+  /* Flat brutalist nav shell: hard border + offset shadow, matches ProjectsShowcase cards.
+     Replaces the old animated conic-gradient "liquid metal" border + SVG edge dashes. */
+  .nav-shell {
     position: relative;
-    overflow: visible;
-    border-radius: 1rem;
-    padding: 3px;
-    background: transparent;
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, #c8d4e8 12%, transparent),
-      0 12px 40px color-mix(in srgb, #0a0c10 45%, transparent);
+    border-radius: 8px;
+    border: 2px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent);
   }
 
-  .nav-metal-border::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    border-radius: inherit;
-    padding: 3px;
-    pointer-events: none;
-    background-image:
-      conic-gradient(
-        from var(--metal-b),
-        color-mix(in srgb, #b8c8e8 28%, transparent) 0%,
-        color-mix(in srgb, #7a8aa8 18%, transparent) 4%,
-        transparent 7%,
-        color-mix(in srgb, #d4c8f0 22%, transparent) 11%,
-        color-mix(in srgb, #9ec4d8 20%, transparent) 15%,
-        transparent 19%,
-        color-mix(in srgb, #a8e0d4 16%, transparent) 23%,
-        transparent 28%,
-        color-mix(in srgb, #c8b8e8 24%, transparent) 33%,
-        color-mix(in srgb, #8898b0 14%, transparent) 38%,
-        transparent 43%,
-        color-mix(in srgb, #e8dce8 18%, transparent) 48%,
-        transparent 52%,
-        color-mix(in srgb, #98a8c8 20%, transparent) 57%,
-        color-mix(in srgb, #b0d8e8 15%, transparent) 62%,
-        transparent 67%,
-        color-mix(in srgb, #d0c4f0 20%, transparent) 72%,
-        color-mix(in srgb, #8898a8 12%, transparent) 78%,
-        transparent 83%,
-        color-mix(in srgb, #a8c4d8 22%, transparent) 88%,
-        color-mix(in srgb, #c8b8d8 18%, transparent) 94%,
-        transparent 100%
-      ),
-      conic-gradient(
-        from var(--metal-a),
-        #0c0e12 0%,
-        #15181d 2.5%,
-        #12151a 5%,
-        #1c2028 7.5%,
-        #252a32 10%,
-        #1a1e25 12%,
-        color-mix(in srgb, #6b7c94 16%, #2a3038) 15%,
-        #2e343e 18%,
-        #22262e 20.5%,
-        #3a424d 24%,
-        color-mix(in srgb, #a098c8 12%, #3d4450) 27%,
-        #4a525e 30%,
-        #323842 33%,
-        color-mix(in srgb, #88b8b0 10%, #404854) 36.5%,
-        #5a626e 40%,
-        #383e48 43%,
-        #2a303a 46%,
-        color-mix(in srgb, #c8b8e8 14%, #4a505c) 49%,
-        #6a7280 52.5%,
-        #3e444e 56%,
-        #1e222a 59%,
-        color-mix(in srgb, #8898b8 18%, #2c323c) 62%,
-        #454d58 65.5%,
-        #2a3038 69%,
-        color-mix(in srgb, #d8cce8 10%, #505868) 73%,
-        #707888 77%,
-        #404854 81%,
-        #262a32 85%,
-        color-mix(in srgb, #98a8c0 15%, #343a44) 89%,
-        #1c2028 93%,
-        #14161c 96.5%,
-        #0c0e12 100%
-      );
-    background-blend-mode: soft-light, normal;
-    background-origin: border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .nav-metal-border::before {
-      animation:
-        metal-spin-a 40s linear infinite,
-        metal-spin-b 56s linear infinite;
-    }
-  }
-
-  /* SVG stroke-dash follows the rounded rect — reads as light moving along the rim, not from the center */
-  .nav-edge-svg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: visible;
-    pointer-events: none;
-    /* Soft bloom so strokes feather into the glass / page instead of hard edges */
-    filter: drop-shadow(0 0 4px color-mix(in srgb, #c8d4f0 22%, transparent))
-      drop-shadow(0 0 14px color-mix(in srgb, #8898b8 14%, transparent))
-      drop-shadow(0 0 28px color-mix(in srgb, #0a0c10 35%, transparent));
-  }
-
-  .nav-edge-dash-a {
-    stroke-dasharray: 11 89;
-    stroke-dashoffset: 0;
-    opacity: 0.88;
-  }
-
-  .nav-edge-dash-b {
-    stroke-dasharray: 4 6 3 5 4 78;
-    stroke-dashoffset: 0;
-    opacity: 0.48;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .nav-edge-dash-a {
-      animation: nav-edge-dash-a 120s linear infinite;
-    }
-
-    .nav-edge-dash-b {
-      animation: nav-edge-dash-b 180s linear infinite reverse;
-    }
-  }
-
-  @keyframes nav-edge-dash-a {
-    to {
-      stroke-dashoffset: -100;
-    }
-  }
-
-  @keyframes nav-edge-dash-b {
-    to {
-      stroke-dashoffset: -100;
-    }
-  }
-
-  /* Frosted glass (dark): black undertone; blurs page behind header */
+  /* Frosted glass (dark): black undertone; blurs page behind header.
+     Still used by AboutMe/ProjectsSection heading pills — do not remove, NavBar no longer uses it. */
   .header-surface {
     position: relative;
     z-index: 1;
@@ -345,7 +201,12 @@
   }
 
   .btn-primary {
-    @apply focus-ring rounded-xl px-6 py-3 text-lg font-semibold shadow-lg transition-[transform,background-color,color] duration-300 hover:-translate-y-0.5;
+    /* Transform intentionally excluded from the transition list and the hover variant:
+       GSAP's `useMagneticHover` now owns this element's `transform` (mousemove-tracked
+       x/y) — a CSS `hover:-translate-y-0.5` or a `transform` transition here would fight
+       the GSAP tween frame-by-frame (each inline transform update re-triggers the CSS
+       transition), producing jitter instead of the intended buttery glide. */
+    @apply focus-ring rounded-[8px] px-6 py-3 text-lg font-semibold shadow-lg transition-[background-color,color] duration-300;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }
@@ -356,7 +217,7 @@
   }
 
   .btn-secondary {
-    @apply focus-ring rounded-xl border px-6 py-3 text-lg font-semibold transition-colors duration-300;
+    @apply focus-ring rounded-[8px] border px-6 py-3 text-lg font-semibold transition-colors duration-300;
     border-color: color-mix(in srgb, var(--color-border) 55%, transparent);
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-surface) 65%, transparent);
@@ -382,7 +243,7 @@
 
   /* Contact form fields */
   .form-field {
-    @apply focus-ring w-full rounded-md px-3 py-3 text-base outline-none transition-[color,background-color,border-color,box-shadow] duration-150 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply focus-ring w-full rounded-none px-3 py-3 text-base outline-none transition-[color,background-color,border-color,box-shadow] duration-150 disabled:cursor-not-allowed disabled:opacity-60;
     color: var(--color-text);
     background-color: color-mix(in srgb, var(--color-border) 18%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-border) 42%, transparent);
@@ -397,9 +258,178 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TERMINAL SECTION — Step 6: Experience + Education hacker terminal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Blinking block cursor ─────────────────────────────────────────────── */
+/* step-end: instant on/off like a real terminal cursor; no fade between blinks */
+@keyframes terminal-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.terminal-cursor {
+  color: var(--color-accent);
+  animation: terminal-cursor-blink 1s step-end infinite;
+  font-style: normal;
+}
+
+/* ─── CRT scanlines overlay ──────────────────────────────────────────────── */
+/* repeating-linear-gradient produces horizontal scanlines without layout cost.
+   Kept at low opacity so text remains readable; pointer-events:none set in JSX. */
+.terminal-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+}
+
+/* ─── Phosphor glow — applied to the terminal body text ─────────────────── */
+/* Subtle text-shadow mimics the green phosphor emission of old CRT terminals.
+   Kept lightweight: one tight shadow only. No blur filter (would cause paint storm). */
+.terminal-window .font-mono {
+  text-shadow: 0 0 6px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* ─── Glitch keyframes ────────────────────────────────────────────────────── */
+/* Two variants so h2 glitches don't sync with the title-bar glitch.
+   Each burst is < 0.15 s and < 3 state changes → well under WCAG 2.3.1 flash threshold.
+   Affected area is tiny text (< 2 % viewport) → below the general-flash area threshold.
+   Only `transform` and `text-shadow` animated → compositor-only, no paint storm. */
+
+@keyframes terminal-glitch-a {
+  0%,  93.5%, 100% {
+    transform: none;
+    text-shadow: none;
+  }
+  94% {
+    transform: translateX(-2px);
+    text-shadow: 2px 0 var(--color-highlight), -2px 0 var(--color-link);
+  }
+  96% {
+    transform: translateX(2px);
+    text-shadow: -2px 0 var(--color-highlight), 1px 0 var(--color-link);
+  }
+  98% {
+    transform: translateX(-1px) skewX(-0.5deg);
+    text-shadow: none;
+  }
+}
+
+@keyframes terminal-glitch-b {
+  0%,  91%, 100% {
+    transform: none;
+    text-shadow: none;
+  }
+  91.5% {
+    transform: translateX(2px);
+    text-shadow: -2px 0 var(--color-highlight), 2px 0 var(--color-link);
+  }
+  93.5% {
+    transform: translateX(-1px);
+    text-shadow: 2px 0 var(--color-link);
+  }
+  95% {
+    transform: none;
+    text-shadow: none;
+  }
+}
+
+/* Glitch on visible section headings (Experience / Education) and any small terminal labels.
+   Applied to the label <span> inside each SectionHeading h2; also used on SectionDivider.
+   transform requires block-level formatting context. */
+.terminal-glitch-h2 {
+  display: inline-block;
+}
+
+/* Glitch on title bar text */
+.terminal-glitch-title {
+  display: inline-block;
+}
+
+/* Status chip — subtle pulse on the "SYSTEM COMPROMISED" badge */
+@keyframes terminal-chip-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* ─── Reduced-motion overrides ───────────────────────────────────────────── */
+/* ALL animation off: static text, no glitch, no scanlines blink, cursor static.
+   Scanlines overlay removed via JSX conditional; cursor display controlled by JS.
+   CSS handles the animation disabling for declarative animations. */
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor {
+    animation: none;
+    opacity: 1; /* static cursor */
+  }
+
+  .terminal-glitch-h2,
+  .terminal-glitch-title {
+    animation: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ─── Motion-enabled animations ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Both visible section headings use terminal-glitch-a on their label <span>.
+     Desync via animationDelay inline style: 0s for Experience, 1.3s for Education.
+     1.3s offset keeps them permanently staggered across the 7s cycle. */
+  .terminal-glitch-h2 {
+    animation: terminal-glitch-a 7s ease-in-out infinite;
+  }
+
+  /* Title bar uses variant-b animation at a different total duration → never syncs with headings */
+  .terminal-glitch-title {
+    animation: terminal-glitch-b 11s ease-in-out infinite;
+    animation-delay: 2.5s;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   END TERMINAL SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hero entrance animation — never IO-gated, fires immediately on load.
+   Separate from .viewport-animate (scroll-reveal for other sections). */
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer utilities {
+  /* Staggered hero entrance — apply hero-animate + hero-animate-{1-5} to each child. */
+  .hero-animate {
+    animation: hero-fade 0.5s ease-out both;
+  }
+
+  .hero-animate-1 { animation-delay: 0s; }
+  .hero-animate-2 { animation-delay: 0.1s; }
+  .hero-animate-3 { animation-delay: 0.2s; }
+  .hero-animate-4 { animation-delay: 0.35s; }
+  .hero-animate-5 { animation-delay: 0.5s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-animate {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .viewport-animate {
-    @apply translate-y-10 opacity-0 transition-all duration-500 ease-out;
+    @apply translate-y-6 opacity-0 transition-[opacity,transform] duration-500 ease-out;
   }
 
   .viewport-animate.in-view {
@@ -407,19 +437,59 @@
   }
 
   .viewport-animate.out-view {
-    @apply translate-y-10 opacity-0;
+    @apply translate-y-6 opacity-0;
   }
 
-  .viewport-animate.keep-visible {
-    @apply translate-y-0 opacity-100;
-  }
-
-  .keep-visible {
-    @apply opacity-100;
+  @media (prefers-reduced-motion: reduce) {
+    .viewport-animate,
+    .viewport-animate.in-view,
+    .viewport-animate.out-view {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
     --tw-ring-offset-color: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  }
+
+  /* Hero parallax: driven by --hero-progress (0→1) written by scroll listener in Home.tsx.
+     Applied to WRAPPER divs, never to .hero-animate children (animation-fill-mode:both owns
+     their transform). Disabled under prefers-reduced-motion.
+     Text and photo now drift the SAME direction (up) so depth reads as unified, not diverging —
+     text ≤ 6vh, photo ≤ 3vh (half magnitude, same sign) for a subtle parallax gap.
+     will-change declared so compositor promotes the layers during scroll. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-text-parallax {
+      transform: translateY(calc(var(--hero-progress, 0) * -6vh));
+      will-change: transform;
+    }
+    .hero-photo-parallax {
+      transform: translateY(calc(var(--hero-progress, 0) * -3vh));
+      will-change: transform;
+    }
+
+    /* Hero cover-fade: shared ancestor of both parallax columns (grid wrapper in
+       HeroSection.tsx). As curtain covers hero (--hero-progress 0→1), hero content blurs,
+       zooms slightly, and dims — reads as receding behind the curtain, not flatly covered.
+       Transform lives here (scale only); per-column translateY parallax lives on children,
+       so no transform conflict. Opacity floors at 0.75 — curtain is opaque, full fade is
+       wasted and makes hero vanish early. */
+    .hero-cover-fade {
+      filter: blur(calc(var(--hero-progress, 0) * 6px));
+      transform: scale(calc(1 + var(--hero-progress, 0) * 0.06));
+      opacity: calc(1 - var(--hero-progress, 0) * 0.25);
+      will-change: filter, transform, opacity;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-cover-fade {
+      filter: none;
+      transform: none;
+      opacity: 1;
+    }
   }
 }

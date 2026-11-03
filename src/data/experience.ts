@@ -10,7 +10,6 @@ export const experienceData: TimelineEntry[] = [
       "Redesigned the Help page to improve usability and content structure",
       "Improved site responsiveness across desktop, tablet, and mobile breakpoints",
       "Designed and implemented component-driven UI patterns to accelerate feature development and ensure consistent user interactions across the app",
-      "Contract concluded June 2026; transitioned to a full-time software engineering job search",
     ],
   },
   {
@@ -31,7 +30,7 @@ export const experienceData: TimelineEntry[] = [
     bullets: [
       "Scheduled and executed outreach campaigns with fast lead turnaround, consistently exceeding daily targets",
       "Recognized for achieving top 5 sales ranking for five consecutive months",
-      "Developed strong client communication skills essential for freelance web development",
+      "Developed strong client communication skills through daily outbound outreach",
       "Mastered CRM systems and data management processes",
     ],
   },
@@ -43,7 +42,7 @@ export const experienceData: TimelineEntry[] = [
       "Directed a team of 20+ employees, demonstrating leadership skills crucial for project management",
       "Increased annual revenue by 110% through performance tracking and team coaching",
       "Managed payroll, scheduling, and site operations while reporting KPIs to senior leadership",
-      "Developed analytical and problem-solving skills directly applicable to web development challenges",
+      "Developed strong analytical and operational problem-solving skills managing a 20+ person team",
     ],
   },
 ];

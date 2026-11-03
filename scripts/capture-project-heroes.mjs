@@ -38,12 +38,33 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
+async function dismissOverlays(page) {
+  // Best-effort: these are third-party demo sites with their own cookie/notice banners.
+  const selectors = [
+    'button:has-text("Accept cookies")',
+    'button:has-text("Accept")',
+    'button:has-text("Essential only")',
+    'button:has-text("Dismiss")',
+    'button[aria-label="Dismiss"]',
+  ];
+  for (const sel of selectors) {
+    const btn = page.locator(sel).first();
+    if ((await btn.count()) > 0) {
+      await btn.click({ timeout: 2000 }).catch(() => {});
+      await page.waitForTimeout(300);
+    }
+  }
+}
+
 for (const { url, out } of shots) {
   console.error(`Capturing ${url} -> ${out}`);
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 120000 });
   await page.waitForLoadState("networkidle", { timeout: 60000 }).catch(() => {});
+  await page.evaluate(() => document.fonts.ready).catch(() => {});
   await page.evaluate(() => window.scrollTo(0, 0));
   await new Promise((r) => setTimeout(r, 3000));
+  await dismissOverlays(page);
+  await new Promise((r) => setTimeout(r, 1500));
   await page.screenshot({
     path: out,
     type: "png",

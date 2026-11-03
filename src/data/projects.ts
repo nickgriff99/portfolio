@@ -1,10 +1,13 @@
 import type { Project } from "../types";
 
-/** Showcase order: strongest technical depth first, client work close behind. Swap image paths to WebP/PNG captures when available. */
+/** Showcase order: ClackForge/TheListingHub/receipts-bot lead on technical depth and get
+ * full always-expanded cards; Streak Garden and B.G.M.I.D. close out the compact tail.
+ * Swap image paths to WebP/PNG captures when available. */
 export const projectsData: Project[] = [
   {
     id: 7,
     title: "ClackForge",
+    slug: "clackforge",
     category: "fullstack",
     tagline: "Custom mechanical keyboard e-commerce with a live 3D configurator.",
     description:
@@ -15,7 +18,7 @@ export const projectsData: Project[] = [
       "Full test pyramid: Vitest unit tests, Playwright end-to-end, and axe-core accessibility checks.",
     ],
     role: "Solo full-stack build — frontend, backend, 3D, payments",
-    metrics: ["React 19 + Three.js", "Stripe", "Full test coverage"],
+    metrics: ["Concurrency-safe inventory + Stripe Checkout", "Stripe", "Full test coverage"],
     tech: ["React", "TypeScript", "Three.js", "Express", "PostgreSQL", "Prisma", "Stripe", "Tailwind CSS"],
     imageSrc: "/projects/clackforge-hero.png",
     imageAlt: "Hero section of ClackForge: live 3D mechanical keyboard configurator and product layout",
@@ -23,29 +26,9 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/nickgriff99/clackforge",
   },
   {
-    id: 6,
-    title: "B.G.M.I.D.",
-    category: "frontend",
-    tagline: "Mobile car detailing — booking-focused marketing site.",
-    description:
-      "Production site for a mobile detailing business: clear service positioning, strong calls to action, and a polished feel that matches the on-site brand experience.",
-    highlights: [
-      "Positioned premium mobile detailing with a booking-first hero and clear service tiers.",
-      "Built in React + TypeScript with a responsive, performance-minded layout.",
-      "Live on Netlify — real traffic, real business outcomes.",
-    ],
-    role: "Solo build — UI, content structure, deploy",
-    metrics: ["Production", "React + Vite"],
-    tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Responsive UI"],
-    imageSrc: "/projects/bgmid-hero.png",
-    imageAlt:
-      "Hero section of the B.G.M.I.D. site: headline, branding, and booking-focused layout for mobile car detailing",
-    liveUrl: "https://bg-details.com/",
-    isClientProject: true,
-  },
-  {
     id: 8,
     title: "TheListingHub",
+    slug: "thelistinghub",
     category: "fullstack",
     tagline: "Commercial real estate classifieds platform rebuild.",
     description:
@@ -64,28 +47,9 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/nickgriff99/preishare-project",
   },
   {
-    id: 9,
-    title: "Streak Garden",
-    category: "fullstack",
-    tagline: "Habit tracker where your plants grow from real check-ins.",
-    description:
-      "A PERN-stack habit tracker: consistent daily check-ins grow a small garden over time. Plain SQL over an ORM by choice, for direct control and clarity. Recently went through a dedicated security and reliability hardening pass.",
-    highlights: [
-      "Vite + React frontend, Express + PostgreSQL backend, deployed on Render.",
-      "Hand-written SQL (no ORM) for transparent, auditable queries.",
-      "Hardened for production: crash-proof connection pool, pinned JWT algorithm, input-length limits, real error boundaries.",
-    ],
-    role: "Solo full-stack build",
-    metrics: ["PERN stack", "Security-hardened"],
-    tech: ["React", "Vite", "Express", "PostgreSQL", "JavaScript", "JWT Auth"],
-    imageSrc: "/projects/streak-garden-hero.png",
-    imageAlt: "Hero section of Streak Garden: habit tracker with a growing garden visual",
-    liveUrl: "https://streak-garden-client.onrender.com/",
-    githubLink: "https://github.com/nickgriff99/streak-garden",
-  },
-  {
     id: 10,
     title: "receipts-bot",
+    slug: "receipts-bot",
     category: "backend",
     tagline: "A Discord AI voice companion — named as a joke, built for real.",
     description:
@@ -101,5 +65,68 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/nickgriff99/receipts-bot",
     deploymentNote:
       "No public demo possible — it's a Discord bot that needs its own bot token and paid API keys to run. See the repo's README and ARCHITECTURE.md for the full pipeline breakdown.",
+  },
+  {
+    id: 9,
+    title: "Streak Garden",
+    slug: "streak-garden",
+    category: "fullstack",
+    tagline: "Habit tracker where your plants grow from real check-ins.",
+    description:
+      "A PERN-stack habit tracker: consistent daily check-ins grow a small garden over time. Plain SQL over an ORM by choice, for direct control and clarity. Recently went through a dedicated security and reliability hardening pass.",
+    highlights: [
+      "Vite + React frontend, Express + PostgreSQL backend, deployed on Render.",
+      "Hand-written SQL (no ORM) for transparent, auditable queries.",
+      "Hardened for production: crash-proof connection pool, pinned JWT algorithm, input-length limits, real error boundaries.",
+    ],
+    role: "Solo full-stack build",
+    metrics: ["Hand-written SQL, no ORM", "Security-hardened"],
+    tech: ["React", "Vite", "Express", "PostgreSQL", "JavaScript", "JWT Auth"],
+    imageSrc: "/projects/streak-garden-hero.png",
+    imageAlt: "Hero section of Streak Garden: habit tracker with a growing garden visual",
+    liveUrl: "https://streak-garden-client.onrender.com/",
+    githubLink: "https://github.com/nickgriff99/streak-garden",
+  },
+  {
+    id: 6,
+    title: "B.G.M.I.D.",
+    slug: "bgmid",
+    category: "frontend",
+    tagline: "Mobile car detailing — booking-focused marketing site.",
+    description:
+      "Production site for a mobile detailing business: clear service positioning, strong calls to action, and a polished feel that matches the on-site brand experience.",
+    highlights: [
+      "Positioned premium mobile detailing with a booking-first hero and clear service tiers.",
+      "Built in React + TypeScript with a responsive, performance-minded layout.",
+      "Live on Netlify — real traffic, real business outcomes.",
+    ],
+    role: "Solo build — UI, content structure, deploy",
+    metrics: ["Production", "Live client site, real traffic"],
+    tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Responsive UI"],
+    imageSrc: "/projects/bgmid-hero.png",
+    imageAlt:
+      "Hero section of the B.G.M.I.D. site: headline, branding, and booking-focused layout for mobile car detailing",
+    liveUrl: "https://bg-details.com/",
+    isClientProject: true,
+  },
+  {
+    id: 11,
+    title: "Event-Sourced Wallet Dashboard",
+    slug: "wallet-dashboard",
+    category: "backend",
+    tagline: "A digital wallet backend where balances are replayed, not stored.",
+    description:
+      "Real-time wallet backend where every deposit, withdrawal, and transfer is an immutable event — balances are computed by replaying the event log, not mutated in place. REST API plus WebSocket protocol for live balance updates to a dashboard.",
+    highlights: [
+      "Event-sourced core: balances reconstructed by replay, with point-in-time balance queries.",
+      "Optimistic concurrency control and snapshot caching every 50 events, so replay stays fast as history grows.",
+      "Vitest coverage of the replay engine: event application, insufficient funds, snapshots, rollbacks, concurrency.",
+    ],
+    role: "Solo backend build — event sourcing, concurrency, real-time",
+    metrics: ["Event-sourced, replay-based balances", "Optimistic concurrency control", "Vitest-covered replay engine"],
+    tech: ["Node.js", "TypeScript", "Express", "PostgreSQL", "WebSockets", "Vitest", "Docker"],
+    githubLink: "https://github.com/nickgriff99/wallet-dashboard",
+    deploymentNote:
+      "No public demo — backend service with no hosted UI. See the repo's README for setup (Docker or local Postgres) and full API docs.",
   },
 ];
