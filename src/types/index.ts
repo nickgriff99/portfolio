@@ -42,6 +42,16 @@ export interface ProjectDetail {
   cardSnippet: string;
 }
 
+export interface ReadmeSection {
+  heading: string;
+  body: string[];
+}
+
+export interface ProjectReadme {
+  intro: string;
+  sections: ReadmeSection[];
+}
+
 export interface TimelineEntry {
   title: string;
   organization: string;
