@@ -16,21 +16,28 @@ type NavBarProps = {
 const MOBILE_MENU_ID = "mobile-nav-drawer";
 
 // Shared desktop item wrapper class (both the anchor <button> and the route <Link>
-// render this). Active state is a filled chip around the label span only - the index
-// prefix span (rendered separately, see navIndexClass) always stays plain.
+// render this). `group` lets the label/index spans react to hover anywhere in this
+// box, not just when the cursor is directly over the text itself. Active state is a
+// filled chip around the label span only - the index prefix span (rendered separately,
+// see navIndexClass) always stays plain.
 function navItemClass() {
-  return "focus-ring flex items-center gap-2 rounded-none px-1 py-2 font-mono text-sm font-semibold uppercase tracking-wide transition-colors";
+  return "group focus-ring flex items-center gap-2 rounded-none px-1 py-2 font-mono text-sm font-semibold uppercase tracking-wide transition-colors";
 }
 
 // Muted mono index prefix ("01", "02", ...) - same visual weight as StaggeredMenu's
 // own index spans (StaggeredMenu.tsx ~139,149), kept lighter/smaller than the label.
-const navIndexClass = "text-xs font-normal text-[var(--color-soft)]";
+// Active tab's index picks up the link color too, matching its filled label chip.
+function navIndexClass(isActive: boolean) {
+  return `text-xs font-normal ${isActive ? "text-[var(--color-link)]" : "text-[var(--color-soft)]"}`;
+}
 
 // Active: solid-filled chip behind the label. Inactive: flat muted text, no box.
+// `group-hover` (not `hover`) so the color change fires anywhere in the clickable
+// box (see navItemClass), not only when the cursor is over the text glyphs.
 function navLabelClass(isActive: boolean) {
   return isActive
     ? "rounded-[8px] bg-[var(--color-link)] px-2 py-1 text-[#0a0a0a]"
-    : "text-[var(--color-muted)] transition-colors hover:text-[var(--color-accent)]";
+    : "text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]";
 }
 
 export function NavBar({ items, activeSection, hidden, compact, onNavigate }: NavBarProps) {
@@ -76,7 +83,6 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
             <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
               <ul className="hidden items-center gap-8 lg:flex">
                 {items.map((item, index) => {
-                  const indexPrefix = <span className={navIndexClass}>0{index + 1}</span>;
                   if (item.type === "route") {
                     const isActive = location.pathname === item.to;
                     return (
@@ -86,7 +92,7 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
                           aria-current={isActive ? "page" : undefined}
                           className={navItemClass()}
                         >
-                          {indexPrefix}
+                          <span className={navIndexClass(isActive)}>0{index + 1}</span>
                           <span className={navLabelClass(isActive)}>{item.label}</span>
                         </Link>
                       </li>
@@ -104,7 +110,7 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
                         aria-current={isActive ? "page" : undefined}
                         className={navItemClass()}
                       >
-                        {indexPrefix}
+                        <span className={navIndexClass(isActive)}>0{index + 1}</span>
                         <span className={navLabelClass(isActive)}>{item.label}</span>
                       </button>
                     </li>
