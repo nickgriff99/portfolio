@@ -69,7 +69,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
           order at all sizes. */}
       <div className="hero-cover-fade relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
         {/* Text column. First in DOM → text-top on mobile, text-left on desktop (md:col 1). */}
-        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 pb-16 pt-24 sm:px-8 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
+        <div className="relative isolate flex min-h-[100dvh] w-full flex-col justify-center px-6 pb-16 pt-28 sm:px-8 md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-24 lg:px-16">
           {/* hero-text-parallax: parallax WRAPPER - transform applied here, never on
               .hero-animate children (animation-fill-mode:both owns their transform).
               CSS drives the drift via --hero-progress (Home.tsx scroll listener). */}

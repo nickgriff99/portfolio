@@ -179,6 +179,18 @@
     box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent);
   }
 
+  /* lg+ only: bar goes full-bleed edge-to-edge, so the floating card look (radius +
+     all-around border + offset shadow) reads wrong - flatten to a single bottom rule,
+     matching the breakpoint Tailwind's `lg:` already uses (1024px). Below lg untouched. */
+  @media (min-width: 1024px) {
+    .nav-shell {
+      border-radius: 0;
+      border: none;
+      border-bottom: 3px solid var(--color-border);
+      box-shadow: none;
+    }
+  }
+
   /* Frosted glass (dark): black undertone; blurs page behind header.
      Still used by AboutMe/ProjectsSection heading pills - do not remove, NavBar no longer uses it. */
   .header-surface {
@@ -462,26 +474,31 @@
      text ≤ 6vh, photo ≤ 3vh (half magnitude, same sign) for a subtle parallax gap.
      will-change declared so compositor promotes the layers during scroll. */
   @media (prefers-reduced-motion: no-preference) {
-    .hero-text-parallax {
-      transform: translateY(calc(var(--hero-progress, 0) * -6vh));
-      will-change: transform;
-    }
-    .hero-photo-parallax {
-      transform: translateY(calc(var(--hero-progress, 0) * -3vh));
-      will-change: transform;
-    }
+    /* Below md: hero stays fully static - no blur/scale/fade curtain-approach effect and
+       no parallax drift on the text/photo columns. Image must be clearly visible immediately
+       on mobile, not dimmed/blurred by the curtain-approach treatment. */
+    @media (min-width: 768px) {
+      .hero-text-parallax {
+        transform: translateY(calc(var(--hero-progress, 0) * -6vh));
+        will-change: transform;
+      }
+      .hero-photo-parallax {
+        transform: translateY(calc(var(--hero-progress, 0) * -3vh));
+        will-change: transform;
+      }
 
-    /* Hero cover-fade: shared ancestor of both parallax columns (grid wrapper in
-       HeroSection.tsx). As curtain covers hero (--hero-progress 0→1), hero content blurs,
-       zooms slightly, and dims - reads as receding behind the curtain, not flatly covered.
-       Transform lives here (scale only); per-column translateY parallax lives on children,
-       so no transform conflict. Opacity floors at 0.75 - curtain is opaque, full fade is
-       wasted and makes hero vanish early. */
-    .hero-cover-fade {
-      filter: blur(calc(var(--hero-progress, 0) * 6px));
-      transform: scale(calc(1 + var(--hero-progress, 0) * 0.06));
-      opacity: calc(1 - var(--hero-progress, 0) * 0.25);
-      will-change: filter, transform, opacity;
+      /* Hero cover-fade: shared ancestor of both parallax columns (grid wrapper in
+         HeroSection.tsx). As curtain covers hero (--hero-progress 0→1), hero content blurs,
+         zooms slightly, and dims - reads as receding behind the curtain, not flatly covered.
+         Transform lives here (scale only); per-column translateY parallax lives on children,
+         so no transform conflict. Opacity floors at 0.75 - curtain is opaque, full fade is
+         wasted and makes hero vanish early. */
+      .hero-cover-fade {
+        filter: blur(calc(var(--hero-progress, 0) * 6px));
+        transform: scale(calc(1 + var(--hero-progress, 0) * 0.06));
+        opacity: calc(1 - var(--hero-progress, 0) * 0.25);
+        will-change: filter, transform, opacity;
+      }
     }
   }
 

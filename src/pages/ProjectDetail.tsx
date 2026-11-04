@@ -2,7 +2,10 @@ import { CheckCircle2, Code, ExternalLink, Terminal } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { SectionRule } from "../components/SectionRule";
+import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { projectDetails } from "../data/projectDetails";
 import { projectReadmes } from "../data/projectReadmes";
@@ -61,7 +64,7 @@ export function ProjectDetail() {
   if (!project) {
     return (
       <>
-        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
         <div className="section-band flex min-h-screen items-center justify-center px-5 text-center">
           <div>
             <h1
@@ -87,7 +90,7 @@ export function ProjectDetail() {
   return (
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here. */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
       <div className="section-band min-h-screen px-5 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-28">
       <div className="viewport-animate mx-auto w-full max-w-4xl">
         <HeroImage project={project} />
@@ -220,6 +223,10 @@ export function ProjectDetail() {
         </nav>
       </div>
       </div>
+
+      <SectionRule label="contact" />
+      <ContactSection />
+      <Footer />
     </>
   );
 }

@@ -2,7 +2,10 @@ import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
+import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { SectionRule } from "../components/SectionRule";
+import { ContactSection } from "../components/sections/ContactSection";
 import { architectureDiagrams } from "../data/architectureDiagrams";
 import { NAV_ITEMS } from "../data/navItems";
 import { projectReadmes } from "../data/projectReadmes";
@@ -28,7 +31,7 @@ export function ProjectReadme() {
   if (!project || !readme) {
     return (
       <>
-        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
         <div className="section-band flex min-h-screen items-center justify-center px-5 pt-24 text-center sm:pt-28">
           <div>
             <h1
@@ -49,7 +52,7 @@ export function ProjectReadme() {
 
   return (
     <>
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
       <div className="section-band min-h-screen px-5 pt-24 py-16 sm:pt-28 sm:py-20 md:py-28">
         <div className="viewport-animate mx-auto w-full max-w-4xl">
         <Link
@@ -99,6 +102,10 @@ export function ProjectReadme() {
         ))}
       </div>
       </div>
+
+      <SectionRule label="contact" />
+      <ContactSection />
+      <Footer />
     </>
   );
 }

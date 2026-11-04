@@ -14,30 +14,19 @@ import { ContactSection } from "../components/sections/ContactSection";
 import { TerminalSession } from "../components/sections/TerminalSession";
 import { HeroSection } from "../components/sections/HeroSection";
 import { ProjectsSection } from "../components/sections/ProjectsSection";
+import { NAV_ITEMS } from "../data/navItems";
 import { useConsent } from "../hooks/useConsent";
 import { usePortfolioScroll } from "../hooks/usePortfolioScroll";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import { useMagneticHover } from "../hooks/useMagneticHover";
-import type { NavItem } from "../types";
 
 export function Home() {
-  const navItems = useMemo<NavItem[]>(
-    () => [
-      { type: "anchor", label: "Home", href: "#home" },
-      { type: "route", label: "About", to: "/about" },
-      { type: "route", label: "Projects", to: "/projects" },
-      { type: "anchor", label: "Experience", href: "#experience" },
-      { type: "anchor", label: "Contact", href: "#contact" },
-    ],
-    [],
-  );
-
   const sectionIds = useMemo(
     () => ["home", "about-me", "projects", "experience", "contact"],
     [],
   );
 
-  const { activeSection, headerHidden, showBackToTop, scrollToSection } =
+  const { activeSection, headerHidden, scrolled, showBackToTop, scrollToSection } =
     usePortfolioScroll(sectionIds);
 
   useRevealOnScroll();
@@ -113,8 +102,10 @@ export function Home() {
         // Inert: set when curtain fully covers hero, clear when scrolling back up.
         if (covered) {
           if (!hero.hasAttribute("inert")) hero.setAttribute("inert", "");
+          hero.style.setProperty("visibility", "hidden");
         } else {
           if (hero.hasAttribute("inert")) hero.removeAttribute("inert");
+          hero.style.removeProperty("visibility");
         }
 
         // Parallax progress: skip write if value hasn't changed (e.g. while deep in curtain
@@ -142,9 +133,10 @@ export function Home() {
   return (
     <>
       <NavBar
-        items={navItems}
+        items={NAV_ITEMS}
         activeSection={activeSection}
         hidden={headerHidden}
+        compact={scrolled}
         onNavigate={handleNavClick}
       />
 

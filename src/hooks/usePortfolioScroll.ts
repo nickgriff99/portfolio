@@ -1,21 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-
-/** Traverse offsetParent chain to get absolute page layout offset (not affected by
- *  sticky positioning), so scroll-spy and scrollToSection work correctly when sections
- *  live inside a `position:relative` curtain wrapper (.page-curtain). */
-function getAbsoluteTop(el: HTMLElement): number {
-  let top = 0;
-  let cur: HTMLElement | null = el;
-  while (cur) {
-    top += cur.offsetTop;
-    cur = cur.offsetParent as HTMLElement | null;
-  }
-  return top;
-}
+import { getAbsoluteTop, scrollToId } from "../lib/scrollToId";
 
 export function usePortfolioScroll(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "home");
   const [headerHidden, setHeaderHidden] = useState(false);
+  // lg+ desktop nav compacts once scrolled, direction-independent (unlike headerHidden,
+  // which only fires on scroll-down and is for the mobile/tablet hide behavior).
+  const [scrolled, setScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   // Lazy-init to the real scroll position at mount, not 0 - a hardcoded 0 here makes
   // the first `update()` misread a restored/jumped scroll position (browser scroll
@@ -47,6 +38,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
         lastScrollTopRef.current = scrollTop;
       }
 
+      setScrolled(scrollTop > 40);
       setShowBackToTop(scrollTop > 500);
     };
 
@@ -73,26 +65,16 @@ export function usePortfolioScroll(sectionIds: string[]) {
     };
   }, [sectionIds]);
 
+  // Thin wrapper: the actual scroll math lives in scrollToId (shared with useHomeAnchor's
+  // DOM-presence check).
   const scrollToSection = (sectionId: string) => {
-    const header = document.querySelector("header");
-    const target = document.getElementById(sectionId);
-
-    if (!target) {
-      return;
-    }
-
-    const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
-    const top = getAbsoluteTop(target) - headerHeight;
-
-    window.scrollTo({
-      top,
-      behavior: "smooth",
-    });
+    scrollToId(sectionId);
   };
 
   return {
     activeSection,
     headerHidden,
+    scrolled,
     showBackToTop,
     scrollToSection,
   };

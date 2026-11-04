@@ -65,6 +65,7 @@ export interface TimelineEntry {
 
 export type NavItem =
   | { type: "anchor"; label: string; href: `#${string}` }
-  | { type: "route"; label: string; to: string };
+  | { type: "route"; label: string; to: string }
+  | { type: "anchor-or-route"; label: string; href: `#${string}`; to: string };
 
 export type LayoutMode = "single" | "multi";
