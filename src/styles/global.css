@@ -160,7 +160,7 @@
   }
 
   .text-column {
-    @apply max-w-[70ch];
+    @apply max-w-[85ch];
   }
 
   .section-title {

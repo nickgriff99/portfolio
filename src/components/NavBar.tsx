@@ -59,7 +59,7 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
       // offset box-shadow paints 6px past the border-box edge, so that sliver would still
       // land at y=0..6px after the translate ("lingering shadow"). Clearing by `100% + 8px`
       // takes the shadow fully off-screen too.
-      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-0 ${compact ? "lg:pt-0" : "lg:pt-3"} ${effectiveHidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
+      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-0 lg:pt-0 ${effectiveHidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl lg:max-w-none">
         <div className="nav-shell">
