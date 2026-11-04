@@ -18,7 +18,7 @@ export default {
         brand: {
           primary: "var(--color-link)",
         },
-        /* shadcn/ui semantic tokens — map to CSS vars in global.css */
+        /* shadcn/ui semantic tokens - map to CSS vars in global.css */
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: {

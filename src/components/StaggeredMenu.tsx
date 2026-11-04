@@ -19,7 +19,7 @@ type StaggeredMenuProps = {
 
 /**
  * Mobile drawer + backdrop rendered via portal (header uses transform; fixed children would be trapped).
- * Uses CSS transforms only — GSAP inline styles previously overrode Tailwind and could leave opacity:0 stuck
+ * Uses CSS transforms only - GSAP inline styles previously overrode Tailwind and could leave opacity:0 stuck
  * (e.g. after prefers-reduced-motion toggled or effect early-return).
  */
 export function StaggeredMenu({
@@ -38,7 +38,7 @@ export function StaggeredMenu({
   // component has no ref to that button and isn't allowed to touch NavBar.tsx this round.
   const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Move focus into the drawer on open (first nav item), restore it to the trigger on close —
+  // Move focus into the drawer on open (first nav item), restore it to the trigger on close -
   // `aria-modal="true"` promises modal focus behavior, so it has to actually happen.
   useEffect(() => {
     if (open) {
@@ -90,7 +90,7 @@ export function StaggeredMenu({
       <aside
         id={id}
         ref={asideRef}
-        // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel —
+        // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel -
         // `inert` also removes every descendant from the Tab order (and the a11y tree).
         inert={!open}
         className={cn(

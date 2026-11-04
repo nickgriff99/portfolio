@@ -25,7 +25,7 @@
   html {
     color-scheme: dark;
     background-color: var(--color-bg);
-    /* overflow-x: clip (NOT hidden) — clip paints a clipping boundary without creating a
+    /* overflow-x: clip (NOT hidden) - clip paints a clipping boundary without creating a
        scroll container, so position:sticky descendants work correctly. overflow-x:hidden on
        both html AND body was causing body to become its own scroll container (body's overflow
        is not propagated to the viewport when html also has overflow set), meaning sticky
@@ -115,7 +115,7 @@
        and negative for tall heroes (lets user scroll to reach bottom before pinning). */
     position: sticky;
     top: min(0px, calc(100dvh - var(--hero-h, 100dvh)));
-    /* z-index: 0 within main's stacking context — curtain (.page-curtain, z-index:1) paints over */
+    /* z-index: 0 within main's stacking context - curtain (.page-curtain, z-index:1) paints over */
     z-index: 0;
   }
 
@@ -125,7 +125,7 @@
   .page-curtain {
     position: relative;
     z-index: 1;
-    background-color: var(--color-bg); /* #000000 — darkest bg token, matches CSS fallback */
+    background-color: var(--color-bg); /* #000000 - darkest bg token, matches CSS fallback */
   }
 
   /* When WebGL hero effects are unavailable, restore the palette gradients */
@@ -136,14 +136,14 @@
   }
 
   /* Hero portrait grounding treatment. Particles (starfield) now render behind the *entire*
-     hero section, both columns — see HeroSection.tsx — so this overlay must stay out of the way:
+     hero section, both columns - see HeroSection.tsx - so this overlay must stay out of the way:
      the transparent padding around the cutout needs to show the starfield cleanly through, like
      the figure was pasted onto the background. Dropped the old ambient glow entirely (it used
      `radial-gradient(circle at ...)` with implicit farthest-corner sizing, which washed most of
-     the column, not just the area near the figure — exactly what was blocking the particles).
+     the column, not just the area near the figure - exactly what was blocking the particles).
      What's left: one tight, soft contact-shadow puddle right under the feet, sized to roughly the
      figure's footprint rather than the column, for minimal grounding only. Still no `filter: blur`
-     (would smear against the column's `overflow-hidden` edge) — softness is purely the gradient's
+     (would smear against the column's `overflow-hidden` edge) - softness is purely the gradient's
      own stop percentages. Positioned near the very bottom edge (not mid-column) because
      `object-bottom` on the <img> already pins the figure's feet to y≈100% of this box. */
   .hero-photo-overlay {
@@ -180,7 +180,7 @@
   }
 
   /* Frosted glass (dark): black undertone; blurs page behind header.
-     Still used by AboutMe/ProjectsSection heading pills — do not remove, NavBar no longer uses it. */
+     Still used by AboutMe/ProjectsSection heading pills - do not remove, NavBar no longer uses it. */
   .header-surface {
     position: relative;
     z-index: 1;
@@ -203,10 +203,10 @@
   .btn-primary {
     /* Transform intentionally excluded from the transition list and the hover variant:
        GSAP's `useMagneticHover` now owns this element's `transform` (mousemove-tracked
-       x/y) — a CSS `hover:-translate-y-0.5` or a `transform` transition here would fight
+       x/y) - a CSS `hover:-translate-y-0.5` or a `transform` transition here would fight
        the GSAP tween frame-by-frame (each inline transform update re-triggers the CSS
        transition), producing jitter instead of the intended buttery glide. */
-    @apply focus-ring rounded-[8px] px-6 py-3 text-lg font-semibold shadow-lg transition-[background-color,color] duration-300;
+    @apply focus-ring rounded-[8px] px-6 py-3 text-lg font-semibold transition-[background-color,color] duration-300;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }
@@ -259,7 +259,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TERMINAL SECTION — Step 6: Experience + Education hacker terminal
+   TERMINAL SECTION - Step 6: Experience + Education hacker terminal
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ─── Blinking block cursor ─────────────────────────────────────────────── */
@@ -288,7 +288,7 @@
   );
 }
 
-/* ─── Phosphor glow — applied to the terminal body text ─────────────────── */
+/* ─── Phosphor glow - applied to the terminal body text ─────────────────── */
 /* Subtle text-shadow mimics the green phosphor emission of old CRT terminals.
    Kept lightweight: one tight shadow only. No blur filter (would cause paint storm). */
 .terminal-window .font-mono {
@@ -351,7 +351,7 @@
   display: inline-block;
 }
 
-/* Status chip — subtle pulse on the "SYSTEM COMPROMISED" badge */
+/* Status chip - subtle pulse on the "SYSTEM COMPROMISED" badge */
 @keyframes terminal-chip-pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.65; }
@@ -395,7 +395,7 @@
    END TERMINAL SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Hero entrance animation — never IO-gated, fires immediately on load.
+/* Hero entrance animation - never IO-gated, fires immediately on load.
    Separate from .viewport-animate (scroll-reveal for other sections). */
 @keyframes hero-fade {
   from {
@@ -409,7 +409,7 @@
 }
 
 @layer utilities {
-  /* Staggered hero entrance — apply hero-animate + hero-animate-{1-5} to each child. */
+  /* Staggered hero entrance - apply hero-animate + hero-animate-{1-5} to each child. */
   .hero-animate {
     animation: hero-fade 0.5s ease-out both;
   }
@@ -458,7 +458,7 @@
   /* Hero parallax: driven by --hero-progress (0→1) written by scroll listener in Home.tsx.
      Applied to WRAPPER divs, never to .hero-animate children (animation-fill-mode:both owns
      their transform). Disabled under prefers-reduced-motion.
-     Text and photo now drift the SAME direction (up) so depth reads as unified, not diverging —
+     Text and photo now drift the SAME direction (up) so depth reads as unified, not diverging -
      text ≤ 6vh, photo ≤ 3vh (half magnitude, same sign) for a subtle parallax gap.
      will-change declared so compositor promotes the layers during scroll. */
   @media (prefers-reduced-motion: no-preference) {
@@ -473,9 +473,9 @@
 
     /* Hero cover-fade: shared ancestor of both parallax columns (grid wrapper in
        HeroSection.tsx). As curtain covers hero (--hero-progress 0→1), hero content blurs,
-       zooms slightly, and dims — reads as receding behind the curtain, not flatly covered.
+       zooms slightly, and dims - reads as receding behind the curtain, not flatly covered.
        Transform lives here (scale only); per-column translateY parallax lives on children,
-       so no transform conflict. Opacity floors at 0.75 — curtain is opaque, full fade is
+       so no transform conflict. Opacity floors at 0.75 - curtain is opaque, full fade is
        wasted and makes hero vanish early. */
     .hero-cover-fade {
       filter: blur(calc(var(--hero-progress, 0) * 6px));

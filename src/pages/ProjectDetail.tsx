@@ -162,7 +162,7 @@ export function ProjectDetail() {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring flex items-center gap-2 rounded-[8px] border border-transparent bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[#0a0a0a] shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+              className="focus-ring flex items-center gap-2 rounded-[8px] border border-transparent bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[#0a0a0a] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
             >
               <ExternalLink className="h-4 w-4" aria-hidden />
               Live site
@@ -173,7 +173,7 @@ export function ProjectDetail() {
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="focus-ring flex items-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] px-6 py-3 text-base font-medium text-[var(--color-text)] transition-all duration-300 hover:-translate-y-0.5"
+              className="focus-ring flex items-center gap-2 rounded-[8px] border border-[color-mix(in_srgb,var(--color-border)_62%,transparent)] px-6 py-3 text-base font-medium text-[var(--color-text)] transition-all duration-300 hover:-translate-y-0.5"
             >
               <Code className="h-4 w-4" aria-hidden />
               Repository

@@ -1,4 +1,4 @@
-// Pin Reachability Guard — Step 3 curtain reveal
+// Pin Reachability Guard - Step 3 curtain reveal
 // For each viewport in the matrix, scrolls through the hero in steps and checks:
 //   1. At SOME scroll position, each hero element (badge, h1, h2, p, cta1, cta2)
 //      must be fully inside the viewport and be the top hit via elementFromPoint.
@@ -149,7 +149,7 @@ async function runViewport(browser, width, height) {
     }, { scrollY: pinTestScrollY });
 
     if (!pinnedCheck.ok) {
-      vf.push({ check: "pinned-rect", element: "hero", msg: `hero.top=${pinnedCheck.actual} expected=${pinnedCheck.expected} (stickyTop=${pinnedCheck.stickyTop}, scrollY=${pinnedCheck.scrollY}) — hero not pinned!` });
+      vf.push({ check: "pinned-rect", element: "hero", msg: `hero.top=${pinnedCheck.actual} expected=${pinnedCheck.expected} (stickyTop=${pinnedCheck.stickyTop}, scrollY=${pinnedCheck.scrollY}) - hero not pinned!` });
     }
 
     // Curtain-overlap: at pinTestScrollY the About section must have scrolled into
@@ -218,7 +218,7 @@ async function runViewport(browser, width, height) {
       return true;
     });
     if (!heroCovered) {
-      vf.push({ check: "hero-covered", element: "viewport", msg: `hero node is top hit at scrollY=${coveredScrollY} — curtain not covering` });
+      vf.push({ check: "hero-covered", element: "viewport", msg: `hero node is top hit at scrollY=${coveredScrollY} - curtain not covering` });
     }
 
     // --- CHECK 4: inert cleared when scrolling back to 0 ---
@@ -240,7 +240,7 @@ async function runViewport(browser, width, height) {
   }
 
   if (vf.length > 0) {
-    console.log(`  FAIL ${label} — ${vf.length} failure(s):`);
+    console.log(`  FAIL ${label} - ${vf.length} failure(s):`);
     for (const f of vf) console.log(`    [${f.check}/${f.element}] ${f.msg}`);
     failures.push({ viewport: label, issues: vf });
   } else {
@@ -250,7 +250,7 @@ async function runViewport(browser, width, height) {
 }
 
 async function main() {
-  console.log(`\nverify-pin-reachability — base: ${BASE_URL}`);
+  console.log(`\nverify-pin-reachability - base: ${BASE_URL}`);
   console.log(`Testing ${VIEWPORTS.length} viewports...\n`);
 
   // Ensure screenshot dir exists

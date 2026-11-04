@@ -49,7 +49,7 @@ async function dismissCookieBanner(page) {
       }
     }
   } catch {
-    // banner absent — ignore
+    // banner absent - ignore
   }
 }
 
@@ -225,7 +225,7 @@ async function runViewport(browser, width, height) {
   }
 
   if (viewportFailures.length > 0) {
-    console.log(`  FAIL ${viewportLabel} — ${viewportFailures.length} failure(s):`);
+    console.log(`  FAIL ${viewportLabel} - ${viewportFailures.length} failure(s):`);
     for (const f of viewportFailures) {
       console.log(`    [${f.element}] ${f.mode}: ${f.measurements}`);
     }
@@ -237,7 +237,7 @@ async function runViewport(browser, width, height) {
 }
 
 async function main() {
-  console.log(`\nverify-hero-viewports — base: ${BASE_URL}`);
+  console.log(`\nverify-hero-viewports - base: ${BASE_URL}`);
   console.log(`Testing ${VIEWPORTS.length} viewports...\n`);
 
   const browser = await chromium.launch({ headless: true });

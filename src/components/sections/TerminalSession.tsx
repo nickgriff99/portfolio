@@ -1,14 +1,14 @@
 /**
- * TerminalSession — ONE shared hacker-aesthetic terminal window for Experience + Education.
+ * TerminalSession - ONE shared hacker-aesthetic terminal window for Experience + Education.
  *
  * Structure:
  *  - Two <section> elements (id="experience" / id="education") in normal flow → nav/scroll-spy works.
  *  - Each section: visible glitch <h2>, then a ReadableTimeline (real content, always visible,
- *    no scroll-scrub required) — this is the only copy now, for sighted and AT users alike.
+ *    no scroll-scrub required) - this is the only copy now, for sighted and AT users alike.
  *  - Visual terminal (glitch title bar, animated typing) is aria-hidden, below the readable
- *    timeline — atmosphere, not the primary way to read the content.
+ *    timeline - atmosphere, not the primary way to read the content.
  *  - ScrollTypedText is lazy → own chunk, main bundle stays flat.
- *  - Cert link is outside the aria-hidden tree — keyboard-focusable, always visible.
+ *  - Cert link is outside the aria-hidden tree - keyboard-focusable, always visible.
  *  - Reduced-motion: static full text, no glitch, no scanlines, no cursor blink.
  */
 
@@ -20,20 +20,20 @@ import { experienceData } from '../../data/experience';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import type { TimelineEntry } from '../../types';
 
-// Lazy import — creates its own chunk so main bundle stays ~flat
+// Lazy import - creates its own chunk so main bundle stays ~flat
 const ScrollTypedText = lazy(() => import('../../bits/ScrollTypedText'));
 
 // ─── Token colour aliases ─────────────────────────────────────────────────────
 // Values are CSS custom-property references; safe as inline style strings.
 const C = {
-  cmd:    'var(--color-accent)',     // lime   — commands, prompt text
-  flag:   'var(--color-link)',       // teal   — flags / options
-  str:    'var(--color-dev)',        // amber  — quoted strings
-  cmt:    'var(--color-muted)',      // gray   — # comments / metadata
-  vr:     'var(--color-highlight)',  // red    — $VARIABLES
-  op:     'var(--color-soft)',       // soft   — operators: | && ;
-  out:    'var(--color-text)',       // text   — plain output
-  dim:    'var(--color-muted)',      // muted  — secondary output lines
+  cmd:    'var(--color-accent)',     // lime   - commands, prompt text
+  flag:   'var(--color-link)',       // teal   - flags / options
+  str:    'var(--color-dev)',        // amber  - quoted strings
+  cmt:    'var(--color-muted)',      // gray   - # comments / metadata
+  vr:     'var(--color-highlight)',  // red    - $VARIABLES
+  op:     'var(--color-soft)',       // soft   - operators: | && ;
+  out:    'var(--color-text)',       // text   - plain output
+  dim:    'var(--color-muted)',      // muted  - secondary output lines
 } as const;
 
 // ─── Line / token builders ────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ function promptLine(prompt: string, ...tokens: TypedToken[]): TypedLine {
 
 // ─── Decorative entry hashes ──────────────────────────────────────────────────
 // Cosmetic 7-char hex IDs derived from org+title via djb2. They look like git
-// short-hashes for atmosphere only — they are NOT real commit hashes.
+// short-hashes for atmosphere only - they are NOT real commit hashes.
 function djb2(s: string): string {
   let h = 5381;
   for (let i = 0; i < s.length; i++) {
@@ -64,13 +64,13 @@ const H = {
   tesla:       djb2('TeslaData Labeller'),
   bambooHR:    djb2('BambooHRSales Development Representative'),
   wiggyWash:   djb2('Wiggy WashSite Manager'),
-  codecademy:  djb2('CodecademyFull-Stack Engineer — Professional Certification'),
+  codecademy:  djb2('CodecademyFull-Stack Engineer: Professional Certification'),
   devslopes:   djb2('Devslopes AcademyFull-Stack Software Engineering Certificate'),
 } as const;
 
 // ─── Terminal content blocks ──────────────────────────────────────────────────
 
-// BLOCK 0 — intrusion prelude (lives in section#experience, sets the hacked atmosphere)
+// BLOCK 0 - intrusion prelude (lives in section#experience, sets the hacked atmosphere)
 const PRELUDE_BLOCK: TypedBlock = {
   id: 'prelude',
   lines: [
@@ -93,7 +93,7 @@ const PRELUDE_BLOCK: TypedBlock = {
   ],
 };
 
-// BLOCK 1 — experience directory listing + git log summary
+// BLOCK 1 - experience directory listing + git log summary
 const EXP_HEADER_BLOCK: TypedBlock = {
   id: 'exp-header',
   lines: [
@@ -120,7 +120,7 @@ const EXP_HEADER_BLOCK: TypedBlock = {
   ],
 };
 
-// BLOCKS 2-5 — individual experience entry log files
+// BLOCKS 2-5 - individual experience entry log files
 function makeExpBlock(
   hash: string, title: string, org: string, duration: string, bullets: string[],
 ): TypedBlock {
@@ -129,7 +129,7 @@ function makeExpBlock(
     promptLine('root@portfolio:~/career# ',
       t('cat', C.cmd), t(` experience/${hash}.log`, C.str),
       t(' |', C.op), t(' less', C.cmd)),
-    cl(`# ${hash} · ${title} — ${org}`),
+    cl(`# ${hash} · ${title} - ${org}`),
     cl(`# date: ${duration}`),
     bl(),
     ...bullets.map((b) => ol(`  ${b}`, C.out)),
@@ -151,7 +151,7 @@ const EXP_ENTRY_BLOCKS: TypedBlock[] = experienceData.map((e) =>
   ),
 );
 
-// BLOCK 6 — education section header
+// BLOCK 6 - education section header
 const EDU_HEADER_BLOCK: TypedBlock = {
   id: 'edu-header',
   lines: [
@@ -161,17 +161,17 @@ const EDU_HEADER_BLOCK: TypedBlock = {
       t(' &&', C.op),
       t(' cat', C.cmd), t(' education.md', C.str),
       t(' |', C.op), t(' less', C.cmd)),
-    cl('# education.md — credentials on file'),
+    cl('# education.md - credentials on file'),
     bl(),
   ],
 };
 
-// BLOCKS 7-8 — individual education entries
+// BLOCKS 7-8 - individual education entries
 function makeEduBlock(
   hash: string, title: string, org: string, duration: string, bullets: string[],
 ): TypedBlock {
   const lines: TypedLine[] = [
-    cl(`## ${hash} · ${title} — ${org}`),
+    cl(`## ${hash} · ${title} - ${org}`),
     cl(`## date: ${duration}`),
     bl(),
     ...bullets.map((b) => ol(`  ${b}`, C.out)),
@@ -231,9 +231,9 @@ function TitleBar() {
       <span className="h-3 w-3 rounded-full bg-[var(--color-highlight)] opacity-75 flex-shrink-0" />
       <span className="h-3 w-3 rounded-full bg-[var(--color-dev)] opacity-75 flex-shrink-0" />
       <span className="h-3 w-3 rounded-full bg-[var(--color-accent)] opacity-75 flex-shrink-0" />
-      {/* Title — glitch animation for the title bar too */}
+      {/* Title - glitch animation for the title bar too */}
       <span className="terminal-glitch-title flex-1 text-center font-mono text-xs text-[var(--color-muted)] tracking-normal select-none truncate px-2">
-        root@portfolio: ~/career — bash
+        root@portfolio: ~/career - bash
       </span>
       {/* Status chip */}
       <span className="flex-shrink-0 rounded border border-[var(--color-highlight)] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--color-highlight)] select-none">
@@ -244,7 +244,7 @@ function TitleBar() {
 }
 
 /**
- * Readable timeline — the real content, visible unconditionally above the terminal.
+ * Readable timeline - the real content, visible unconditionally above the terminal.
  * A recruiter never has to wait on the scroll-typed animation to read company/title/
  * dates/bullets: this renders immediately, in normal document flow. Reuses the same
  * entry shape (title/organization/duration/bullets) the terminal below also types out,
@@ -269,7 +269,7 @@ function ReadableTimeline({ entries }: { entries: TimelineEntry[] }) {
             {entry.bullets.map((b) => (
               <li key={b} className="flex gap-2">
                 <span aria-hidden="true" className="text-[var(--color-accent)]">
-                  —
+                  -
                 </span>
                 <span>{b}</span>
               </li>
@@ -295,16 +295,16 @@ function ReadableTimeline({ entries }: { entries: TimelineEntry[] }) {
 }
 
 /**
- * Real visible section heading — hacker terminal style.
+ * Real visible section heading - hacker terminal style.
  *
  * Anatomy (left→right):
  *   > [aria-hidden prompt glyph]  LABEL [glitch-animated span]  █ [aria-hidden cursor]
  *
- * Screen readers see only the label text — prompt glyph + cursor are aria-hidden.
+ * Screen readers see only the label text - prompt glyph + cursor are aria-hidden.
  * Glitch effect: existing terminal-glitch-h2 keyframes (transform + text-shadow only;
  * no DOM duplication of text). Static under prefers-reduced-motion.
  *
- * Font-size: clamp(1.75rem, 8vw, 3.5rem) — never overflows at 390 px, matches
+ * Font-size: clamp(1.75rem, 8vw, 3.5rem) - never overflows at 390 px, matches
  * .section-title visual weight at wider breakpoints.
  */
 function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string }) {
@@ -318,7 +318,7 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
         className="break-words font-mono font-extrabold leading-tight tracking-tight text-[clamp(1.75rem,8vw,3.5rem)]"
         style={{ color: 'var(--color-text)' }}
       >
-        {/* Prompt glyph — decorative, not announced by AT */}
+        {/* Prompt glyph - decorative, not announced by AT */}
         <span
           aria-hidden="true"
           className="select-none"
@@ -328,7 +328,7 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
         </span>
         {/*
           Label span carries the glitch animation.
-          terminal-glitch-h2 uses transform + text-shadow only — no pseudo-elements,
+          terminal-glitch-h2 uses transform + text-shadow only - no pseudo-elements,
           no DOM text duplication → screen readers read the real text node unaffected.
         */}
         <span
@@ -337,7 +337,7 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
         >
           {label}
         </span>
-        {/* Block cursor — decorative blink, aria-hidden; static under reduced-motion */}
+        {/* Block cursor - decorative blink, aria-hidden; static under reduced-motion */}
         <span
           aria-hidden="true"
           className="terminal-cursor ml-1 select-none font-normal"
@@ -345,7 +345,7 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
           {'█'}
         </span>
       </h2>
-      {/* ASCII rule line — decorative accent beneath heading; overflow-hidden prevents layout bleed */}
+      {/* ASCII rule line - decorative accent beneath heading; overflow-hidden prevents layout bleed */}
       <div
         aria-hidden="true"
         className="mt-2 overflow-hidden select-none font-mono text-xs text-[var(--color-accent)] opacity-40"
@@ -362,7 +362,7 @@ export function TerminalSession() {
   const rm = usePrefersReducedMotion();
 
   // 'regular' = ReadableTimeline only (default, accessible). 'nerd' = terminal type-in.
-  // Shared by both sections — one toggle, one terminal window.
+  // Shared by both sections - one toggle, one terminal window.
   const [mode, setMode] = useState<'regular' | 'nerd'>('regular');
 
   // Debounce: while a toggle-to-nerd type-in is still running, the button is disabled
@@ -378,7 +378,7 @@ export function TerminalSession() {
   const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Stable identity: ScrollTypedText's effect depends on this callback, and Home's
-  // scroll listener re-renders this tree on every scroll tick — a new function
+  // scroll listener re-renders this tree on every scroll tick - a new function
   // reference each render would re-fire that effect and restart the type-in tween.
   const handlePlayComplete = useCallback(() => {
     completedCountRef.current += 1;
@@ -407,7 +407,7 @@ export function TerminalSession() {
 
   return (
     <div className="w-full px-4 py-12 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
-      {/* Mode toggle — controls both Experience and Education sections below. */}
+      {/* Mode toggle - controls both Experience and Education sections below. */}
       <div className="mx-auto mb-4 flex w-full max-w-5xl items-center justify-end gap-2.5">
         <span className="font-mono text-xs uppercase tracking-wide text-[var(--color-muted)]">
           {mode === 'nerd' ? 'Nerd mode' : 'Regular mode'}
@@ -426,10 +426,10 @@ export function TerminalSession() {
         />
       </div>
 
-      {/* Terminal window frame — one visual block containing both sections */}
+      {/* Terminal window frame - one visual block containing both sections */}
       <div className="terminal-window relative mx-auto w-full max-w-5xl overflow-hidden rounded-lg border border-[var(--color-border)]">
 
-        {/* CRT scanlines — decorative, pointer-events:none, aria-hidden; gated on motion pref */}
+        {/* CRT scanlines - decorative, pointer-events:none, aria-hidden; gated on motion pref */}
         {!rm && (
           <div
             aria-hidden="true"
@@ -443,14 +443,14 @@ export function TerminalSession() {
 
           {/* ── EXPERIENCE SECTION ─────────────────────────────────────────── */}
           <section id="experience">
-            {/* Real visible heading — first child so nav scroll lands on it */}
+            {/* Real visible heading - first child so nav scroll lands on it */}
             <SectionHeading label="Experience" delay="0s" />
 
-            {/* Readable timeline — real content, visible by default (Regular mode). */}
+            {/* Readable timeline - real content, visible by default (Regular mode). */}
             {mode === 'regular' && <ReadableTimeline entries={experienceData} />}
 
-            {/* Typed terminal content — visual only (aria-hidden); lazy chunk.
-                Only mounted in Nerd mode — toggling in IS the type-in trigger. */}
+            {/* Typed terminal content - visual only (aria-hidden); lazy chunk.
+                Only mounted in Nerd mode - toggling in IS the type-in trigger. */}
             {mode === 'nerd' && (
               <div aria-hidden="true">
                 <Suspense fallback={<StaticContent blocks={EXP_BLOCKS} />}>
@@ -468,14 +468,14 @@ export function TerminalSession() {
 
           {/* ── EDUCATION SECTION ──────────────────────────────────────────── */}
           <section id="education">
-            {/* Real visible heading — first child so nav scroll lands on it */}
+            {/* Real visible heading - first child so nav scroll lands on it */}
             <SectionHeading label="Education" delay="1.3s" />
 
-            {/* Readable timeline — real content, visible by default (Regular mode). */}
+            {/* Readable timeline - real content, visible by default (Regular mode). */}
             {mode === 'regular' && <ReadableTimeline entries={educationData} />}
 
-            {/* Typed terminal content — visual only (aria-hidden); lazy chunk.
-                Only mounted in Nerd mode — toggling in IS the type-in trigger. */}
+            {/* Typed terminal content - visual only (aria-hidden); lazy chunk.
+                Only mounted in Nerd mode - toggling in IS the type-in trigger. */}
             {mode === 'nerd' && (
               <div aria-hidden="true">
                 <Suspense fallback={<StaticContent blocks={EDU_BLOCKS} />}>

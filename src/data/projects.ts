@@ -11,13 +11,13 @@ export const projectsData: Project[] = [
     category: "fullstack",
     tagline: "Custom mechanical keyboard e-commerce with a live 3D configurator.",
     description:
-      "Full-stack e-commerce platform for custom mechanical keyboards. Real-time Three.js configurator, Stripe checkout, Google/email auth, and a concurrency-safe inventory system backing it all — built and tested like production software, not a demo.",
+      "Full-stack e-commerce platform for custom mechanical keyboards. Real-time Three.js configurator, Stripe checkout, Google/email auth, and a concurrency-safe inventory system backing it all, built and tested like production software, not a demo.",
     highlights: [
       "Live 3D keyboard configurator built with Three.js and React Three Fiber.",
       "Full auth (Passport local + Google OAuth), Stripe Checkout, and Resend transactional email.",
       "Full test pyramid: Vitest unit tests, Playwright end-to-end, and axe-core accessibility checks.",
     ],
-    role: "Solo full-stack build — frontend, backend, 3D, payments",
+    role: "Solo full-stack build: frontend, backend, 3D, payments",
     metrics: ["Concurrency-safe inventory + Stripe Checkout", "Stripe", "Full test coverage"],
     tech: ["React", "TypeScript", "Three.js", "Express", "PostgreSQL", "Prisma", "Stripe", "Tailwind CSS"],
     imageSrc: "/projects/clackforge-hero.png",
@@ -34,7 +34,7 @@ export const projectsData: Project[] = [
     description:
       "Rebuild of a CRE (commercial real estate) listings platform: Next.js front end, Supabase Postgres with row-level security for auth and data access, and Stripe Checkout for paid listings.",
     highlights: [
-      "Next.js 16 + React 19 app — shows range beyond the Vite-based projects elsewhere on this page.",
+      "Next.js 16 + React 19 app, showing range beyond the Vite-based projects elsewhere on this page.",
       "Supabase Auth with Postgres row-level security policies, not just app-layer permission checks.",
       "Stripe Checkout integration for paid listing tiers.",
     ],
@@ -51,20 +51,20 @@ export const projectsData: Project[] = [
     title: "receipts-bot",
     slug: "receipts-bot",
     category: "backend",
-    tagline: "A Discord AI voice companion — named as a joke, built for real.",
+    tagline: "A Discord AI voice companion, named as a joke, built for real.",
     description:
-      "An ambient AI co-host for Discord voice channels: listens, transcribes, responds in character using Claude, and talks back — a real-time streaming pipeline across four different services. Discontinued after a few months once the combined Deepgram, Claude, and ElevenLabs API costs weren't sustainable for a just-for-fun project.",
+      "An ambient AI co-host for Discord voice channels: listens, transcribes, responds in character using Claude, and talks back. A real-time streaming pipeline across four different services. Discontinued after a few months once the combined Deepgram, Claude, and ElevenLabs API costs weren't sustainable for a just-for-fun project.",
     highlights: [
       "Real-time pipeline: Deepgram speech-to-text to Claude Haiku to ElevenLabs text-to-speech, all streaming.",
       "PostgreSQL-backed memory: per-user facts and running jokes, capped and pruned automatically.",
       "Built-in cost control, rate limiting, and explicit opt-in/opt-out consent gates for every listener.",
     ],
-    role: "Solo build — real-time audio pipeline + multi-API integration",
-    metrics: ["Streaming STT/TTS", "Multi-API pipeline", "Discontinued — cost"],
+    role: "Solo build: real-time audio pipeline + multi-API integration",
+    metrics: ["Streaming STT/TTS", "Multi-API pipeline", "Discontinued (cost)"],
     tech: ["TypeScript", "Node.js", "Discord.js", "Deepgram", "Anthropic API", "ElevenLabs", "PostgreSQL", "Docker"],
     githubLink: "https://github.com/nickgriff99/receipts-bot",
     deploymentNote:
-      "No public demo possible — it's a Discord bot that needs its own bot token and paid API keys to run. See the repo's README and ARCHITECTURE.md for the full pipeline breakdown.",
+      "No public demo possible: it's a Discord bot that needs its own bot token and paid API keys to run. See the repo's README and ARCHITECTURE.md for the full pipeline breakdown.",
   },
   {
     id: 9,
@@ -92,15 +92,15 @@ export const projectsData: Project[] = [
     title: "B.G.M.I.D.",
     slug: "bgmid",
     category: "frontend",
-    tagline: "Mobile car detailing — booking-focused marketing site.",
+    tagline: "Mobile car detailing, booking-focused marketing site.",
     description:
       "Production site for a mobile detailing business: clear service positioning, strong calls to action, and a polished feel that matches the on-site brand experience.",
     highlights: [
       "Positioned premium mobile detailing with a booking-first hero and clear service tiers.",
       "Built in React + TypeScript with a responsive, performance-minded layout.",
-      "Live on Netlify — real traffic, real business outcomes.",
+      "Live on Netlify: real traffic, real business outcomes.",
     ],
-    role: "Solo build — UI, content structure, deploy",
+    role: "Solo build: UI, content structure, deploy",
     metrics: ["Production", "Live client site, real traffic"],
     tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Responsive UI"],
     imageSrc: "/projects/bgmid-hero.png",
@@ -116,17 +116,17 @@ export const projectsData: Project[] = [
     category: "backend",
     tagline: "A digital wallet backend where balances are replayed, not stored.",
     description:
-      "Real-time wallet backend where every deposit, withdrawal, and transfer is an immutable event — balances are computed by replaying the event log, not mutated in place. REST API plus WebSocket protocol for live balance updates to a dashboard.",
+      "Real-time wallet backend where every deposit, withdrawal, and transfer is an immutable event. Balances are computed by replaying the event log, not mutated in place. REST API plus WebSocket protocol for live balance updates to a dashboard.",
     highlights: [
       "Event-sourced core: balances reconstructed by replay, with point-in-time balance queries.",
       "Optimistic concurrency control and snapshot caching every 50 events, so replay stays fast as history grows.",
       "Vitest coverage of the replay engine: event application, insufficient funds, snapshots, rollbacks, concurrency.",
     ],
-    role: "Solo backend build — event sourcing, concurrency, real-time",
+    role: "Solo backend build: event sourcing, concurrency, real-time",
     metrics: ["Event-sourced, replay-based balances", "Optimistic concurrency control", "Vitest-covered replay engine"],
     tech: ["Node.js", "TypeScript", "Express", "PostgreSQL", "WebSockets", "Vitest", "Docker"],
     githubLink: "https://github.com/nickgriff99/wallet-dashboard",
     deploymentNote:
-      "No public demo — backend service with no hosted UI. See the repo's README for setup (Docker or local Postgres) and full API docs.",
+      "No public demo: backend service with no hosted UI. See the repo's README for setup (Docker or local Postgres) and full API docs.",
   },
 ];

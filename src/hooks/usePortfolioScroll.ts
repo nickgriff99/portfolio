@@ -17,7 +17,7 @@ export function usePortfolioScroll(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "home");
   const [headerHidden, setHeaderHidden] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  // Lazy-init to the real scroll position at mount, not 0 — a hardcoded 0 here makes
+  // Lazy-init to the real scroll position at mount, not 0 - a hardcoded 0 here makes
   // the first `update()` misread a restored/jumped scroll position (browser scroll
   // restore, keyboard-focus auto-scroll) as a large fast downward scroll and hides
   // the header with zero actual user input.

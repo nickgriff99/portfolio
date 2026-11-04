@@ -28,7 +28,7 @@ export function About() {
           </p>
           <h1 className="section-title text-left">My Story</h1>
 
-          {/* TODO: user to fill in real bio details — placeholder narrative below */}
+          {/* TODO: user to fill in real bio details - placeholder narrative below */}
           <div className="text-column space-y-6 text-base leading-7 text-[var(--color-muted)] sm:text-lg sm:leading-8">
             <p>
               I got into coding the unglamorous way: something broke, I refused to accept

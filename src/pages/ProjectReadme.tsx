@@ -16,7 +16,7 @@ export function ProjectReadme() {
   useRevealOnScroll();
 
   // Same pattern as ProjectDetail: route shares a dynamic segment, so React Router
-  // won't remount the tree on slug change — move focus to the h1 ourselves.
+  // won't remount the tree on slug change - move focus to the h1 ourselves.
   useEffect(() => {
     headingRef.current?.focus();
   }, [slug]);

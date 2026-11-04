@@ -37,10 +37,10 @@ export function NavBar({ items, activeSection, hidden, onNavigate }: NavBarProps
   return (
     <header
       // `inert` also removes every descendant (nav links) from the Tab order and a11y
-      // tree while the header is translated off-screen — same pattern as StaggeredMenu's
+      // tree while the header is translated off-screen - same pattern as StaggeredMenu's
       // off-canvas `<aside>`, see StaggeredMenu.tsx.
       inert={hidden}
-      // `-translate-y-full` moves the header by exactly its own height — but `.nav-shell`'s
+      // `-translate-y-full` moves the header by exactly its own height - but `.nav-shell`'s
       // offset box-shadow paints 6px past the border-box edge, so that sliver would still
       // land at y=0..6px after the translate ("lingering shadow"). Clearing by `100% + 8px`
       // takes the shadow fully off-screen too.

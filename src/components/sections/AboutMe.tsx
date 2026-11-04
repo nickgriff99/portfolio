@@ -7,14 +7,14 @@ import { SkillsWidget } from "@/components/SkillsWidget";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 /**
- * AboutMe — merged About + Skills section (Step 4).
+ * AboutMe - merged About + Skills section (Step 4).
  *
  * Desktop: two-column grid (text left, SkillsWidget right sticky).
  * Mobile/tablet: stacked (text above, skills below).
  *
  * Text animations (React Bits, src/bits/):
- *  P1 — Shuffle (GSAP ScrollTrigger, fires once on scroll-into-view)
- *  P2 — DecryptedText (animateOn="view", fires once on scroll-into-view)
+ *  P1 - Shuffle (GSAP ScrollTrigger, fires once on scroll-into-view)
+ *  P2 - DecryptedText (animateOn="view", fires once on scroll-into-view)
  *  Both handle prefers-reduced-motion and provide accessible text to SR.
  */
 
@@ -26,10 +26,10 @@ const LEAD_CLASS =
   "text-xl font-semibold leading-snug tracking-tight text-[var(--color-text)] sm:text-2xl sm:leading-snug lg:text-3xl";
 
 const LEAD_TEXT =
-  "I design PostgreSQL schemas and the APIs that sit on top of them, then build the interface that makes that data feel alive \u2014 like the Three.js configurator on this site. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
+  "I design PostgreSQL schemas and the APIs that sit on top of them, then build the interface that makes that data feel alive, like the Three.js configurator on this site. Clean architecture and a sharp interface aren\u2019t separate skills to me; the stack and the experience get designed together, which is exactly what this site is built to prove.";
 
 const SECOND_TEXT =
-  "I recently wrapped a six-month React contract at Spot Parking, and right now I\u2019m paying the bills as a Data Labeler at Tesla while I build and ship full-stack work on the side \u2014 actively looking for a full-stack role where I can do this full-time.";
+  "I recently wrapped a six-month React contract at Spot Parking, and right now I\u2019m paying the bills as a Data Labeler at Tesla while I build and ship full-stack work on the side, actively looking for a full-stack role where I can do this full-time.";
 
 type AboutMeProps = {
   onNavigate: (href: `#${string}`) => void;
@@ -41,7 +41,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
   return (
     <section id="about-me" className="section-band">
       <div className="content-shell">
-        {/* Section heading — same look as existing (section-title + header-surface) */}
+        {/* Section heading - same look as existing (section-title + header-surface) */}
         <h2 className="section-title">
           <span className="header-surface relative inline-block rounded-2xl px-6 py-3">
             About <span className="keyword-link">Me</span>
@@ -56,11 +56,11 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
         */}
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:gap-16">
 
-          {/* LEFT — About text */}
+          {/* LEFT - About text */}
           <div className="text-left">
 
             {/*
-              P1 — Shuffle animation (GSAP SplitText + ScrollTrigger).
+              P1 - Shuffle animation (GSAP SplitText + ScrollTrigger).
               Accessibility: sr-only copy carries the real text; the animated element is aria-hidden.
               Layout shift: element is visibility:hidden (preserves space) until
               onEnter fires; SplitText wraps chars while still hidden; setReady(true)
@@ -109,7 +109,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
             </div>
 
             {/*
-              P2 — DecryptedText animation.
+              P2 - DecryptedText animation.
               animateOn="view" triggers via IntersectionObserver on scroll-into-view.
               sr-only span inside DecryptedText provides accessible text to SR.
               Layout shift: each glyph rendered in a fixed-width container via
@@ -129,7 +129,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
               />
             </p>
 
-            {/* P3 — mono joke line, no animation (keep as-is per spec) */}
+            {/* P3 - mono joke line, no animation (keep as-is per spec) */}
             <p className="font-mono text-sm leading-6 text-[var(--color-dev)] sm:text-base">
               <span aria-hidden="true" className="text-[color-mix(in_srgb,var(--color-dev)_55%,transparent)]">
                 {"// "}
@@ -137,7 +137,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
               Oh, and careful what you say around my receipts-bot... he keeps receipts... 😉
             </p>
 
-            {/* Currently strip — mono status line below the paragraphs */}
+            {/* Currently strip - mono status line below the paragraphs */}
             <div className="viewport-animate mt-8 border-l-2 border-[color-mix(in_srgb,var(--color-link)_45%,transparent)] pl-4">
               <p className="font-mono text-xs uppercase tracking-wide text-[var(--color-soft)] mb-1">
                 // currently
@@ -150,7 +150,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
                   <span className="text-[var(--color-accent)]">→</span> Open to full-stack roles
                 </li>
                 <li>
-                  <span className="text-[var(--color-link)]">@</span> Day job: Data Labeler at Tesla — paying the bills while I build the stuff above
+                  <span className="text-[var(--color-link)]">@</span> Day job: Data Labeler at Tesla, paying the bills while I build the stuff above
                 </li>
               </ul>
             </div>
@@ -165,7 +165,7 @@ export function AboutMe({ onNavigate }: AboutMeProps) {
             <AboutCtaRow onNavigate={onNavigate} />
           </div>
 
-          {/* RIGHT — SkillsWidget, static in normal flow (not sticky/pinned). */}
+          {/* RIGHT - SkillsWidget, static in normal flow (not sticky/pinned). */}
           <div>
             {/* Sub-heading for the skills panel */}
             <p className="mb-6 font-mono text-xs uppercase tracking-wide text-[var(--color-soft)]">

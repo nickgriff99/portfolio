@@ -1,5 +1,5 @@
 /**
- * ScrollTypedText — React Bits-style scrub-scroll typing animation.
+ * ScrollTypedText - React Bits-style scrub-scroll typing animation.
  *
  * Char count derived from scroll progress (never timers): fast scroll → instant jump,
  * scroll back → un-types, initial mid-page load → correct state on first paint.
@@ -34,7 +34,7 @@ export interface TypedBlock {
   /** ScrollTrigger start override. Default: "top 100%" */
   start?: string;
   /**
-   * ScrollTrigger end override. Default: "bottom 75%" — block is fully typed once its
+   * ScrollTrigger end override. Default: "bottom 75%" - block is fully typed once its
    * bottom edge enters the lower quarter of the viewport, so readers never have to
    * chase text that's still being typed near the top of the screen.
    */
@@ -134,7 +134,7 @@ export default function ScrollTypedText({
     onPlayCompleteRef.current = onPlayComplete;
   }, [onPlayComplete]);
 
-  // Flat tokens computed once — blocks is assembled from static module-level data
+  // Flat tokens computed once - blocks is assembled from static module-level data
   // in TerminalSession so reference is stable across renders.
   const flatBlocks = useMemo<FlatBlock[]>(
     () => blocks.map((b) => flattenBlock(b.lines)),
@@ -144,7 +144,7 @@ export default function ScrollTypedText({
   // useLayoutEffect so spans are filled before the browser's first paint, eliminating
   // the one-frame blank that useEffect would cause on mid-page load / hash navigation.
   useLayoutEffect(() => {
-    unmountedRef.current = false; // Reset on every (re-)mount — critical under StrictMode
+    unmountedRef.current = false; // Reset on every (re-)mount - critical under StrictMode
 
     if (reducedMotion) {
       blocks.forEach((_, i) => {
@@ -261,7 +261,7 @@ export default function ScrollTypedText({
             }}
             className="relative"
           >
-            {/* Invisible full-text reference — reserves the block's final layout height
+            {/* Invisible full-text reference - reserves the block's final layout height
                 so no layout shift occurs as typing progresses. Same font/wrap settings
                 as the overlay so line wrapping is identical. */}
             <div
@@ -270,7 +270,7 @@ export default function ScrollTypedText({
               dangerouslySetInnerHTML={{ __html: fullHTML }}
             />
 
-            {/* Typed overlay — absolute, same bounds as reference.
+            {/* Typed overlay - absolute, same bounds as reference.
                 overflow:hidden clips cursor at block boundary (safe: cursor never
                 appears beyond the last line). */}
             <div

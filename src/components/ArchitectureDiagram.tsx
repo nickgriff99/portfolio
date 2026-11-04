@@ -5,7 +5,7 @@ import { edgeOffsets } from "./architectureDiagramOffsets";
  * transitions/animation), so prefers-reduced-motion is a non-issue here.
  *
  * Layout heuristic (shortcut: only handles one main chain + one branch row,
- * which is all two current diagrams need — upgrade to real graph layout if a
+ * which is all two current diagrams need - upgrade to real graph layout if a
  * third diagram needs more than one branch row):
  *  - "Main chain" = the path formed by following unlabeled edges from the
  *    first node. Labeled edges (e.g. "every 50 events") are read as
@@ -14,7 +14,7 @@ import { edgeOffsets } from "./architectureDiagramOffsets";
  */
 
 // NODE_W fits the longest real label across both diagrams ("Discord voice
-// receive", bold font-mono @ 11px) with comfortable side padding — widen this
+// receive", bold font-mono @ 11px) with comfortable side padding - widen this
 // if a future diagram's label is longer, rather than letting text clip.
 const NODE_W = 180;
 const NODE_H = 56;
@@ -91,7 +91,7 @@ function edgePath(from: LaidOutNode, to: LaidOutNode, offset = 0): string {
   return `M ${ax},${y1} L ${ax},${midY} L ${bx},${midY} L ${bx},${y2}`;
 }
 
-/** Ordered, screen-reader-only description of the pipeline — the real accessible
+/** Ordered, screen-reader-only description of the pipeline - the real accessible
  * content, same idea as ReadableTimeline in TerminalSession.tsx: full content next
  * to a decorative/visual rendering, not a single summarizing aria-label. */
 function AccessibleStepList({ diagram, nodes, mainChainIds }: {
@@ -126,7 +126,7 @@ function AccessibleStepList({ diagram, nodes, mainChainIds }: {
           <li key={id}>
             Step {i + 1}: {node.label}
             {node.sublabel ? ` (${node.sublabel})` : ""}
-            {label ? ` — ${label}` : ""}.
+            {label ? `: ${label}` : ""}.
           </li>
         );
       })}

@@ -21,7 +21,7 @@ export interface ArchitectureDiagram {
  * description, keyed by Project.id. Rendered by <ArchitectureDiagram>. Add more
  * entries as additional projects get a diagram-worthy pipeline. */
 export const architectureDiagrams: Record<number, ArchitectureDiagram> = {
-  // receipts-bot — linear real-time voice pipeline across 4 external services + Postgres.
+  // receipts-bot - linear real-time voice pipeline across 4 external services + Postgres.
   10: {
     nodes: [
       { id: "voice", label: "Discord voice receive", sublabel: "per-user Opus decode" },
@@ -42,7 +42,7 @@ export const architectureDiagrams: Record<number, ArchitectureDiagram> = {
       { from: "db", to: "llm", label: "context read" },
     ],
   },
-  // wallet-dashboard — mostly-linear event-sourcing write path with a snapshot +
+  // wallet-dashboard - mostly-linear event-sourcing write path with a snapshot +
   // WebSocket read-path branch off the Event Store / Replay Engine.
   11: {
     nodes: [

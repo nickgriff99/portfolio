@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-// Lazy: pulls in `ogl` (WebGL), not needed for first paint — the body's own CSS
+// Lazy: pulls in `ogl` (WebGL), not needed for first paint - the body's own CSS
 // gradient (global.css) already paints this same dark background underneath, so
 // a `null` Suspense fallback during the brief chunk-load window is invisible.
 const Grainient = lazy(() => import("@/bits/Grainient"));
@@ -42,7 +42,7 @@ export function Home() {
 
   useRevealOnScroll();
 
-  // Cross-page anchor links (useHomeAnchor) land here as `/#id` — once mounted (and on
+  // Cross-page anchor links (useHomeAnchor) land here as `/#id` - once mounted (and on
   // every hash change, e.g. clicking another anchor link while already on `/`), scroll
   // the matching section into view. No existing hash-scroll logic before this.
   const location = useLocation();
@@ -55,7 +55,7 @@ export function Home() {
 
   const backToTopRef = useMagneticHover<HTMLButtonElement>({ strength: 3 });
   // Consent banner's mobile card (flex-col, ~144px tall) physically occupies the
-  // same bottom-right corner as this button at <640px — not just a stacking-order
+  // same bottom-right corner as this button at <640px - not just a stacking-order
   // z-index clash, the banner's card is a real obstruction. Rather than viewport-
   // specific offset math, just don't show both reachable targets at once.
   const { consent } = useConsent();
@@ -65,7 +65,7 @@ export function Home() {
   const [particlesUnavailable, setParticlesUnavailable] = useState(false);
   const useHeroCssFallback = grainientUnavailable || particlesUnavailable;
 
-  // Cached ref to the hero element — avoids getElementById on every rAF tick.
+  // Cached ref to the hero element - avoids getElementById on every rAF tick.
   const heroElemRef = useRef<HTMLElement | null>(null);
 
   // ResizeObserver: keep --hero-h CSS var in sync with hero's rendered height.
@@ -93,7 +93,7 @@ export function Home() {
 
   // Scroll listener: writes --hero-progress (0→1) on the hero element for parallax CSS;
   // sets `inert` on hero once curtain fully covers it (scrollY >= heroH).
-  // --hero-progress and --hero-h written on #home, not :root — only hero subtree recalcs.
+  // --hero-progress and --hero-h written on #home, not :root - only hero subtree recalcs.
   // Skips write when value unchanged (no-op past heroH where progress stays 1).
   // Inert toggling runs both directions (set when covered, cleared when user scrolls back).
   // Passive + rAF-throttled.
@@ -226,7 +226,7 @@ export function Home() {
           aria-label="Return to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           // `transform` deliberately excluded: `useMagneticHover` owns it (mousemove-tracked
-          // x/y) — a CSS transform transition here would fight the GSAP tween frame-by-frame.
+          // x/y) - a CSS transform transition here would fight the GSAP tween frame-by-frame.
           // Only `opacity`/`filter` (visibility fade + hover brightness) need one.
           className={`focus-ring flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-xl text-[#0a0a0a] shadow-lg shadow-black/20 transition-[opacity,filter] duration-300 hover:brightness-110 ${
             showBackToTop && !bannerVisible

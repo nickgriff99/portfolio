@@ -31,7 +31,7 @@ export interface Project {
   deploymentNote?: string;
   /** Surfaces in the “Client work” filter */
   isClientProject?: boolean;
-  /** e.g. “Solo build — design + front-end” */
+  /** e.g. “Solo build - design + front-end” */
   role?: string;
   /** Small proof badges (stack slice, impact, constraint) */
   metrics?: string[];
