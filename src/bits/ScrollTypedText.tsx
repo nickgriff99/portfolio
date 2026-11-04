@@ -164,7 +164,7 @@ export default function ScrollTypedText({
         },
       });
 
-      blocks.forEach((block, i) => {
+      blocks.forEach((_block, i) => {
         const typedEl = typedRefs.current[i];
         const cursorEl = cursorRefs.current[i];
         if (!typedEl) return;

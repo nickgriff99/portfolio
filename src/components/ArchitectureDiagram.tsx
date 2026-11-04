@@ -135,6 +135,7 @@ function AccessibleStepList({ diagram, nodes, mainChainIds }: {
 }
 
 export function ArchitectureDiagram({ diagram, title }: { diagram: ArchitectureDiagramData; title: string }) {
+  if (diagram.nodes.length === 0) return null;
   const { nodes, mainChainIds } = layoutDiagram(diagram);
   const width = Math.max(...nodes.map((n) => n.x + NODE_W));
   const height = Math.max(...nodes.map((n) => n.y + NODE_H));

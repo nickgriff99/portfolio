@@ -371,13 +371,21 @@ export function TerminalSession() {
   // both to report completion before re-enabling.
   const [isAnimating, setIsAnimating] = useState(false);
   const completedCountRef = useRef(0);
+  // Safety net: if either ScrollTypedText instance unmounts/errors before its
+  // GSAP timeline fires onComplete, completedCountRef never reaches 2 and the
+  // toggle would stay disabled forever. Longest real sequence (EXP_BLOCKS, 6
+  // chained blocks at the 2.5s-per-block cap) finishes well under this.
+  const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Stable identity: ScrollTypedText's effect depends on this callback, and Home's
   // scroll listener re-renders this tree on every scroll tick — a new function
   // reference each render would re-fire that effect and restart the type-in tween.
   const handlePlayComplete = useCallback(() => {
     completedCountRef.current += 1;
-    if (completedCountRef.current >= 2) setIsAnimating(false);
+    if (completedCountRef.current >= 2) {
+      if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
+      setIsAnimating(false);
+    }
   }, []);
 
   function handleToggle() {
@@ -387,6 +395,8 @@ export function TerminalSession() {
       if (next === 'nerd' && !rm) {
         completedCountRef.current = 0;
         setIsAnimating(true);
+        if (animationTimeoutRef.current) clearTimeout(animationTimeoutRef.current);
+        animationTimeoutRef.current = setTimeout(() => setIsAnimating(false), 20_000);
       }
       return next;
     });
