@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
 import { NavBar } from "../components/NavBar";
+import { architectureDiagrams } from "../data/architectureDiagrams";
 import { NAV_ITEMS } from "../data/navItems";
 import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
@@ -21,6 +23,7 @@ export function ProjectReadme() {
 
   const project = projectsData.find((p) => p.slug === slug);
   const readme = project ? projectReadmes[project.id] : undefined;
+  const diagram = project ? architectureDiagrams[project.id] : undefined;
 
   if (!project || !readme) {
     return (
@@ -65,6 +68,17 @@ export function ProjectReadme() {
         </h1>
 
         <p className="mt-4 text-lg leading-7 text-[var(--color-muted)]">{readme.intro}</p>
+
+        {diagram && (
+          <section className="mt-8">
+            <h2 className="font-display text-xl font-bold text-[var(--color-text)] md:text-2xl">
+              Architecture at a glance
+            </h2>
+            <div className="mt-3">
+              <ArchitectureDiagram diagram={diagram} title={`${project.title} architecture diagram`} />
+            </div>
+          </section>
+        )}
 
         {readme.sections.map((section) => (
           <section key={section.heading} className="mt-8">
