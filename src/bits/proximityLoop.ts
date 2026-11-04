@@ -3,7 +3,7 @@
  *
  * One set of window listeners and at most one requestAnimationFrame per frame, no matter how many
  * labels are mounted. Frames are only scheduled when the pointer moved (or the page scrolled under
- * it), so an idle page costs nothing — the old per-instance loop spun every frame forever.
+ * it), so an idle page costs nothing - the old per-instance loop spun every frame forever.
  */
 export type ProximityListener = (clientX: number, clientY: number) => void;
 

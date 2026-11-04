@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 
 import { AboutCtaRow } from "../components/AboutCtaRow";
+import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { SectionRule } from "../components/SectionRule";
+import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { useHomeAnchor } from "../hooks/useHomeAnchor";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
@@ -9,14 +12,20 @@ import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 export function About() {
   useRevealOnScroll();
   // On /about there's no Home-page scroll target, so cross-page anchors always
-  // take the navigate("/#id") branch of useHomeAnchor.
+  // take the navigate("/#id") branch of useHomeAnchor. AboutCtaRow only passes raw
+  // hrefs (#experience/#contact), not full NavItems - resolve against NAV_ITEMS so
+  // "Experience" still gets the anchor-or-route -> /experience routing behavior.
   const goToAnchor = useHomeAnchor(() => {});
+  const handleCtaNavigate = (href: `#${string}`) => {
+    const item = NAV_ITEMS.find((navItem) => navItem.type !== "route" && navItem.href === href);
+    goToAnchor(item ?? { type: "anchor", label: "", href });
+  };
 
   return (
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
           "About" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
       <div className="section-band min-h-screen pt-24 sm:pt-28">
         <div className="content-shell mx-auto max-w-3xl">
           <Link to="/" className="focus-ring mb-10 inline-block text-sm text-[var(--color-link)] underline">
@@ -28,7 +37,7 @@ export function About() {
           </p>
           <h1 className="section-title text-left">My Story</h1>
 
-          {/* TODO: user to fill in real bio details — placeholder narrative below */}
+          {/* TODO: user to fill in real bio details - placeholder narrative below */}
           <div className="text-column space-y-6 text-base leading-7 text-[var(--color-muted)] sm:text-lg sm:leading-8">
             <p>
               I got into coding the unglamorous way: something broke, I refused to accept
@@ -73,9 +82,13 @@ export function About() {
             </div>
           </div>
 
-          <AboutCtaRow onNavigate={goToAnchor} />
+          <AboutCtaRow onNavigate={handleCtaNavigate} />
         </div>
       </div>
+
+      <SectionRule label="contact" />
+      <ContactSection />
+      <Footer />
     </>
   );
 }

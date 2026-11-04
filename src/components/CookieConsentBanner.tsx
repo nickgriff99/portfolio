@@ -33,7 +33,7 @@ export function CookieConsentBanner() {
     >
       <div className="pointer-events-auto flex w-full max-w-xl items-center justify-between gap-2 rounded-lg border border-[color-mix(in_srgb,var(--color-border)_32%,transparent)] bg-[var(--color-bg)] px-3 py-1.5 shadow-lg shadow-black/20">
         <p className="text-xs text-[var(--color-soft)]">
-          Analytics cookies — opt-in only.
+          Analytics cookies: opt-in only.
         </p>
         <div className="flex shrink-0 gap-1.5">
           <button

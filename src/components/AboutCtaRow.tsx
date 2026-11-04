@@ -1,9 +1,9 @@
 type AboutCtaRowProps = {
-  /** Anchor nav — same-page scroll on Home, cross-page `/#id` navigate elsewhere (see useHomeAnchor). */
+  /** Anchor nav - same-page scroll on Home, cross-page `/#id` navigate elsewhere (see useHomeAnchor). */
   onNavigate: (href: `#${string}`) => void;
 };
 
-/** Shared Experience/Contact/Resume CTA row — used by the Home AboutMe section and the /about page. */
+/** Shared Experience/Contact/Resume CTA row - used by the Home AboutMe section and the /about page. */
 export function AboutCtaRow({ onNavigate }: AboutCtaRowProps) {
   return (
     <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-sm uppercase tracking-wide">

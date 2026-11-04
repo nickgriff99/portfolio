@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
@@ -13,13 +14,13 @@ type StaggeredMenuProps = {
   open: boolean;
   items: NavItem[];
   activeSection: string;
-  onNavigate: (href: `#${string}`) => void;
+  onNavigate: (item: NavItem) => void;
   onClose: () => void;
 };
 
 /**
  * Mobile drawer + backdrop rendered via portal (header uses transform; fixed children would be trapped).
- * Uses CSS transforms only — GSAP inline styles previously overrode Tailwind and could leave opacity:0 stuck
+ * Uses CSS transforms only - GSAP inline styles previously overrode Tailwind and could leave opacity:0 stuck
  * (e.g. after prefers-reduced-motion toggled or effect early-return).
  */
 export function StaggeredMenu({
@@ -38,7 +39,7 @@ export function StaggeredMenu({
   // component has no ref to that button and isn't allowed to touch NavBar.tsx this round.
   const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Move focus into the drawer on open (first nav item), restore it to the trigger on close —
+  // Move focus into the drawer on open (first nav item), restore it to the trigger on close -
   // `aria-modal="true"` promises modal focus behavior, so it has to actually happen.
   useEffect(() => {
     if (open) {
@@ -90,7 +91,7 @@ export function StaggeredMenu({
       <aside
         id={id}
         ref={asideRef}
-        // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel —
+        // `aria-hidden` alone doesn't stop focus landing in a visually-closed panel -
         // `inert` also removes every descendant from the Tab order (and the a11y tree).
         inert={!open}
         className={cn(
@@ -104,13 +105,27 @@ export function StaggeredMenu({
         {...(open ? { "aria-modal": true as const } : {})}
         role="dialog"
       >
+        {/* Header's own hamburger button lives in a separate `position:fixed` stacking
+            context, so no z-index on it can paint above this portaled drawer - it's
+            visually covered and unclickable while open. Give the drawer its own close
+            affordance instead of relying on that trapped button. */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close mobile menu"
+          className="focus-ring absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-[8px] border-2 border-[var(--color-border)]"
+        >
+          <X className="h-5 w-5" aria-hidden />
+        </button>
         <p className="mb-8 font-mono text-xs uppercase tracking-wide text-[var(--color-soft)]">// menu</p>
         <ul className="space-y-4">
           {items.map((item, index) => {
             const isActive =
               item.type === "route"
                 ? location.pathname === item.to
-                : item.href.replace("#", "") === activeSection;
+                : item.type === "anchor-or-route" && location.pathname !== "/"
+                  ? location.pathname === item.to
+                  : item.href.replace("#", "") === activeSection;
             const itemClass = cn(
               "focus-ring sm-item w-full rounded-none text-left font-mono text-2xl font-semibold uppercase tracking-tight underline-offset-4 transition-colors",
               isActive
@@ -142,7 +157,7 @@ export function StaggeredMenu({
                 ) : (
                   <button
                     type="button"
-                    onClick={() => onNavigate(item.href)}
+                    onClick={() => onNavigate(item)}
                     aria-current={isActive ? "page" : undefined}
                     className={itemClass}
                   >

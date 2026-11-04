@@ -29,6 +29,10 @@ const About = lazy(() =>
   import("./pages/About").then((m) => ({ default: m.About })),
 );
 
+const Experience = lazy(() =>
+  import("./pages/Experience").then((m) => ({ default: m.Experience })),
+);
+
 function AnalyticsListener() {
   useAnalyticsPageviews();
   return null;
@@ -158,6 +162,29 @@ function App() {
                   }
                 >
                   <About />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+          <Route
+            path="/experience"
+            element={
+              <RouteErrorBoundary>
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
+                  <Experience />
                 </Suspense>
               </RouteErrorBoundary>
             }

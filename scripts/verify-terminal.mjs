@@ -1,4 +1,4 @@
-// Terminal Section Guard — Step 6 hacker terminal (Experience + Education)
+// Terminal Section Guard - Step 6 hacker terminal (Experience + Education)
 //
 // Checks:
 //   1. Both section ids exist: #experience, #education
@@ -131,7 +131,7 @@ async function runViewport(browser, width, height) {
         await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
         await page.waitForTimeout(200);
       }
-      // Skip check silently if nav items are hidden (collapsed mobile menu — tested separately)
+      // Skip check silently if nav items are hidden (collapsed mobile menu - tested separately)
     }
 
     // ── CHECK 4: Scroll-typing is monotonic + fully typed at 75% ────────────
@@ -281,7 +281,7 @@ async function runViewport(browser, width, height) {
   }
 
   if (vf.length > 0) {
-    console.log(`  FAIL ${label} — ${vf.length} failure(s):`);
+    console.log(`  FAIL ${label} - ${vf.length} failure(s):`);
     for (const f of vf) console.log(`    [${f.check}] ${f.msg}`);
     failures.push({ viewport: label, issues: vf });
   } else {
@@ -291,7 +291,7 @@ async function runViewport(browser, width, height) {
 }
 
 async function main() {
-  console.log(`\nverify-terminal — base: ${BASE_URL}`);
+  console.log(`\nverify-terminal - base: ${BASE_URL}`);
   console.log(`Testing ${VIEWPORTS.length} viewports...\n`);
 
   const { mkdirSync } = await import("fs");

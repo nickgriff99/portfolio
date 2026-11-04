@@ -6,6 +6,6 @@ export const NAV_ITEMS: NavItem[] = [
   { type: "anchor", label: "Home", href: "#home" },
   { type: "route", label: "About", to: "/about" },
   { type: "route", label: "Projects", to: "/projects" },
-  { type: "anchor", label: "Experience", href: "#experience" },
+  { type: "anchor-or-route", label: "Experience", href: "#experience", to: "/experience" },
   { type: "anchor", label: "Contact", href: "#contact" },
 ];

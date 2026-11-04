@@ -5,7 +5,7 @@ import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { useHoverCapablePointer } from "./useHoverCapablePointer";
 
 type MagneticHoverOptions = {
-  /** Max px the element shifts toward the cursor at the edge of its own bounds. Default 5 —
+  /** Max px the element shifts toward the cursor at the edge of its own bounds. Default 5 -
    * kept deliberately subtle per owner feedback (an earlier default of 14 read as "far too
    * strong" live). */
   strength?: number;
@@ -14,9 +14,9 @@ type MagneticHoverOptions = {
 /**
  * Returns a ref for a "magnetic button" hover effect: on mousemove within the
  * element's own bounds, it eases toward the cursor (GSAP `quickTo`-driven, no
- * React-state/`gsap.set` re-renders — buttery, no layout thrash); on mouse-leave
+ * React-state/`gsap.set` re-renders - buttery, no layout thrash); on mouse-leave
  * it springs back to rest. Fully inert (zero listeners attached, zero tweens) when
- * `prefers-reduced-motion` is set or the device can't hover with a fine pointer —
+ * `prefers-reduced-motion` is set or the device can't hover with a fine pointer -
  * same guard convention as this repo's other motion hooks.
  */
 export function useMagneticHover<T extends HTMLElement>({

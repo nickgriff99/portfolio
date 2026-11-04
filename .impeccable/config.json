@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-11-04T06:57:55.035Z",
+        "reason": "L189 border-bottom sits in a lg: media block that also sets border-radius:0 on the same selector - rounded corners and thick border never coexist on rendered output, static scan can't see the override"
+      }
+    ]
+  }
+}

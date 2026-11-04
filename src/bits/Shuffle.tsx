@@ -1,5 +1,5 @@
 /**
- * Shuffle — React Bits text animation, adapted for this repo.
+ * Shuffle - React Bits text animation, adapted for this repo.
  * Source: https://github.com/DavidHDev/react-bits (MIT)
  * Adaptations:
  *  - Removed 'use client' (Vite project, not Next.js)
@@ -14,7 +14,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 
-// Register once at module level — safe to call multiple times per GSAP docs.
+// Register once at module level - safe to call multiple times per GSAP docs.
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText);
 
 const BLUR_STEPS = 12;
@@ -49,7 +49,7 @@ export interface ShuffleProps {
   motionBlur?: boolean;
   color?: string;
   accentColor?: string;
-  /** aria-label forwarded to the rendered element — gives SR full text while visibility:hidden */
+  /** aria-label forwarded to the rendered element - gives SR full text while visibility:hidden */
   ariaLabel?: string;
   /** aria-hidden forwarded to the rendered element */
   ariaHidden?: boolean | 'true' | 'false';

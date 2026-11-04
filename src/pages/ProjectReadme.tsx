@@ -1,7 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { ArchitectureDiagram } from "../components/ArchitectureDiagram";
+import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
+import { SectionRule } from "../components/SectionRule";
+import { ContactSection } from "../components/sections/ContactSection";
+import { architectureDiagrams } from "../data/architectureDiagrams";
 import { NAV_ITEMS } from "../data/navItems";
 import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
@@ -14,18 +19,19 @@ export function ProjectReadme() {
   useRevealOnScroll();
 
   // Same pattern as ProjectDetail: route shares a dynamic segment, so React Router
-  // won't remount the tree on slug change — move focus to the h1 ourselves.
+  // won't remount the tree on slug change - move focus to the h1 ourselves.
   useEffect(() => {
     headingRef.current?.focus();
   }, [slug]);
 
   const project = projectsData.find((p) => p.slug === slug);
   const readme = project ? projectReadmes[project.id] : undefined;
+  const diagram = project ? architectureDiagrams[project.id] : undefined;
 
   if (!project || !readme) {
     return (
       <>
-        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
         <div className="section-band flex min-h-screen items-center justify-center px-5 pt-24 text-center sm:pt-28">
           <div>
             <h1
@@ -46,7 +52,7 @@ export function ProjectReadme() {
 
   return (
     <>
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
       <div className="section-band min-h-screen px-5 pt-24 py-16 sm:pt-28 sm:py-20 md:py-28">
         <div className="viewport-animate mx-auto w-full max-w-4xl">
         <Link
@@ -65,6 +71,17 @@ export function ProjectReadme() {
         </h1>
 
         <p className="mt-4 text-lg leading-7 text-[var(--color-muted)]">{readme.intro}</p>
+
+        {diagram && (
+          <section className="mt-8">
+            <h2 className="font-display text-xl font-bold text-[var(--color-text)] md:text-2xl">
+              Architecture at a glance
+            </h2>
+            <div className="mt-3">
+              <ArchitectureDiagram diagram={diagram} title={`${project.title} architecture diagram`} />
+            </div>
+          </section>
+        )}
 
         {readme.sections.map((section) => (
           <section key={section.heading} className="mt-8">
@@ -85,6 +102,10 @@ export function ProjectReadme() {
         ))}
       </div>
       </div>
+
+      <SectionRule label="contact" />
+      <ContactSection />
+      <Footer />
     </>
   );
 }

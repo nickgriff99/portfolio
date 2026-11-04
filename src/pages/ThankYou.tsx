@@ -47,7 +47,7 @@ export function ThankYou() {
         <div className="viewport-animate flex flex-wrap justify-center gap-4 sm:gap-6">
           <button
             onClick={() => navigate("/")}
-            className="focus-ring rounded-xl border border-transparent bg-[var(--color-accent)] px-6 py-3 text-xl font-medium text-[#0a0a0a] shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+            className="focus-ring rounded-[8px] border border-transparent bg-[var(--color-accent)] px-6 py-3 text-xl font-medium text-[#0a0a0a] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
           >
             ← Back to Portfolio
           </button>

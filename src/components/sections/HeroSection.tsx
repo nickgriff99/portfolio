@@ -41,7 +41,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
         {/* Boundary outside Suspense: a rejected `lazy()` chunk-fetch promise throws
             during render and would otherwise unmount the whole app (no boundary above
-            this in the tree) — silent fallback since this effect is purely decorative. */}
+            this in the tree) - silent fallback since this effect is purely decorative. */}
         <RouteErrorBoundary fallback={null}>
           <Suspense fallback={null}>
             <Particles
@@ -65,12 +65,12 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
       {/* Full-bleed 2-col grid: touches true viewport edges, no max-width cap (brutalist
           full-bleed, matches `.content-shell`'s cap removal in global.css).
           Text column is first in DOM and first in visual order at every breakpoint: text-top on
-          mobile, text-left on desktop. No `order` utilities needed — DOM order matches visual
+          mobile, text-left on desktop. No `order` utilities needed - DOM order matches visual
           order at all sizes. */}
       <div className="hero-cover-fade relative z-10 mx-auto grid w-full grid-cols-1 md:grid-cols-2">
         {/* Text column. First in DOM → text-top on mobile, text-left on desktop (md:col 1). */}
-        <div className="relative isolate flex min-h-[40vh] w-full flex-col justify-center px-6 pb-16 pt-24 sm:px-8 md:min-h-[100dvh] md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-20 lg:px-16">
-          {/* hero-text-parallax: parallax WRAPPER — transform applied here, never on
+        <div className="relative isolate flex min-h-[100dvh] w-full flex-col justify-center px-6 pb-16 pt-28 sm:px-8 md:px-12 md:pb-0 md:pt-24 lg:pb-0 lg:pt-24 lg:px-16">
+          {/* hero-text-parallax: parallax WRAPPER - transform applied here, never on
               .hero-animate children (animation-fill-mode:both owns their transform).
               CSS drives the drift via --hero-progress (Home.tsx scroll listener). */}
           <div className="hero-text-parallax relative z-10 flex flex-col items-start text-left">
@@ -108,8 +108,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
 
             <p className="hero-animate hero-animate-4 mb-8 max-w-xl text-lg leading-7 text-[var(--color-soft)]">
               I design the{" "}
-              <span className="keyword-highlight">Postgres schema and the APIs it powers</span>{" "}
-              — then bring that same rigor to a{" "}
+              <span className="keyword-highlight">Postgres schema and the APIs it powers</span>, then bring that same rigor to a{" "}
               <VariableProximity
                 label="Three.js configurator"
                 containerRef={heroContainerRef}

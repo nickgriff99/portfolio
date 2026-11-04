@@ -1,4 +1,4 @@
-export type SkillCategoryKey = "frontend" | "backend" | "tools";
+export type SkillCategoryKey = "languages" | "frontend" | "backend" | "tools";
 
 export interface Skill {
   name: string;
@@ -31,7 +31,7 @@ export interface Project {
   deploymentNote?: string;
   /** Surfaces in the “Client work” filter */
   isClientProject?: boolean;
-  /** e.g. “Solo build — design + front-end” */
+  /** e.g. “Solo build - design + front-end” */
   role?: string;
   /** Small proof badges (stack slice, impact, constraint) */
   metrics?: string[];
@@ -65,6 +65,7 @@ export interface TimelineEntry {
 
 export type NavItem =
   | { type: "anchor"; label: string; href: `#${string}` }
-  | { type: "route"; label: string; to: string };
+  | { type: "route"; label: string; to: string }
+  | { type: "anchor-or-route"; label: string; href: `#${string}`; to: string };
 
 export type LayoutMode = "single" | "multi";

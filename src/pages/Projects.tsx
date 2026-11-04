@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 
+import { Footer } from "../components/Footer";
 import { NavBar } from "../components/NavBar";
 import { ProjectsShowcase } from "../components/ProjectsShowcase";
+import { SectionRule } from "../components/SectionRule";
+import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 
@@ -12,7 +15,7 @@ export function Projects() {
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
           "Projects" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
       <div className="section-band min-h-screen pt-24 sm:pt-28">
         <div className="content-shell">
           <Link to="/" className="focus-ring mb-10 inline-block text-sm text-[var(--color-link)] underline">
@@ -29,6 +32,10 @@ export function Projects() {
           </div>
         </div>
       </div>
+
+      <SectionRule label="contact" />
+      <ContactSection />
+      <Footer />
     </>
   );
 }

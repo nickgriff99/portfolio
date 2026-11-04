@@ -1,5 +1,5 @@
 /**
- * DecryptedText — React Bits text animation, adapted for this repo.
+ * DecryptedText - React Bits text animation, adapted for this repo.
  * Source: https://github.com/DavidHDev/react-bits (MIT)
  * Adaptations:
  *  - Removed 'use client' (Vite project, not Next.js)
