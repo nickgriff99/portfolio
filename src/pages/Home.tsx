@@ -22,7 +22,7 @@ import { useMagneticHover } from "../hooks/useMagneticHover";
 
 export function Home() {
   const sectionIds = useMemo(
-    () => ["home", "about-me", "projects", "experience", "contact"],
+    () => ["home", "projects", "experience", "contact"],
     [],
   );
 
