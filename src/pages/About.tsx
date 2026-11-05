@@ -81,6 +81,25 @@ export function About() {
                 </li>
               </ul>
             </div>
+
+            <div className="flex gap-4">
+              <a
+                href="https://www.linkedin.com/in/nicholas-griffiths-1a1883220/"
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-mono text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/nickgriff99"
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-mono text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
 
           <AboutCtaRow onNavigate={handleCtaNavigate} />

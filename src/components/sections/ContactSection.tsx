@@ -40,25 +40,6 @@ export function ContactSection() {
                 <dd>Available for remote work</dd>
               </div>
             </dl>
-
-            <div className="flex gap-4">
-              <a
-                href="https://www.linkedin.com/in/nicholas-griffiths-1a1883220/"
-                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-mono text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="https://github.com/nickgriff99"
-                className="focus-ring inline-flex items-center rounded-md px-2 py-2 font-mono text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-dev)]"
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub
-              </a>
-            </div>
           </div>
 
           <div className="viewport-animate w-full">
