@@ -8,14 +8,18 @@ import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { useHomeAnchor } from "../hooks/useHomeAnchor";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { scrollToId } from "../lib/scrollToId";
 
 export function About() {
   useRevealOnScroll();
-  // On /about there's no Home-page scroll target, so cross-page anchors always
-  // take the navigate("/#id") branch of useHomeAnchor. AboutCtaRow only passes raw
-  // hrefs (#experience/#contact), not full NavItems - resolve against NAV_ITEMS so
-  // "Experience" still gets the anchor-or-route -> /experience routing behavior.
-  const goToAnchor = useHomeAnchor(() => {});
+  // ContactSection now renders on every page (id="contact" always in the DOM), so
+  // useHomeAnchor's DOM-presence check always takes the scroll branch instead of
+  // routing - it needs a real scroll, not the no-op it used to get away with.
+  // AboutCtaRow only passes raw hrefs (#experience/#contact), not full NavItems -
+  // resolve against NAV_ITEMS so "Experience" still gets the anchor-or-route ->
+  // /experience routing behavior.
+  const handleNavigate = (href: `#${string}`) => scrollToId(href.slice(1));
+  const goToAnchor = useHomeAnchor(handleNavigate);
   const handleCtaNavigate = (href: `#${string}`) => {
     const item = NAV_ITEMS.find((navItem) => navItem.type !== "route" && navItem.href === href);
     goToAnchor(item ?? { type: "anchor", label: "", href });
@@ -25,7 +29,7 @@ export function About() {
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
           "About" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={handleNavigate} />
       <div className="section-band page-offset">
         <div className="content-shell mx-auto max-w-5xl">
           <Link to="/" className="back-link">

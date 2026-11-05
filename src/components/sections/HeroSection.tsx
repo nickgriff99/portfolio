@@ -125,7 +125,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
               <button
                 ref={projectsCtaRef}
                 onClick={() => onNavigate("#projects")}
-                className="btn-primary"
+                className="btn-primary w-full text-center sm:w-auto"
               >
                 View My Work
               </button>
@@ -134,7 +134,7 @@ export function HeroSection({ onNavigate, useHeroCssFallback, onParticlesUnavail
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary"
+                className="btn-secondary w-full text-center sm:w-auto"
               >
                 Resume
               </a>

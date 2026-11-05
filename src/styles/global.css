@@ -224,7 +224,7 @@
        x/y) - a CSS `hover:-translate-y-0.5` or a `transform` transition here would fight
        the GSAP tween frame-by-frame (each inline transform update re-triggers the CSS
        transition), producing jitter instead of the intended buttery glide. */
-    @apply focus-ring rounded-[8px] px-6 py-3 text-lg font-semibold transition-[background-color,color] duration-300;
+    @apply focus-ring inline-flex items-center justify-center rounded-[8px] px-6 py-3 text-center text-lg font-semibold transition-[background-color,color] duration-300;
     background-color: var(--color-accent);
     color: #0a0a0a;
   }
@@ -235,7 +235,7 @@
   }
 
   .btn-secondary {
-    @apply focus-ring rounded-[8px] border px-6 py-3 text-lg font-semibold transition-colors duration-300;
+    @apply focus-ring inline-flex items-center justify-center rounded-[8px] border px-6 py-3 text-center text-lg font-semibold transition-colors duration-300;
     border-color: color-mix(in srgb, var(--color-border) 55%, transparent);
     color: var(--color-text);
     background: color-mix(in srgb, var(--color-surface) 65%, transparent);
