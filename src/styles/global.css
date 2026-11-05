@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #070F12;
+  --color-bg: #0C191E;
   --color-bg-soft: #121210;
   --color-surface: #0c0b09;
   --color-surface-alt: #121210;
@@ -61,7 +61,7 @@
     outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
   }
   :root {
-    --background: oklch(0 0 0);
+    --background: var(--color-bg);
     --foreground: oklch(0.82 0 0);
     --card: oklch(0.14 0.02 250);
     --card-foreground: oklch(0.82 0 0);
@@ -131,7 +131,7 @@
   .page-curtain {
     position: relative;
     z-index: 1;
-    background-color: var(--color-bg); /* #000000 - darkest bg token, matches CSS fallback */
+    background-color: var(--color-bg); /* #0C191E - lifted ink, darkest bg token */
   }
 
   /* When WebGL hero effects are unavailable, restore the palette gradients */
@@ -181,7 +181,7 @@
     position: relative;
     border-radius: 8px;
     border: 2px solid var(--color-border);
-    background-color: var(--color-surface);
+    background-color: var(--color-bg);
     box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent);
   }
 

@@ -41,16 +41,13 @@ export function About() {
           </p>
           <h1 className="section-title text-left">My Story</h1>
 
-          {/* TODO: user to fill in real bio details - placeholder narrative below */}
           <div className="text-column space-y-8 text-base leading-7 text-[var(--color-muted)] sm:text-lg sm:leading-8">
             <p>
               I got into coding the unglamorous way: something broke, I refused to accept
               "that's just how it is," and a few hundred Stack Overflow tabs later I had
-              accidentally learned to program. That's not really how it had went down,
-              but it's a good story to tell. I have always loved computers and how they work,
-              and I have always been interested in how things work. I move quickly learning new things,
-              and I am always looking for new challenges. So coding was seemed right up my alley.
-              One thing lead to another and I ended up at Codecademy, and the rest is history.
+              accidentally learned to program. I've always loved computers and how they work,
+              and I pick up new things fast, so coding seemed right up my alley.
+              One thing led to another and I ended up at Codecademy, and the rest is history.
             </p>
             <p>
               What keeps me here is the same thing that got me in trouble as a kid messing with
