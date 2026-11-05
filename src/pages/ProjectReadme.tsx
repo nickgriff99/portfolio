@@ -32,7 +32,7 @@ export function ProjectReadme() {
     return (
       <>
         <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-        <div className="section-band flex min-h-screen items-center justify-center px-5 pt-24 text-center sm:pt-28">
+        <div className="section-band page-offset flex items-center justify-center px-5 text-center">
           <div>
             <h1
               ref={headingRef}
@@ -53,11 +53,11 @@ export function ProjectReadme() {
   return (
     <>
       <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-      <div className="section-band min-h-screen px-5 pt-24 py-16 sm:pt-28 sm:py-20 md:py-28">
+      <div className="section-band page-offset px-5 pb-16 sm:pb-20 md:pb-28">
         <div className="viewport-animate mx-auto w-full max-w-4xl">
         <Link
           to={`/projects/${project.slug}`}
-          className="focus-ring inline-block text-sm text-[var(--color-link)] underline"
+          className="back-link"
         >
           ← Back to project overview
         </Link>
@@ -65,7 +65,7 @@ export function ProjectReadme() {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="mt-4 font-display text-3xl font-bold tracking-tight text-[var(--color-text)] focus:outline-none md:text-4xl"
+          className="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] focus:outline-none md:text-4xl"
         >
           {project.title}
         </h1>

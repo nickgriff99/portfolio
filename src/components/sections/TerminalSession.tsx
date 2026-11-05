@@ -13,6 +13,8 @@
  */
 
 import { lazy, Suspense, useCallback, useRef, useState } from 'react';
+
+import { cn } from '@/lib/utils';
 import type { TypedBlock, TypedLine, TypedToken } from '../../bits/ScrollTypedText';
 import SquishSwitch from '../../bits/SquishSwitch';
 import { educationData } from '../../data/education';
@@ -358,7 +360,12 @@ function SectionHeading({ label, delay = '0s' }: { label: string; delay?: string
 
 // ─── TerminalSession ──────────────────────────────────────────────────────────
 
-export function TerminalSession() {
+type TerminalSessionProps = {
+  /** Drop section padding when nested in an already-padded page shell. */
+  embedded?: boolean;
+};
+
+export function TerminalSession({ embedded = false }: TerminalSessionProps) {
   const rm = usePrefersReducedMotion();
 
   // 'regular' = ReadableTimeline only (default, accessible). 'nerd' = terminal type-in.
@@ -406,7 +413,11 @@ export function TerminalSession() {
   const certEntry = educationData.find((e) => e.credentialUrl);
 
   return (
-    <div className="w-full px-4 py-12 sm:px-6 sm:py-14 md:py-16 lg:px-8 lg:py-20">
+    <div
+      className={cn(
+        embedded ? "w-full" : "content-shell py-12 sm:py-14 md:py-16 lg:py-20",
+      )}
+    >
       {/* Mode toggle - controls both Experience and Education sections below. */}
       <div className="mx-auto mb-4 flex w-full max-w-5xl items-center justify-end gap-2.5">
         <span className="font-mono text-xs uppercase tracking-wide text-[var(--color-muted)]">

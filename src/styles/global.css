@@ -103,6 +103,12 @@
     background-color: transparent;
   }
 
+  /* Back-nav on inner pages. Extra mobile margin because the hamburger bar
+     and the next heading/terminal were both crowding the link. */
+  .back-link {
+    @apply focus-ring mb-16 inline-block text-sm text-[var(--color-link)] underline lg:mb-10;
+  }
+
   .section-alt {
     background-color: color-mix(in srgb, var(--color-surface-alt) 78%, transparent);
   }
@@ -421,6 +427,13 @@
 }
 
 @layer utilities {
+  /* Inner-page clearance under the fixed nav. Lives in utilities so it beats
+     .section-band's responsive py-* (components layer). Mobile/tablet bar is a
+     padded card (~92px); lg+ is a bottom-rule strip (~56px). */
+  .page-offset {
+    @apply min-h-screen pt-36 lg:pt-28;
+  }
+
   /* Staggered hero entrance - apply hero-animate + hero-animate-{1-5} to each child. */
   .hero-animate {
     animation: hero-fade 0.5s ease-out both;

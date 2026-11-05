@@ -16,9 +16,9 @@ export function Projects() {
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
           "Projects" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
       <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-      <div className="section-band min-h-screen pt-24 sm:pt-28">
+      <div className="section-band page-offset">
         <div className="content-shell">
-          <Link to="/" className="focus-ring mb-10 inline-block text-sm text-[var(--color-link)] underline">
+          <Link to="/" className="back-link">
             ← Back to home
           </Link>
 
