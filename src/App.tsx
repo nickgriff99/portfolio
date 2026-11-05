@@ -1,5 +1,5 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { CookieConsentBanner } from "./components/CookieConsentBanner";
 import { RouteErrorBoundary } from "./components/RouteErrorBoundary";
@@ -38,10 +38,25 @@ function AnalyticsListener() {
   return null;
 }
 
+// React Router keeps the browser's existing scroll position across route changes
+// by default, so a Link clicked near the bottom of one page (e.g. "See all projects"
+// from the home page's Projects section) lands at the same scroll Y on the next page.
+// Skip when a hash is present - Home's own hash-scroll effect (Home.tsx) owns landing
+// on the right section for cross-page anchor links like `/#contact`.
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) return;
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+}
+
 function App() {
   return (
     <ConsentProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <AnalyticsListener />
         <Routes>
           <Route path="/" element={<Home />} />

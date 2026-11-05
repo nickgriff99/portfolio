@@ -4,6 +4,7 @@ import type { NavItem } from "../types";
 import { useHomeAnchor } from "../hooks/useHomeAnchor";
 import { useMediaMinWidth } from "../hooks/useMediaMinWidth";
 import { StaggeredMenu } from "./StaggeredMenu";
+import ShinyText from "../bits/ShinyText";
 
 type NavBarProps = {
   items: NavItem[];
@@ -15,26 +16,56 @@ type NavBarProps = {
 
 const MOBILE_MENU_ID = "mobile-nav-drawer";
 
+// Same green/lime-highlight pairing HeroSection uses for the "Griffiths" ShinyText
+// (HeroSection.tsx: color="#a3e635" shineColor="#e4ffb0") - keeps the sweep's palette
+// consistent across the site instead of reaching for the unrelated red highlight token.
+const NAV_SHINE_COLOR = "#a3e635";
+const NAV_SHINE_HIGHLIGHT = "#e4ffb0";
+
 // Shared desktop item wrapper class (both the anchor <button> and the route <Link>
-// render this). Active state is a filled chip around the label span only - the index
-// prefix span (rendered separately, see navIndexClass) always stays plain.
+// render this). `group` lets the label/index spans react to hover anywhere in this
+// box, not just when the cursor is directly over the text itself. Active state is a
+// filled chip around the label span only - the index prefix span (rendered separately,
+// see navIndexClass) always stays plain.
 function navItemClass() {
-  return "focus-ring flex items-center gap-2 rounded-none px-1 py-2 font-mono text-sm font-semibold uppercase tracking-wide transition-colors";
+  return "group focus-ring flex items-center gap-2 rounded-none px-1 py-2 font-mono text-sm font-semibold uppercase tracking-wide transition-colors";
 }
 
 // Muted mono index prefix ("01", "02", ...) - same visual weight as StaggeredMenu's
 // own index spans (StaggeredMenu.tsx ~139,149), kept lighter/smaller than the label.
-const navIndexClass = "text-xs font-normal text-[var(--color-soft)]";
+// Active tab's index picks up the link color too, matching its filled label chip.
+function navIndexClass(isActive: boolean) {
+  return `text-xs font-normal ${isActive ? "text-[var(--color-link)]" : "text-[var(--color-soft)]"}`;
+}
+
+// Layout-only half of the label styling (chip box for active, nothing for inactive) -
+// shared by both the plain label span and the hovered ShinyText swap-in below, so the
+// chip background/padding never flashes/shifts when ShinyText mounts on hover.
+function navLabelLayoutClass(isActive: boolean) {
+  return isActive ? "rounded-[8px] bg-[var(--color-link)] px-2 py-1" : "";
+}
 
 // Active: solid-filled chip behind the label. Inactive: flat muted text, no box.
+// `group-hover` (not `hover`) so the color change fires anywhere in the clickable
+// box (see navItemClass), not only when the cursor is over the text glyphs.
 function navLabelClass(isActive: boolean) {
-  return isActive
-    ? "rounded-[8px] bg-[var(--color-link)] px-2 py-1 text-[#0a0a0a]"
-    : "text-[var(--color-muted)] transition-colors hover:text-[var(--color-accent)]";
+  const color = isActive
+    ? "text-[#0a0a0a]"
+    : "text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]";
+  return `${navLabelLayoutClass(isActive)} ${color}`;
+}
+
+// Color ShinyText's gradient sweeps through while a nav item is hovered - matches
+// the color the plain label would already be showing (active chip text / hover green),
+// so the shine rides on top of that color instead of fighting it.
+function navLabelShineColor(isActive: boolean) {
+  return isActive ? "#0a0a0a" : NAV_SHINE_COLOR;
 }
 
 export function NavBar({ items, activeSection, hidden, compact, onNavigate }: NavBarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
+  const [logoHovered, setLogoHovered] = useState(false);
   const location = useLocation();
   const goToAnchor = useHomeAnchor(onNavigate);
   // `hidden` (scroll-direction hide) is a mobile/tablet-only behavior (plan E0) - at
@@ -59,7 +90,7 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
       // offset box-shadow paints 6px past the border-box edge, so that sliver would still
       // land at y=0..6px after the translate ("lingering shadow"). Clearing by `100% + 8px`
       // takes the shadow fully off-screen too.
-      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-0 ${compact ? "lg:pt-0" : "lg:pt-3"} ${effectiveHidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
+      className={`fixed left-0 top-0 z-50 w-full px-4 pt-3 transition-transform duration-300 sm:px-6 lg:px-0 lg:pt-0 ${effectiveHidden ? "-translate-y-[calc(100%+8px)]" : "translate-y-0"}`}
     >
       <div className="mx-auto w-full max-w-7xl lg:max-w-none">
         <div className="nav-shell">
@@ -68,44 +99,71 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
           >
             <button
               onClick={() => handleNavigate({ type: "anchor", label: "Home", href: "#home" })}
-              className="focus-ring shrink-0 rounded-none text-left font-mono text-lg font-extrabold uppercase tracking-tight text-[var(--color-link)]"
+              onMouseEnter={() => setLogoHovered(true)}
+              onMouseLeave={() => setLogoHovered(false)}
+              className="focus-ring shrink-0 rounded-none text-left font-mono text-lg font-extrabold uppercase tracking-tight"
             >
-              Nicholas Griffiths
+              {logoHovered ? (
+                <ShinyText
+                  text="Nicholas Griffiths"
+                  color="var(--color-link)"
+                  shineColor="#ffffff"
+                  speed={4}
+                />
+              ) : (
+                <span className="text-[var(--color-link)]">Nicholas Griffiths</span>
+              )}
             </button>
 
             <div className="flex min-w-0 flex-1 items-center justify-end gap-6 sm:gap-8">
               <ul className="hidden items-center gap-8 lg:flex">
                 {items.map((item, index) => {
-                  const indexPrefix = <span className={navIndexClass}>0{index + 1}</span>;
+                  const isActive =
+                    item.type === "route"
+                      ? location.pathname === item.to
+                      : item.type === "anchor-or-route" && location.pathname !== "/"
+                        ? location.pathname === item.to
+                        : item.href.replace("#", "") === activeSection;
+                  const isHovered = hoveredLabel === item.label;
+                  const label = isHovered ? (
+                    <ShinyText
+                      text={item.label}
+                      className={navLabelLayoutClass(isActive)}
+                      color={navLabelShineColor(isActive)}
+                      shineColor={NAV_SHINE_HIGHLIGHT}
+                      speed={4}
+                    />
+                  ) : (
+                    <span className={navLabelClass(isActive)}>{item.label}</span>
+                  );
+                  const liProps = {
+                    key: item.label,
+                    onMouseEnter: () => setHoveredLabel(item.label),
+                    onMouseLeave: () => setHoveredLabel(null),
+                  };
                   if (item.type === "route") {
-                    const isActive = location.pathname === item.to;
                     return (
-                      <li key={item.label}>
+                      <li {...liProps}>
                         <Link
                           to={item.to}
                           aria-current={isActive ? "page" : undefined}
                           className={navItemClass()}
                         >
-                          {indexPrefix}
-                          <span className={navLabelClass(isActive)}>{item.label}</span>
+                          <span className={navIndexClass(isActive)}>0{index + 1}</span>
+                          {label}
                         </Link>
                       </li>
                     );
                   }
-                  const sectionId = item.href.replace("#", "");
-                  const isActive =
-                    item.type === "anchor-or-route" && location.pathname !== "/"
-                      ? location.pathname === item.to
-                      : sectionId === activeSection;
                   return (
-                    <li key={item.label}>
+                    <li {...liProps}>
                       <button
                         onClick={() => handleNavigate(item)}
                         aria-current={isActive ? "page" : undefined}
                         className={navItemClass()}
                       >
-                        {indexPrefix}
-                        <span className={navLabelClass(isActive)}>{item.label}</span>
+                        <span className={navIndexClass(isActive)}>0{index + 1}</span>
+                        {label}
                       </button>
                     </li>
                   );

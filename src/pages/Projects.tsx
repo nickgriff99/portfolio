@@ -7,18 +7,24 @@ import { SectionRule } from "../components/SectionRule";
 import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { scrollToId } from "../lib/scrollToId";
 
 export function Projects() {
   useRevealOnScroll();
+  // ContactSection now renders on every page (id="contact" always in the DOM), so
+  // useHomeAnchor's DOM-presence check always takes this branch instead of routing -
+  // it needs a real scroll, not the no-op it used to get away with.
+  const handleNavigate = (href: `#${string}`) => scrollToId(href.slice(1));
 
   return (
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
-          "Projects" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-      <div className="section-band min-h-screen pt-24 sm:pt-28">
+          "Projects" highlighted via its own route match (see NavBar's isActive for
+          type:"anchor-or-route"). */}
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={handleNavigate} />
+      <div className="section-band page-offset">
         <div className="content-shell">
-          <Link to="/" className="focus-ring mb-10 inline-block text-sm text-[var(--color-link)] underline">
+          <Link to="/" className="back-link">
             ← Back to home
           </Link>
 

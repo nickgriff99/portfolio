@@ -8,14 +8,18 @@ import { ContactSection } from "../components/sections/ContactSection";
 import { NAV_ITEMS } from "../data/navItems";
 import { useHomeAnchor } from "../hooks/useHomeAnchor";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { scrollToId } from "../lib/scrollToId";
 
 export function About() {
   useRevealOnScroll();
-  // On /about there's no Home-page scroll target, so cross-page anchors always
-  // take the navigate("/#id") branch of useHomeAnchor. AboutCtaRow only passes raw
-  // hrefs (#experience/#contact), not full NavItems - resolve against NAV_ITEMS so
-  // "Experience" still gets the anchor-or-route -> /experience routing behavior.
-  const goToAnchor = useHomeAnchor(() => {});
+  // ContactSection now renders on every page (id="contact" always in the DOM), so
+  // useHomeAnchor's DOM-presence check always takes the scroll branch instead of
+  // routing - it needs a real scroll, not the no-op it used to get away with.
+  // AboutCtaRow only passes raw hrefs (#experience/#contact), not full NavItems -
+  // resolve against NAV_ITEMS so "Experience" still gets the anchor-or-route ->
+  // /experience routing behavior.
+  const handleNavigate = (href: `#${string}`) => scrollToId(href.slice(1));
+  const goToAnchor = useHomeAnchor(handleNavigate);
   const handleCtaNavigate = (href: `#${string}`) => {
     const item = NAV_ITEMS.find((navItem) => navItem.type !== "route" && navItem.href === href);
     goToAnchor(item ?? { type: "anchor", label: "", href });
@@ -25,10 +29,10 @@ export function About() {
     <>
       {/* No scroll-spy or hide-on-scroll off the page: NavBar always visible here,
           "About" highlighted via its own route match (see NavBar's isActive for type:"route"). */}
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-      <div className="section-band min-h-screen pt-24 sm:pt-28">
-        <div className="content-shell mx-auto max-w-3xl">
-          <Link to="/" className="focus-ring mb-10 inline-block text-sm text-[var(--color-link)] underline">
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={handleNavigate} />
+      <div className="section-band page-offset">
+        <div className="content-shell mx-auto max-w-5xl">
+          <Link to="/" className="back-link">
             ← Back to home
           </Link>
 
@@ -38,7 +42,7 @@ export function About() {
           <h1 className="section-title text-left">My Story</h1>
 
           {/* TODO: user to fill in real bio details - placeholder narrative below */}
-          <div className="text-column space-y-6 text-base leading-7 text-[var(--color-muted)] sm:text-lg sm:leading-8">
+          <div className="text-column space-y-8 text-base leading-7 text-[var(--color-muted)] sm:text-lg sm:leading-8">
             <p>
               I got into coding the unglamorous way: something broke, I refused to accept
               "that's just how it is," and a few hundred Stack Overflow tabs later I had
@@ -49,9 +53,9 @@ export function About() {
               One thing lead to another and I ended up at Codecademy, and the rest is history.
             </p>
             <p>
-              What keeps me here is the same thing that got me in trouble as a kid taking
-              apart the family <span className="keyword-link">Super Nintendo</span>. I like knowing
-              how things actually work underneath, from the Postgres row all the way up to
+              What keeps me here is the same thing that got me in trouble as a kid messing with
+              too many computer settings running <span className="keyword-link">Roller Coaster Tycoon 2</span> to make the perfect 
+              park. I like knowing how things actually work underneath, from the Postgres row all the way up to
               the pixel. I love the feeling of building something from scratch, and seeing it come to life.
               It has been so fun to learn how code can shape a website from nothing into a 
               functional and beautiful experience for the user.

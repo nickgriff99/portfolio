@@ -11,6 +11,14 @@ import { NAV_ITEMS } from "../data/navItems";
 import { projectReadmes } from "../data/projectReadmes";
 import { projectsData } from "../data/projects";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { scrollToId } from "../lib/scrollToId";
+
+// ContactSection now renders on every page (id="contact" always in the DOM), so
+// useHomeAnchor's DOM-presence check always takes NavBar's onNavigate branch instead
+// of routing - it needs a real scroll, not the no-op it used to get away with.
+function handleNavigate(href: `#${string}`) {
+  scrollToId(href.slice(1));
+}
 
 export function ProjectReadme() {
   const { slug } = useParams<{ slug: string }>();
@@ -31,8 +39,8 @@ export function ProjectReadme() {
   if (!project || !readme) {
     return (
       <>
-        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-        <div className="section-band flex min-h-screen items-center justify-center px-5 pt-24 text-center sm:pt-28">
+        <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={handleNavigate} />
+        <div className="section-band page-offset flex items-center justify-center px-5 text-center">
           <div>
             <h1
               ref={headingRef}
@@ -52,12 +60,12 @@ export function ProjectReadme() {
 
   return (
     <>
-      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={() => {}} />
-      <div className="section-band min-h-screen px-5 pt-24 py-16 sm:pt-28 sm:py-20 md:py-28">
+      <NavBar items={NAV_ITEMS} activeSection="" hidden={false} compact={false} onNavigate={handleNavigate} />
+      <div className="section-band page-offset px-5 pb-16 sm:pb-20 md:pb-28">
         <div className="viewport-animate mx-auto w-full max-w-4xl">
         <Link
           to={`/projects/${project.slug}`}
-          className="focus-ring inline-block text-sm text-[var(--color-link)] underline"
+          className="back-link"
         >
           ← Back to project overview
         </Link>
@@ -65,7 +73,7 @@ export function ProjectReadme() {
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="mt-4 font-display text-3xl font-bold tracking-tight text-[var(--color-text)] focus:outline-none md:text-4xl"
+          className="font-display text-3xl font-bold tracking-tight text-[var(--color-text)] focus:outline-none md:text-4xl"
         >
           {project.title}
         </h1>

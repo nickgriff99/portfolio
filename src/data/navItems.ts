@@ -5,7 +5,7 @@ import type { NavItem } from "../types";
 export const NAV_ITEMS: NavItem[] = [
   { type: "anchor", label: "Home", href: "#home" },
   { type: "route", label: "About", to: "/about" },
-  { type: "route", label: "Projects", to: "/projects" },
+  { type: "anchor-or-route", label: "Projects", href: "#projects", to: "/projects" },
   { type: "anchor-or-route", label: "Experience", href: "#experience", to: "/experience" },
   { type: "anchor", label: "Contact", href: "#contact" },
 ];

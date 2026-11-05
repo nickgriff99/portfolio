@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 
 const ProjectsShowcase = lazy(() =>
   import("../ProjectsShowcase").then((module) => ({ default: module.ProjectsShowcase })),
@@ -25,6 +26,15 @@ export function ProjectsSection() {
         <Suspense fallback={<ShowcaseFallback />}>
           <ProjectsShowcase />
         </Suspense>
+
+        <div className="mt-10 text-center">
+          <Link
+            to="/projects"
+            className="focus-ring font-mono text-sm uppercase tracking-wide text-[var(--color-link)] transition-colors hover:text-[var(--color-accent)]"
+          >
+            See all projects →
+          </Link>
+        </div>
       </div>
     </section>
   );
