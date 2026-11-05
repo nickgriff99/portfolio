@@ -89,6 +89,16 @@ export function Home() {
   useEffect(() => {
     let rafId: number | null = null;
     let lastProgress = -1;
+    // Mobile Safari collapses/expands its address bar *while* scrolling, which live-changes
+    // 100dvh - and `.section-hero`'s sticky `top` (global.css) is 100dvh-based, so the
+    // ResizeObserver above re-measures `heroH` in step with `scrollY` right around the
+    // covered/uncovered crossover. Without a buffer, `covered` flips back and forth a few
+    // times a second there, toggling `visibility:hidden` on the whole hero and flashing the
+    // Grainient background through - the flicker reported scrolling on a real phone. A dead
+    // zone around the boundary (not a single threshold) means small chrome-driven jitter can't
+    // flip the state; only a real ~60px+ scroll past the boundary commits the change.
+    const COVER_HYSTERESIS = 64;
+    let wasCovered = false;
     const onScroll = () => {
       if (rafId !== null) return;
       rafId = requestAnimationFrame(() => {
@@ -97,7 +107,10 @@ export function Home() {
         if (!hero) return;
         const heroH = heroHeightRef.current || window.innerHeight;
         const scrollY = window.scrollY;
-        const covered = scrollY >= heroH;
+        const covered = wasCovered
+          ? scrollY >= heroH - COVER_HYSTERESIS
+          : scrollY >= heroH + COVER_HYSTERESIS;
+        wasCovered = covered;
 
         // Inert: set when curtain fully covers hero, clear when scrolling back up.
         if (covered) {
