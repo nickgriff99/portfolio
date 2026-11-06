@@ -33,6 +33,10 @@ const Experience = lazy(() =>
   import("./pages/Experience").then((m) => ({ default: m.Experience })),
 );
 
+const Guestbook = lazy(() =>
+  import("./pages/Guestbook").then((m) => ({ default: m.Guestbook })),
+);
+
 function AnalyticsListener() {
   useAnalyticsPageviews();
   return null;
@@ -200,6 +204,29 @@ function App() {
                   }
                 >
                   <Experience />
+                </Suspense>
+              </RouteErrorBoundary>
+            }
+          />
+          <Route
+            path="/guestbook"
+            element={
+              <RouteErrorBoundary>
+                <Suspense
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex min-h-screen items-center justify-center bg-[var(--color-bg)]"
+                    >
+                      <span className="sr-only">Loading...</span>
+                      <span
+                        aria-hidden="true"
+                        className="h-3 w-3 animate-pulse rounded-full bg-[var(--color-accent)]"
+                      />
+                    </div>
+                  }
+                >
+                  <Guestbook />
                 </Suspense>
               </RouteErrorBoundary>
             }

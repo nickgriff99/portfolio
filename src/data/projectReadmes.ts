@@ -190,4 +190,36 @@ export const projectReadmes: Record<number, ProjectReadme> = {
       },
     ],
   },
+  12: {
+    intro:
+      "The rest of this portfolio is a static frontend, so the guestbook exists to show a real backend behind it: a separate Express + PostgreSQL service, deployed independently on Render, with its own Zod-validated API contract and its own spam protection.",
+    sections: [
+      {
+        heading: "What this is",
+        body: [
+          "Visitors can read existing entries and leave their own name and a short message on the live /guestbook page. Every write hits a real Postgres table, there's no mock data and no client-side-only state standing in for persistence.",
+        ],
+      },
+      {
+        heading: "Architecture",
+        body: [
+          "The backend lives in /server at the root of this repo as its own Node project, with its own package.json and tsconfig so it's built and deployed independently of the Vite frontend. It's an Express app with two routes (GET and POST /api/entries), a plain SQL migration against PostgreSQL (no ORM), and a Zod schema that both validates incoming requests and defines the TypeScript types the route handlers use.",
+          "The frontend page (src/pages/Guestbook.tsx) talks to this service over plain fetch calls against a URL set via VITE_GUESTBOOK_API_URL, same pattern as any other external API this site could call.",
+        ],
+      },
+      {
+        heading: "Spam protection",
+        body: [
+          "A hidden honeypot field (named bot_field, same idea as the contact form's Netlify honeypot) has to stay empty or the request is rejected. There's also a per-IP rate limit of one post every 30 seconds.",
+          "The rate limiter is a known shortcut: it's an in-memory map, not backed by the database, so it resets on every Render restart or redeploy. Fine for a low-traffic guestbook; if abuse ever became a real problem, the fix is moving that check into Postgres.",
+        ],
+      },
+      {
+        heading: "Running it locally",
+        body: [
+          "Run the SQL in server/migrations/001_init.sql against a Postgres instance, copy server/.env.example to server/.env and fill in DATABASE_URL/PORT/ALLOWED_ORIGIN, then npm install && npm run dev inside /server. On the frontend, set VITE_GUESTBOOK_API_URL to wherever that server is running.",
+        ],
+      },
+    ],
+  },
 };
