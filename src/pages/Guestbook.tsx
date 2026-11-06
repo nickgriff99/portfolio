@@ -63,7 +63,10 @@ export function Guestbook() {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const formData = new FormData(event.currentTarget);
+    // Captured now, not read later: `event.currentTarget` is nulled by the browser once
+    // the synchronous part of this handler returns, so using it after an `await` throws.
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     try {
       if (!API_BASE) {
@@ -94,7 +97,7 @@ export function Guestbook() {
 
       const created: GuestbookEntry = await response.json();
       setEntries((prev) => [created, ...prev]);
-      event.currentTarget.reset();
+      form.reset();
     } catch {
       setSubmitError("Message failed to send. Please try again.");
     } finally {
