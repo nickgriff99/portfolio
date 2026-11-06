@@ -6,6 +6,7 @@ describe("guestbookEntryInput", () => {
     const result = guestbookEntryInput.safeParse({
       name: "Ada",
       message: "Loved the site, great work!",
+      recaptchaToken: "token",
     });
     expect(result.success).toBe(true);
   });
@@ -14,6 +15,7 @@ describe("guestbookEntryInput", () => {
     const result = guestbookEntryInput.safeParse({
       name: "A",
       message: "Loved the site, great work!",
+      recaptchaToken: "token",
     });
     expect(result.success).toBe(false);
   });
@@ -22,6 +24,7 @@ describe("guestbookEntryInput", () => {
     const result = guestbookEntryInput.safeParse({
       name: "Ada",
       message: "short",
+      recaptchaToken: "token",
     });
     expect(result.success).toBe(false);
   });
@@ -31,6 +34,15 @@ describe("guestbookEntryInput", () => {
       name: "Ada",
       message: "Loved the site, great work!",
       bot_field: "spam",
+      recaptchaToken: "token",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects a missing recaptcha token", () => {
+    const result = guestbookEntryInput.safeParse({
+      name: "Ada",
+      message: "Loved the site, great work!",
     });
     expect(result.success).toBe(false);
   });
