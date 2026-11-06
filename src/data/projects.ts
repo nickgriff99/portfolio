@@ -129,4 +129,23 @@ export const projectsData: Project[] = [
     deploymentNote:
       "No public demo: backend service with no hosted UI. See the repo's README for setup (Docker or local Postgres) and full API docs.",
   },
+  {
+    id: 12,
+    title: "Guestbook",
+    slug: "guestbook",
+    category: "fullstack",
+    tagline: "A real visitor guestbook, backed by its own Express + Postgres service.",
+    description:
+      "This portfolio is otherwise a static frontend, so the guestbook exists to prove I can still ship a real backend: a separate Node/Express + PostgreSQL service, deployed on Render, with Zod-validated input, honeypot and rate-limit spam protection, and real DB writes behind the /guestbook page.",
+    highlights: [
+      "Separate Express + PostgreSQL service, deployed independently of the static Netlify frontend.",
+      "Zod-validated API contract shared between the request body and the schema that rejects it.",
+      "Honeypot field plus a per-IP rate limit for spam protection, no third-party form service involved.",
+    ],
+    role: "Solo build: backend service, API, and frontend page",
+    metrics: ["Express + PostgreSQL on Render", "Zod-validated API", "Honeypot + rate limit"],
+    tech: ["Node.js", "Express", "PostgreSQL", "Zod", "React", "TypeScript"],
+    liveUrl: "https://nickhgriffiths.com/guestbook",
+    githubLink: "https://github.com/nickgriff99/portfolio/tree/master/server",
+  },
 ];
