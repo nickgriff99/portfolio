@@ -16,11 +16,13 @@ type NavBarProps = {
 
 const MOBILE_MENU_ID = "mobile-nav-drawer";
 
-// Same green/lime-highlight pairing HeroSection uses for the "Griffiths" ShinyText
-// (HeroSection.tsx: color="#a3e635" shineColor="#e4ffb0") - keeps the sweep's palette
-// consistent across the site instead of reaching for the unrelated red highlight token.
+// Inactive hover uses the same lime pairing as HeroSection's "Griffiths"
+// (color="#a3e635" shineColor="#e4ffb0"). Active hover lives on the teal chip, so
+// its sweep matches the logo instead (teal ink + white specular) - a lime flash
+// on that pill fights --color-link.
 const NAV_SHINE_COLOR = "#a3e635";
 const NAV_SHINE_HIGHLIGHT = "#e4ffb0";
+const NAV_SHINE_ACTIVE_HIGHLIGHT = "#ffffff";
 
 // Shared desktop item wrapper class (both the anchor <button> and the route <Link>
 // render this). `group` lets the label/index spans react to hover anywhere in this
@@ -38,21 +40,23 @@ function navIndexClass(isActive: boolean) {
   return `text-xs font-normal ${isActive ? "text-[var(--color-link)]" : "text-[var(--color-soft)]"}`;
 }
 
-// Layout-only half of the label styling (chip box for active, nothing for inactive) -
-// shared by both the plain label span and the hovered ShinyText swap-in below, so the
-// chip background/padding never flashes/shifts when ShinyText mounts on hover.
+// Active chip lives on a wrapper that never unmounts. ShinyText uses
+// `background-clip: text`, so putting `bg-*` on it clips the teal fill to the
+// glyphs and kills the pill. Scale is CSS `group-hover` (not React hover state)
+// so it doesn't wait on the ShinyText remount.
 function navLabelLayoutClass(isActive: boolean) {
-  return isActive ? "rounded-[8px] bg-[var(--color-link)] px-2 py-1" : "";
+  return isActive
+    ? "inline-block origin-center rounded-[8px] bg-[var(--color-link)] px-2 py-1 transition-transform duration-150 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+    : "";
 }
 
-// Active: solid-filled chip behind the label. Inactive: flat muted text, no box.
-// `group-hover` (not `hover`) so the color change fires anywhere in the clickable
-// box (see navItemClass), not only when the cursor is over the text glyphs.
+// Text color only - chip box/padding live on the wrapper above. Inactive: flat
+// muted text, no box. `group-hover` (not `hover`) so the color change fires
+// anywhere in the clickable box (see navItemClass).
 function navLabelClass(isActive: boolean) {
-  const color = isActive
+  return isActive
     ? "text-[#0a0a0a]"
     : "text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]";
-  return `${navLabelLayoutClass(isActive)} ${color}`;
 }
 
 // Color ShinyText's gradient sweeps through while a nav item is hovered - matches
@@ -60,6 +64,10 @@ function navLabelClass(isActive: boolean) {
 // so the shine rides on top of that color instead of fighting it.
 function navLabelShineColor(isActive: boolean) {
   return isActive ? "#0a0a0a" : NAV_SHINE_COLOR;
+}
+
+function navLabelShineHighlight(isActive: boolean) {
+  return isActive ? NAV_SHINE_ACTIVE_HIGHLIGHT : NAV_SHINE_HIGHLIGHT;
 }
 
 export function NavBar({ items, activeSection, hidden, compact, onNavigate }: NavBarProps) {
@@ -125,16 +133,20 @@ export function NavBar({ items, activeSection, hidden, compact, onNavigate }: Na
                         ? location.pathname === item.to
                         : item.href.replace("#", "") === activeSection;
                   const isHovered = hoveredLabel === item.label;
-                  const label = isHovered ? (
+                  const inner = isHovered ? (
                     <ShinyText
                       text={item.label}
-                      className={navLabelLayoutClass(isActive)}
                       color={navLabelShineColor(isActive)}
-                      shineColor={NAV_SHINE_HIGHLIGHT}
+                      shineColor={navLabelShineHighlight(isActive)}
                       speed={4}
                     />
                   ) : (
                     <span className={navLabelClass(isActive)}>{item.label}</span>
+                  );
+                  const label = isActive ? (
+                    <span className={navLabelLayoutClass(true)}>{inner}</span>
+                  ) : (
+                    inner
                   );
                   const liProps = {
                     key: item.label,
