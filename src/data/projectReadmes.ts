@@ -210,8 +210,9 @@ export const projectReadmes: Record<number, ProjectReadme> = {
       {
         heading: "Spam protection",
         body: [
-          "A hidden honeypot field (named bot_field, same idea as the contact form's Netlify honeypot) has to stay empty or the request is rejected. There's also a per-IP rate limit of one post every 30 seconds.",
+          "A hidden honeypot field (named bot_field, same idea as the contact form's Netlify honeypot) has to stay empty or the request is rejected. Google reCAPTCHA v3 runs invisibly on submit and the server rejects anything scoring below 0.5, no checkbox or challenge shown to real visitors. There's also a per-IP rate limit of one post every 30 seconds.",
           "The rate limiter is a known shortcut: it's an in-memory map, not backed by the database, so it resets on every Render restart or redeploy. Fine for a low-traffic guestbook; if abuse ever became a real problem, the fix is moving that check into Postgres.",
+          "New entries also trigger an email notification (via Resend) to the site owner, fire-and-forget so a failed email never blocks or fails the visitor's submission.",
         ],
       },
       {

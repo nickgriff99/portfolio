@@ -1,10 +1,36 @@
 import cors from "cors";
 import express from "express";
 import { pool } from "./db.js";
+import { verifyRecaptcha } from "./recaptcha.js";
 import { guestbookEntryInput } from "./schema.js";
 
 const PORT = process.env.PORT ?? 3001;
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGIN ?? "").split(",").map((origin) => origin.trim());
+const RECAPTCHA_SCORE_THRESHOLD = 0.5;
+
+// Fire-and-forget: a failed notification email must never fail the visitor's request.
+async function notifyNewEntry(name: string, message: string) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const notifyEmail = process.env.NOTIFY_EMAIL;
+  if (!apiKey || !notifyEmail) return;
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "onboarding@resend.dev",
+        to: notifyEmail,
+        subject: `New guestbook entry from ${name}`,
+        text: message,
+      }),
+    });
+  } catch (err) {
+    console.error("Failed to send guestbook notification email:", err);
+  }
+}
 
 const app = express();
 // Render's requests arrive through its own proxy; without this, req.ip is the proxy's
@@ -36,6 +62,12 @@ app.post("/api/entries", async (req, res) => {
     return;
   }
 
+  const recaptcha = await verifyRecaptcha(parsed.data.recaptchaToken);
+  if (!recaptcha.success || recaptcha.score < RECAPTCHA_SCORE_THRESHOLD) {
+    res.status(400).json({ error: "Verification failed." });
+    return;
+  }
+
   const ip = req.ip ?? "unknown";
   const lastPost = lastPostByIp.get(ip);
   if (lastPost && Date.now() - lastPost < RATE_LIMIT_WINDOW_MS) {
@@ -51,6 +83,7 @@ app.post("/api/entries", async (req, res) => {
       [name, message],
     );
     res.status(201).json(rows[0]);
+    void notifyNewEntry(name, message);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong." });

@@ -15,6 +15,23 @@ type GuestbookEntry = {
 };
 
 const API_BASE = import.meta.env.VITE_GUESTBOOK_API_URL as string | undefined;
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
+function loadRecaptchaScript(siteKey: string) {
+  if (document.querySelector(`script[src*="recaptcha/api.js"]`)) return;
+  const script = document.createElement("script");
+  script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+  document.head.appendChild(script);
+}
 
 export function Guestbook() {
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
@@ -23,6 +40,10 @@ export function Guestbook() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const submitLockRef = useRef(false);
   const handleNavigate = (href: `#${string}`) => scrollToId(href.slice(1));
+
+  useEffect(() => {
+    if (RECAPTCHA_SITE_KEY) loadRecaptchaScript(RECAPTCHA_SITE_KEY);
+  }, []);
 
   useEffect(() => {
     if (!API_BASE) return;
@@ -48,6 +69,13 @@ export function Guestbook() {
       if (!API_BASE) {
         throw new Error("Guestbook API is not configured.");
       }
+      if (!RECAPTCHA_SITE_KEY || !window.grecaptcha) {
+        throw new Error("reCAPTCHA is not ready.");
+      }
+
+      const recaptchaToken = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {
+        action: "guestbook_submit",
+      });
 
       const response = await fetch(`${API_BASE}/api/entries`, {
         method: "POST",
@@ -56,6 +84,7 @@ export function Guestbook() {
           name: formData.get("name"),
           message: formData.get("message"),
           bot_field: formData.get("bot_field"),
+          recaptchaToken,
         }),
       });
 
